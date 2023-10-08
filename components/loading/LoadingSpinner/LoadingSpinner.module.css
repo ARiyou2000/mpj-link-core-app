@@ -1,0 +1,31 @@
+/* Normalize */
+.loader,
+.loader::after,
+.loader::before {
+    box-sizing: border-box;
+    @apply rounded-full border-4
+}
+
+/* Position */
+.loader {
+    @apply inline-block relative
+}
+
+.loader::after,
+.loader::before {
+    content: '';
+    @apply absolute inset-0 m-auto origin-center
+}
+
+/* Style and Animation */
+.loader {
+    @apply w-16 h-16 border-t-milkwhite border-r-milkwhite border-b-transparent border-l-transparent animate-rotate duration-2000
+}
+
+.loader::before {
+    @apply w-8 h-8 border-t-milkwhite border-r-milkwhite border-b-transparent border-l-transparent animate-rotate duration-3000
+}
+
+.loader::after {
+    @apply w-[3rem] h-[3rem] border-t-transparent border-r-transparent border-b-milkwhite border-l-milkwhite animate-rotateBack duration-1000
+}
