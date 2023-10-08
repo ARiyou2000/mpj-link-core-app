@@ -1,34 +1,8 @@
-import Device, { DevicesType } from "@/classes/device";
+import Device from "@/classes/devices/device";
 
-const devicesTypeTitleWithName = {
-  // Read from dictionary letter
-  [DevicesType[DevicesType.switch_1P]]: "کلید",
-  [DevicesType[DevicesType.switch_2P]]: "کلید",
-  [DevicesType[DevicesType.switch_3P]]: "کلید",
-  [DevicesType[DevicesType.switch_4P]]: "کلید",
-  [DevicesType[DevicesType.switch_6P]]: "کلید",
-  [DevicesType[DevicesType.relay]]: "رله",
-  [DevicesType[DevicesType.thermostat]]: "ترموستات",
-  [DevicesType[DevicesType.musicPlayer]]: "موزیک پلیر",
-  [DevicesType[DevicesType.ductSplit]]: "داکت اسپلیت",
-  [DevicesType[DevicesType.irSplit]]: "اسپلیت",
-  [DevicesType[DevicesType.touchPanel_s8]]: "تاچ پنل",
-  [DevicesType[DevicesType.touchPanel_10inch]]: "تاچ پنل",
-  [DevicesType[DevicesType.kitchenHook]]: "هود آشپزخانه",
-  // [DevicesType[DevicesType.electrical_shaders]]: "پرده برقی",
-};
+type headersType = { title: string; dataKey: string }[];
 
-const DevicesTypeList = Object.keys(DevicesType).map((keyIndex) => {
-  return {
-    id: keyIndex,
-    name: DevicesType[keyIndex],
-  };
-});
-
-const getDeviceName = (type: DevicesType) =>
-  devicesTypeTitleWithName[DevicesType[type]];
-
-const headers = [
+const headers: headersType = [
   { title: "کلید", dataKey: "switch" },
   { title: "رله", dataKey: "relay" },
   { title: "ترموستات", dataKey: "thermostat" },
@@ -40,7 +14,7 @@ const headers = [
 const getCategorizedDevices = (list: Device[] = []) => {
   // Make them global:
   // Create a hashmap
-  const categorizedDeviceList = {};
+  const categorizedDeviceList: { [key: string]: Device[] } = {};
   // Create an empty list of devices for each category
   list.forEach((device) => {
     categorizedDeviceList[device.category] = [];
@@ -57,12 +31,7 @@ const getCategorizedDevices = (list: Device[] = []) => {
     );
   });
 
-  //   Headers and categorized devices
+  // Headers and categorized devices
   return [filteredHeaders, categorizedDeviceList];
 };
-export {
-  DevicesTypeList,
-  devicesTypeTitleWithName,
-  getDeviceName,
-  getCategorizedDevices,
-};
+export default getCategorizedDevices;
