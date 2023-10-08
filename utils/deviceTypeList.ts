@@ -1,4 +1,4 @@
-import Device from "@/classes/devices/device";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 type headersType = { title: string; dataKey: string }[];
 
@@ -11,10 +11,10 @@ const headers: headersType = [
   { title: "اسپلیت", dataKey: "irSplit" },
 ];
 
-const getCategorizedDevices = (list: Device[] = []) => {
+const getCategorizedDevices = (list: DeviceInfo[] = []) => {
   // Make them global:
   // Create a hashmap
-  const categorizedDeviceList: { [key: string]: Device[] } = {};
+  const categorizedDeviceList: { [key: string]: DeviceInfo[] } = {};
   // Create an empty list of devices for each category
   list.forEach((device) => {
     categorizedDeviceList[device.category] = [];

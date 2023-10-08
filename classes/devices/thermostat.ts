@@ -1,4 +1,4 @@
-import Device from "./device";
+import DeviceData from "./deviceData";
 // import Register from "@/classes/registers/register";
 
-class Thermostat extends Device {}
+class Thermostat extends DeviceData {}

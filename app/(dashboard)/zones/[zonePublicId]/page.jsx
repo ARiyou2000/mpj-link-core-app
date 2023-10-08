@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import useStaticData from "@/hooks/useStaticData";
 import { getZoneDevices, getZones } from "@/utils/getStaticData";
 import ZoneHeader from "@/components/deviceAndZoneHeader/ZoneHeader";
-import Device from "@/classes/device";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 const ZonePage = ({ className }) => {
   const params = useParams();
@@ -29,7 +29,7 @@ const ZonePage = ({ className }) => {
             list={
               zoneData?.map(
                 ({ publicId, name, description, type }) =>
-                  new Device(publicId, name, description, type),
+                  new DeviceInfo(publicId, name, description, type),
               ) || []
             }
           />

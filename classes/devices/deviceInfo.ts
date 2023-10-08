@@ -1,3 +1,4 @@
+import ResponseModel from "@/classes/responseModel";
 import {
   DuctSplit,
   Music,
@@ -6,8 +7,6 @@ import {
   Thermometer,
 } from "@/components/icons/colored";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
-import ResponseModel from "@/classes/responseModel";
-import Register from "@/classes/registers/register";
 
 export enum DevicesType {
   invalid,
@@ -76,27 +75,4 @@ class DeviceInfo extends ResponseModel {
   }
 }
 
-class Device extends DeviceInfo {
-  private _registers: { [key: string]: Register } = {};
-
-  constructor(
-    publicId: string,
-    name: string,
-    description: string,
-    type: number,
-    registers: { [key: string]: Register },
-  ) {
-    super(publicId, name, description, type);
-    this._registers = registers;
-  }
-
-  get registers(): { [key: string]: Register } {
-    return this._registers;
-  }
-
-  set registers(value: { [key: string]: Register }) {
-    this._registers = value;
-  }
-}
-
-export default Device;
+export default DeviceInfo;
