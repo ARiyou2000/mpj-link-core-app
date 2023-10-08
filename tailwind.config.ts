@@ -4,10 +4,10 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./pages/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     container: {
@@ -140,21 +140,21 @@ const config: Config = {
         rotate: "1s rotate linear infinite",
         rotateBack: "1s rotateBack linear infinite",
       },
-    },
-    backgroundImage: {
-      "loading-to-left":
-        "linear-gradient(70deg, #475569FF 8%, #8291A5F0 18%, #475569FF 40%)",
-      "loading-to-right":
-        "linear-gradient(110deg, #475569FF 8%, #8291A5F0 18%, #475569FF 40%)",
-    },
-    transitionDuration: {
-      "1500": "1500ms",
-      "2000": "2000ms",
-      "2500": "2500ms",
-      "3000": "3000ms",
-    },
-    backgroundSize: {
-      loading: "200% 100%",
+      backgroundImage: {
+        "loading-to-left":
+          "linear-gradient(70deg, #475569FF 8%, #8291A5F0 18%, #475569FF 40%)",
+        "loading-to-right":
+          "linear-gradient(110deg, #475569FF 8%, #8291A5F0 18%, #475569FF 40%)",
+      },
+      transitionDuration: {
+        "1500": "1500ms",
+        "2000": "2000ms",
+        "2500": "2500ms",
+        "3000": "3000ms",
+      },
+      backgroundSize: {
+        loading: "200% 100%",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
