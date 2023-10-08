@@ -29,7 +29,7 @@ const ZoneDevicesList = ({ list = [], className, ...props }) => {
               return (
                 <Link
                   key={`zone_${zonePublicId}_device_${zoneDevice.publicId}`}
-                  href={`/fa/devices/${zoneDevice.category}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
+                  href={`/devices/${zoneDevice.category}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
                   className={`${
                     list?.length < 4
                       ? "max-h-[50%] flex-1"

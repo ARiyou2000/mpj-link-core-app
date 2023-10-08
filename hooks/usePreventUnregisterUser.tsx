@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import WINDOW from "@/utils";
+import window from "@/utils/window";
 
 const usePreventUnregisterUser = () => {
   useEffect(() => {
-    const AuthToken = WINDOW.localStorage.getItem(WINDOW.btoa("MPJUserT"));
+    const AuthToken = window.localStorage.getItem(window.btoa("MPJUserT"));
     if (!AuthToken) {
       throw new Error("User is unregistered!");
     }

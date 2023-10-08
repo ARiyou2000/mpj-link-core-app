@@ -12,31 +12,31 @@ const NavBarItems = [
     name: "اینترنت",
     icon: <Cloud className={iconsClassName} />,
     dis: "translate-x-0",
-    link: "/fa/internet",
+    link: "/internet",
   },
   {
     name: "کور",
     icon: <Cpu className={iconsClassName} />,
     dis: "-translate-x-[4.275rem]",
-    link: "/fa/core",
+    link: "/core",
   },
   {
     name: "خانه",
     icon: <Home className={iconsClassName} />,
     dis: "-translate-x-[8.55rem]",
-    link: "/fa/home",
+    link: "/home",
   },
   {
     name: "تنظیمات",
     icon: <SettingAlt className={iconsClassName} />,
     dis: "-translate-x-[12.825rem]",
-    link: "/fa/setting",
+    link: "/setting",
   },
   {
     name: "دستگاه‌ها",
     icon: <Grip className={iconsClassName} />,
     dis: "-translate-x-[17.1rem]",
-    link: "/fa/devices",
+    link: "/devices",
   },
 ];
 

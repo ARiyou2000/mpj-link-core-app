@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Lock, MPJLink } from "../icons";
-import ChevronRightDashed from "../icons/dashed/ChevronRightDashed";
-// import { Bell } from "../icons/dashed";
-import { Button } from "../ui/button";
+import { Lock, MPJLink } from "@/components/icons";
+import ChevronRightDashed from "@/components/icons/dashed/ChevronRightDashed";
+// import { Bell } from "@/components/icons/dashed";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ const MainLayoutHeader = ({ children, className, ...props }) => {
           <ChevronRightDashed className={"h-6 w-6"} />
         </Button>
         <MPJLink className={"h-7 w-20"} />
-        <Link href={"/fa"}>
+        <Link href={"/"}>
           <Lock className={"h-5 w-5"} />
           {/*<Bell className={"h-6 w-6"} />*/}
         </Link>

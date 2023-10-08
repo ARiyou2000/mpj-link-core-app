@@ -2,7 +2,7 @@
 
 import { Power } from "lucide-react";
 import { PowerToggle } from "@/components/ui/power-toggle";
-import DeviceAndZoneHeaderContainer from "../DeviceAndZoneHeaderContainer";
+import DeviceAndZoneHeaderContainer from "@/components/DeviceAndZoneHeaderContainer";
 
 const DeviceHeader = ({
   name,

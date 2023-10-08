@@ -8,7 +8,7 @@ const ZoneCard = ({ name, publicId, className, ...props }) => {
   const [titleRef, titleClassName] = useMarquee();
   return (
     <Link
-      href={`/fa/zones/${publicId}`}
+      href={`/zones/${publicId}`}
       className={cn(
         `w-[6.5625rem] h-9 flex-none rounded-card border-1 border-milkwhite last:ml-4 first:mr-4 marquee-container`,
         className,

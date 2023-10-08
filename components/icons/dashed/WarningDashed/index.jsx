@@ -1,5 +1,3 @@
-import { Warning } from "../index";
-
 const WarningDashed = ({ ...props }) => {
   return (
     <>

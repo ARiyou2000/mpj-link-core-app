@@ -12,7 +12,7 @@ const LockPageFavoriteNavigation = ({ className, ...props }) => {
           className,
         )}
         {...props}>
-        <Link href={"/fa/favorite"}>
+        <Link href={"/favorite"}>
           <Heart className={iconsClassName} />
         </Link>
       </div>

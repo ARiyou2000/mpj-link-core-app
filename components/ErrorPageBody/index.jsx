@@ -33,7 +33,7 @@ const ErrorPageBody = ({ code, title, description, className, ...props }) => {
             )}
           </div>
 
-          <Link href={"/fa/"} className={"rounded-3xl py-3 px-5 bg-[#D67174]"}>
+          <Link href={"/"} className={"rounded-3xl py-3 px-5 bg-[#D67174]"}>
             صفحه اصلی
           </Link>
         </div>

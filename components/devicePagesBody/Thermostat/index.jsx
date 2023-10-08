@@ -1,7 +1,10 @@
 "use client";
 
 import CurvedProgressCounter from "@/components/CurvedProgressCounter";
-import { RadioGroup, RadioGroupItem } from "../../ui/thermostat-radio-group";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui/thermostat-radio-group";
 import { useState } from "react";
 import { Snow, Steams } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";

@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import useForceUpdateUI from "../hooks/useForceUpdateUI";
+import useForceUpdateUI from "@/hooks/useForceUpdateUI";
 
 export const ForceUpdateContext = createContext({});
 

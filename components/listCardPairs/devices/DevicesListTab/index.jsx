@@ -69,7 +69,7 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
                       <>
                         <Link
                           key={`tabContent_noIndexing_all_${deviceIndex}_device_${device.publicId}`}
-                          href={`/fa/devices/${device.category}/${device.publicId}`}>
+                          href={`/devices/${device.category}/${device.publicId}`}>
                           <DeviceCard
                             className={deviceCardClassName}
                             {...device}
@@ -94,7 +94,7 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
                             <>
                               <Link
                                 key={`tabContent_${tabContentIndex}_${header.dataKey}_${deviceIndex}_device_${device.publicId}`}
-                                href={`/fa/devices/${device.category}/${device.publicId}`}>
+                                href={`/devices/${device.category}/${device.publicId}`}>
                                 <DeviceCard
                                   className={deviceCardClassName}
                                   {...device}

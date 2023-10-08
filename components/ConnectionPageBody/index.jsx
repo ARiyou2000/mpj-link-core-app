@@ -54,7 +54,7 @@ const ConnectionCheckPageBody = ({
 
   const handleBack = () => {
     controller.abort("User Cancellation");
-    router.push("/fa/home");
+    router.push("/home");
   };
 
   useEffect(() => {

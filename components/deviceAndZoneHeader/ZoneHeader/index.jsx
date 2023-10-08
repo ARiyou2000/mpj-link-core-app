@@ -1,4 +1,4 @@
-import DeviceAndZoneHeaderContainer from "../DeviceAndZoneHeaderContainer";
+import DeviceAndZoneHeaderContainer from "@/components/DeviceAndZoneHeaderContainer";
 
 const ZoneHeader = ({ name, description, className, ...props }) => {
   return (
