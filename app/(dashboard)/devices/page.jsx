@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import DevicesListTab from "@/components/listCardPairs/devices/DevicesListTab";
 import { getDevices } from "@/utils/getStaticData";
 import useStaticData from "@/hooks/useStaticData";
-import Device from "@/classes/device";
+import Device from "@/classes/devices/device";
 
 const DevicesListPage = ({ className }) => {
   const [data] = useStaticData(getDevices);
