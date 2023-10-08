@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import getDocumentDir from "../lib/getDocumentDir";
+import getDocumentDir from "@/utils/getDocumentDir";
 
 const useGlobalDir = () => {
   const params = useParams();
