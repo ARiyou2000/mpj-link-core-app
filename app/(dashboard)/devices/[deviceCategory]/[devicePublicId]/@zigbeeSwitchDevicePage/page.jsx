@@ -3,10 +3,10 @@
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 
 import useSocket from "@/hooks/useSocket";
-import { ZigbeeSwitchUpdateContext } from "@/contexts/updateProviders";
+import {ZigbeeSwitchUpdateContext} from "@/contexts/updateProviders";
 import Register from "@/classes/registers/register";
 import Switch from "@/components/devicePagesBody/ZigbeeSwitch";
-import { useState } from "react";
+import {useState} from "react";
 
 const ZigbeeSwitchDevicePage = () => {
   const deviceId = "0xa4c1381c25a1daf0";
@@ -18,24 +18,24 @@ const ZigbeeSwitchDevicePage = () => {
     delete data.payload.linkquality;
 
     const registers = [
-      new Register(
-        "status_left",
-        "پذیرایی اصلی",
-        "نورهای لوستر و دیواری",
-        data.payload["status_left"],
-      ),
-      new Register(
-        "status_center",
-        "نور مخفی",
-        "روشنایی‌های مخفی زیر کناف",
-        data.payload["status_center"],
-      ),
-      new Register(
-        "status_right",
-        "سناریو پذیرایی",
-        "فعال سازی خودکار و هوشمند روشنایی",
-        data.payload["status_right"],
-      ),
+      {
+        publicId: "status_left",
+        name: "پذیرایی اصلی",
+        description: "نورهای لوستر و دیواری",
+        value: data.payload["status_left"],
+      },
+      {
+        publicId: "status_center",
+        name: "نور مخفی",
+        description: "روشنایی‌های مخفی زیر کناف",
+        value: data.payload["status_center"],
+      },
+      {
+        publicId: "status_right",
+        name: "سناریو پذیرایی",
+        description: "فعال سازی خودکار و هوشمند روشنایی",
+        value: data.payload["status_right"],
+      },
     ];
 
     setRegistersList(registers);
@@ -45,7 +45,7 @@ const ZigbeeSwitchDevicePage = () => {
     publishHandler(
       JSON.stringify({
         topic: deviceId,
-        message: { [publicId]: checked ? "ON" : "OFF" },
+        message: {[publicId]: checked ? "ON" : "OFF"},
       }),
     );
   };
@@ -58,7 +58,7 @@ const ZigbeeSwitchDevicePage = () => {
         hasPowerButton={false}
       />
       <ZigbeeSwitchUpdateContext.Provider value={handelUpdate}>
-        <Switch className={"flex-1 h-0 w-full"} registersList={registersList} />
+        <Switch className={"flex-1 h-0 w-full"} registersList={registersList}/>
       </ZigbeeSwitchUpdateContext.Provider>
     </>
   );

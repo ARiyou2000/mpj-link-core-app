@@ -1,5 +1,5 @@
 const mqtt = require("mqtt");
-const serverAddress = "tcp://localhost:1883";
+const serverAddress = "mqtt://localhost:15672";
 
 const mqttPublish = async ({ topic, message }) => {
   try {
