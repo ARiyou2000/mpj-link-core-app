@@ -41,6 +41,8 @@ const DevicesLayout = ({
         return ductSplitDevicePage;
       case "irSplit":
         return irSplitDevicePage;
+      case "zigbeeSwitch":
+        return zigbeeSwitchDevicePage;
     }
   };
 
