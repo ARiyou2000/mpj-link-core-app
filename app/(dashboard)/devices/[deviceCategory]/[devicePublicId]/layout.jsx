@@ -23,6 +23,7 @@ const DevicesLayout = ({
   relayDevicePage,
   switchDevicePage,
   thermostatDevicePage,
+  zigbeeSwitchDevicePage,
   className,
   params,
   ...props
@@ -41,7 +42,7 @@ const DevicesLayout = ({
         return ductSplitDevicePage;
       case "irSplit":
         return irSplitDevicePage;
-      case "zigbeeSwitch":
+      case "zigbee_switch":
         return zigbeeSwitchDevicePage;
     }
   };
