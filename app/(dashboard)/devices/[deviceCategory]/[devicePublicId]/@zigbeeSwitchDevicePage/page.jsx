@@ -25,7 +25,7 @@ const ZigbeeSwitchDevicePage = () => {
     publishHandler(
       JSON.stringify({
         topic: "0xa4c1381c25a1daf0/set",
-        payload: { [publicId]: checked ? "ON" : "OFF" },
+        message: { [publicId]: checked ? "ON" : "OFF" },
       }),
     );
   };
