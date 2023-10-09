@@ -27,7 +27,7 @@ const mqttToSocket = async (socketInstance) => {
 const registerOnConnection = (io, socket) => {
   mqttToSocket(socket);
 
-  socket.on("sendDeviceData", mqttPublish());
+  socket.on("sendDeviceData", mqttPublish);
   socket.on("close", (reason) => {
     console.error("Socket Closed: ", reason);
   });
