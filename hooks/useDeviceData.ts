@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { getDeviceRegisters, getDevices } from "@/utils/getStaticData";
+import {getZoneDeviceRegisters, getDeviceRegisters, getDevices } from "@/utils/getStaticData";
 import { getDeviceData } from "@/utils/queueHelper";
-import { getZoneDeviceRegisters } from "@/utils/getStaticData";
 import { useToast } from "@/components/ui/use-toast";
 
 export const getRegistersValueFormString = (str: string) => {
@@ -148,10 +147,10 @@ const useDeviceData = (
 
     getData();
 
-    // const myInterval = setInterval(getData, 1000);
+    const myInterval = setInterval(getData, 200);
     return () => {
       isPagePresent.current = false;
-      // clearInterval(myInterval);
+      clearInterval(myInterval);
       clearTimeout(recallTimeoutId);
       controller.abort();
     };
