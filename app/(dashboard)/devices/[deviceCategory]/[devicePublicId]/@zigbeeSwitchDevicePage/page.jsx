@@ -9,22 +9,42 @@ import Switch from "@/components/devicePagesBody/ZigbeeSwitch";
 import { useState } from "react";
 
 const ZigbeeSwitchDevicePage = () => {
+  const deviceId = "0xa4c1381c25a1daf0";
   const [data, publishHandler] = useSocket();
   const [registersList, setRegistersList] = useState([]);
 
-  if (data?.topic === "0xa4c1381c25a1daf0") {
+  if (data?.topic === deviceId) {
     // setDeviceRegisterData
     delete data.payload.linkquality;
-    const registers = Object.keys(data.payload).map((keyName) => {
-      return new Register(keyName, keyName, "", data.payload[keyName]);
-    });
+
+    const registers = [
+      new Register(
+        "status_left",
+        "پذیرایی اصلی",
+        "نورهای لوستر و دیواری",
+        data.payload["status_left"],
+      ),
+      new Register(
+        "status_center",
+        "نور مخفی",
+        "روشنایی‌های مخفی زیر کناف",
+        data.payload["status_center"],
+      ),
+      new Register(
+        "status_right",
+        "سناریو پذیرایی",
+        "فعال سازی خودکار و هوشمند روشنایی",
+        data.payload["status_right"],
+      ),
+    ];
+
     setRegistersList(registers);
   }
 
   const handelUpdate = (publicId, checked) => {
     publishHandler(
       JSON.stringify({
-        topic: "0xa4c1381c25a1daf0/set",
+        topic: deviceId,
         message: { [publicId]: checked ? "ON" : "OFF" },
       }),
     );
@@ -33,8 +53,8 @@ const ZigbeeSwitchDevicePage = () => {
   return (
     <>
       <DeviceHeader
-        name={"کلید zigbee"}
-        description={"کلید هوشمند وایرلس"}
+        name={"روشنایی پذیرایی"}
+        description={"پذیرایی شمالی - سمت درب باغ"}
         hasPowerButton={false}
       />
       <ZigbeeSwitchUpdateContext.Provider value={handelUpdate}>
