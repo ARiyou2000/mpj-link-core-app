@@ -1,5 +1,5 @@
 import {Server} from "socket.io";
-import onSocketConnection from "@/helpers/onSocketConnection";
+import onSocketConnection from "@/utils/onSocketConnection";
 
 export default function handler(req, res) {
     if (res.socket.server.io) {
