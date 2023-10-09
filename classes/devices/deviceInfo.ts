@@ -1,4 +1,5 @@
-import ResponseModel from "@/classes/responseModel";
+// import ResponseModel from "@/classes/responseModel";
+
 import {
   DuctSplit,
   Music,
@@ -23,10 +24,20 @@ export enum DevicesType {
   touchPanel_s8,
   touchPanel_10inch,
   kitchenHook,
-  // electrical_shaders,
+  electrical_shaders,
+  reserved1,
+  reserved2,
+  reserved3,
+  reserved4,
+  zigbee_switch_1,
+  zigbee_switch_2,
+  zigbee_switch_3,
 }
 
-class DeviceInfo extends ResponseModel {
+class DeviceInfo {
+  publicId: string = "";
+  name: string = "";
+  description: string = "";
   type: number = 0;
   category: string = "";
   icon: any = null;
@@ -37,7 +48,9 @@ class DeviceInfo extends ResponseModel {
     description: string,
     type: number,
   ) {
-    super(publicId, name, description);
+    this.publicId = publicId;
+    this.name = name;
+    this.description = description;
     this.type = type;
     switch (type) {
       case DevicesType.switch_1P:
@@ -68,7 +81,14 @@ class DeviceInfo extends ResponseModel {
         this.category = "irSplit";
         this.icon = DuctSplit;
         break;
+      case DevicesType.zigbee_switch_1:
+      case DevicesType.zigbee_switch_2:
+      case DevicesType.zigbee_switch_3:
+        this.category = "zigbee_switch";
+        this.icon = Switches;
+        break;
       default:
+        console.error("uncategorized device with type number of: ", type);
         this.category = "uncategorized";
         this.icon = LoadingSpinner;
     }
