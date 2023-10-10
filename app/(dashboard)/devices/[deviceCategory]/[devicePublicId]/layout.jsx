@@ -1,5 +1,4 @@
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster"; // export const metadata = {
 
 // export const metadata = {
 //   title: "Device page - MPJ Link App",
@@ -24,6 +23,7 @@ const DevicesLayout = ({
   switchDevicePage,
   thermostatDevicePage,
   zigbeeSwitchDevicePage,
+  notFoundDevicePage,
   className,
   params,
   ...props
@@ -44,13 +44,13 @@ const DevicesLayout = ({
         return irSplitDevicePage;
       case "zigbee_switch":
         return zigbeeSwitchDevicePage;
+      default:
+        return notFoundDevicePage;
     }
   };
 
   return (
-    <div
-      className={cn("h-full px-4 flex flex-col gap-5", className)}
-      {...props}>
+    <div className={"h-full px-4 flex flex-col gap-5"} {...props}>
       {getDevicePage()}
       <Toaster />
     </div>
