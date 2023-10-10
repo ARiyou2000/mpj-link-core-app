@@ -5,7 +5,7 @@ import useDeviceData from "@/hooks/useDeviceData";
 import { setRegisterData } from "@/utils/queueHelper";
 import SplitIR from "@/components/devicePagesBody/SplitIR";
 
-const MusicPlayerDevicePage = () => {
+const IrSplitDevicePage = () => {
   const [info, deviceRegistersInfoAndData] = useDeviceData({
     hasFeedback: false,
   });
@@ -32,4 +32,4 @@ const MusicPlayerDevicePage = () => {
   );
 };
 
-export default MusicPlayerDevicePage;
+export default IrSplitDevicePage;
