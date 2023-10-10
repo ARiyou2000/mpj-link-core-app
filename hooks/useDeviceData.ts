@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import {getZoneDeviceRegisters, getDeviceRegisters, getDevices } from "@/utils/getStaticData";
+import {
+  getDeviceRegisters,
+  getDevices,
+  getZoneDeviceRegisters,
+} from "@/utils/getStaticData";
 import { getDeviceData } from "@/utils/queueHelper";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -126,6 +130,9 @@ const useDeviceData = (
 
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
+          console.log(
+            "------------------------- I'm at the end line -------------------",
+          );
           recallTimeoutId = setTimeout(getData, 100);
         } else {
           recallTimeoutId = setTimeout(() => {
@@ -147,10 +154,10 @@ const useDeviceData = (
 
     getData();
 
-    const myInterval = setInterval(getData, 200);
+    // const myInterval = setInterval(getData, 200);
     return () => {
       isPagePresent.current = false;
-      clearInterval(myInterval);
+      // clearInterval(myInterval);
       clearTimeout(recallTimeoutId);
       controller.abort();
     };
