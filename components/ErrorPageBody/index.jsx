@@ -17,7 +17,7 @@ const ErrorPageBody = ({ code, title, description, className, ...props }) => {
 
           <h2
             className={
-              "flex items-center justify-center rounded-full p-9 w-56 h-56 bg-[#D67174] text-white font-semibold text-8xl"
+              "flex items-center justify-center rounded-full p-9 w-56 h-56 bg-red text-white font-semibold text-8xl"
             }>
             {code}
           </h2>
@@ -33,7 +33,7 @@ const ErrorPageBody = ({ code, title, description, className, ...props }) => {
             )}
           </div>
 
-          <Link href={"/"} className={"rounded-3xl py-3 px-5 bg-[#D67174]"}>
+          <Link href={"/"} className={"rounded-3xl py-3 px-5 bg-red"}>
             صفحه اصلی
           </Link>
         </div>
