@@ -112,11 +112,17 @@ const PassCodeInput = ({
             // const newDigit = newVal.charAt(-1);
             // console.log("newDigit", newDigit);
             const newValInt = parseInt(newVal);
+            console.log("newVal", newVal, !!newVal);
+            console.log("newValInt", newValInt, !!newValInt);
             if (
               (newValInt >= 0 && newValInt <= 9999 && newVal.length <= 4) ||
-              newVal === ""
+              newVal === "" ||
+              newVal === "00" ||
+              newVal === "000" ||
+              newVal === "0000"
             ) {
-              setPass(!!newVal ? newValInt.toString() || newVal : "");
+              // if new value has a falsy value (is Nan) replace with ""
+              setPass(newVal || "");
             }
           }}
           ref={inputElRef}
