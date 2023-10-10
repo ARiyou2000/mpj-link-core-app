@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import fetchUrl from "@/utils/fetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
+import useIsFirstRender from "../../hooks/useIsFirstRender";
 
 const ConnectionCheckPageBody = ({
   target,
@@ -21,6 +22,7 @@ const ConnectionCheckPageBody = ({
     error: errorText = "تلاش مجدد",
   } = statusText;
 
+  const isFirstRender = useIsFirstRender();
   const router = useRouter();
   const [status, setStatus] = useState("trying");
   const controller = new AbortController();
@@ -58,11 +60,13 @@ const ConnectionCheckPageBody = ({
   };
 
   useEffect(() => {
-    tryConnecting();
+    if (!isFirstRender) {
+      tryConnecting();
+    }
     return () => {
       controller.abort("Leaving page");
     };
-  }, []);
+  }, [isFirstRender]);
 
   return (
     <>
