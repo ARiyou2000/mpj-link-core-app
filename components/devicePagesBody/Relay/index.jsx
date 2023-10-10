@@ -29,7 +29,13 @@ const Relay = ({ registersList = [], className, ...props }) => {
     <>
       {registersList?.length > 0 ? (
         <Tabs
-          defaultValue="output"
+          defaultValue={
+            registersList?.length
+              ? outputs.length > 0
+                ? "output"
+                : "input"
+              : "outputs"
+          }
           className={cn("w-full flex flex-col gap-2", className)}
           {...props}>
           <TabsList>
