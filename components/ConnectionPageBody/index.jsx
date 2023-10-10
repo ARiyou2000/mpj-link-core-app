@@ -27,7 +27,7 @@ const ConnectionCheckPageBody = ({
 
   const tryConnecting = async () => {
     setStatus("trying");
-    let targetUrl = "";
+    let targetUrl;
     switch (target) {
       case "core":
         targetUrl = "";

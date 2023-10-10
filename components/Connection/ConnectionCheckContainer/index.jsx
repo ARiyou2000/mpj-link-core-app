@@ -26,7 +26,7 @@ const ConnectionCheckContainer = ({
           <div className={"[&>svg]:w-[6.25rem] [&>svg]:h-[6.25rem] p-2"}>
             {icon}
           </div>
-          <h2 className={"text-milkwhite text-base"}>{title}</h2>
+          <h2 className={"text-milkwhite text-base text-center"}>{title}</h2>
         </div>
         {buttonText && (
           <Button
