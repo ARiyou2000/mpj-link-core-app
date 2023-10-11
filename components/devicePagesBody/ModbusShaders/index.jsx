@@ -1,11 +1,10 @@
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Lightbulb, Minus, Pause, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
-import { Shaders, ShadersClosed, ShadersOpened } from "../../icons";
-import { useToast } from "../../ui/use-toast";
-import { setRegisterData } from "../../../utils/queueHelper";
+import { Shaders, ShadersClosed, ShadersOpened } from "@/components/icons";
+import { useToast } from "@/components/ui/use-toast";
+import { setRegisterData } from "@/utils/queueHelper";
+import LoadingSpinner from "@/components/loading/LoadingSpinner";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-evenly p-8 m-0 border-0.5 rounded-card border-milkwhite";
@@ -66,45 +65,51 @@ const ModbusShadersPageBody = ({ registersList = [], className, ...props }) => {
   return (
     <>
       <ScrollArea className={className}>
-        <div
-          className={
-            "h-full flex flex-col items-center justify-center gap-24 pb-5"
-          }
-          {...props}>
-          <div>
-            <Shaders className={"w-60 h-60"} />
+        {registersList?.length > 0 ? (
+          <div
+            className={
+              "h-full flex flex-col items-center justify-center gap-24 pb-5"
+            }
+            {...props}>
+            <div>
+              <Shaders className={"w-60 h-60"} />
+            </div>
+            <div className={"w-full flex flex-col gap-4"}>
+              <Button
+                className={musicPlayerInputSourceButtonStyleClassName}
+                onClick={() => {
+                  handleUpdate("open");
+                }}>
+                <ShadersOpened
+                  className={musicPlayerVolumeButtonIconStyleClassName}
+                />
+                <h3>بازکردن</h3>
+              </Button>
+              <Button
+                className={musicPlayerInputSourceButtonStyleClassName}
+                onClick={() => {
+                  handleUpdate("pause");
+                }}>
+                <Shaders
+                  className={musicPlayerVolumeButtonIconStyleClassName}
+                />
+                <h3>توقف</h3>
+              </Button>
+              <Button
+                className={musicPlayerInputSourceButtonStyleClassName}
+                onClick={() => {
+                  handleUpdate("close");
+                }}>
+                <ShadersClosed
+                  className={musicPlayerVolumeButtonIconStyleClassName}
+                />
+                <h3>بستن</h3>
+              </Button>
+            </div>
           </div>
-          <div className={"w-full flex flex-col gap-4"}>
-            <Button
-              className={musicPlayerInputSourceButtonStyleClassName}
-              onClick={() => {
-                handleUpdate("open");
-              }}>
-              <ShadersOpened
-                className={musicPlayerVolumeButtonIconStyleClassName}
-              />
-              <h3>بازکردن</h3>
-            </Button>
-            <Button
-              className={musicPlayerInputSourceButtonStyleClassName}
-              onClick={() => {
-                handleUpdate("pause");
-              }}>
-              <Shaders className={musicPlayerVolumeButtonIconStyleClassName} />
-              <h3>توقف</h3>
-            </Button>
-            <Button
-              className={musicPlayerInputSourceButtonStyleClassName}
-              onClick={() => {
-                handleUpdate("close");
-              }}>
-              <ShadersClosed
-                className={musicPlayerVolumeButtonIconStyleClassName}
-              />
-              <h3>بستن</h3>
-            </Button>
-          </div>
-        </div>
+        ) : (
+          <LoadingSpinner />
+        )}
       </ScrollArea>
     </>
   );
