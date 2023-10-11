@@ -14,7 +14,7 @@ const headers: headersType = [
   { title: "اسپلیت", dataKey: deviceTypeList.ir_split },
   { title: "هود", dataKey: deviceTypeList.ir_hood },
   { title: "پرده برقی", dataKey: deviceTypeList.modbus_electrical_shaders },
-  { title: "کلید زیگبی", dataKey: deviceTypeList.zigbee_switch },
+  // { title: "کلید زیگبی", dataKey: deviceTypeList.zigbee_switch },
 ];
 
 const getCategorizedDevices = (list: DeviceInfo[] = []) => {
