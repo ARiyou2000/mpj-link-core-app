@@ -13,5 +13,6 @@ export { default as Plus } from "./Plus";
 export { default as Power } from "./Power";
 export { default as PreviousTrack } from "./PreviousTrack";
 export { default as SDCard } from "./SDCard";
+export { default as Shaders } from "./Shaders";
 export { default as Snow } from "./Snow";
 export { default as Steams } from "./Steams";
