@@ -18,7 +18,7 @@ const SplitIRControlCard = ({ title, children, className, ...props }) => {
     <>
       <Card.Gradiant
         className={cn(
-          "flex flex-col gap-6 px-4 py-11 items-center justify-between flex-1",
+          "flex flex-col gap-6 px-4 py-11 items-center justify-center flex-1",
           className,
         )}
         {...props}>
@@ -35,10 +35,12 @@ const SplitIRControlCard = ({ title, children, className, ...props }) => {
   );
 };
 
-const primaryControlIconStyleClassName = "h-[4.25rem] w-[4.25rem]";
+const primaryControlIconStyleClassNameGroup1 = "h-[5.1rem] w-[5.1rem]";
+const primaryControlIconStyleClassNameGroup2 = "h-[4.375rem] w-[4.375rem]";
 const secondaryControlIconStyleClassName = "h-12 w-12";
 const controlButtonStyleClassName =
   "p-0 m-0 bg-transparent rounded-full h-full";
+
 const SplitIR = ({
   className,
   handleDeviceUpdate = (value) => null,
@@ -53,20 +55,20 @@ const SplitIR = ({
               "px-7 py-[4.5rem] flex flex-row items-center justify-between"
             }>
             <Button className={controlButtonStyleClassName}>
-              <Plus className={primaryControlIconStyleClassName} />
+              <Plus className={primaryControlIconStyleClassNameGroup2} />
             </Button>
             <div
               className={"flex flex-col justify-between items-center gap-12"}>
               <Button className={controlButtonStyleClassName}>
-                <Up className={primaryControlIconStyleClassName} />
+                <Up className={primaryControlIconStyleClassNameGroup1} />
               </Button>
 
               <Button className={controlButtonStyleClassName}>
-                <Down className={primaryControlIconStyleClassName} />
+                <Down className={primaryControlIconStyleClassNameGroup1} />
               </Button>
             </div>
             <Button className={controlButtonStyleClassName}>
-              <Minus className={primaryControlIconStyleClassName} />
+              <Minus className={primaryControlIconStyleClassNameGroup2} />
             </Button>
           </div>
 
@@ -83,9 +85,11 @@ const SplitIR = ({
             </SplitIRControlCard>
 
             <SplitIRControlCard title={"تغییر حالت"}>
-              <Button className={controlButtonStyleClassName}>
-                <Breeze className={secondaryControlIconStyleClassName} />
-              </Button>
+              <div className={"flex items-center justify-center"}>
+                <Button className={controlButtonStyleClassName}>
+                  <Breeze className={secondaryControlIconStyleClassName} />
+                </Button>
+              </div>
             </SplitIRControlCard>
           </div>
         </div>
