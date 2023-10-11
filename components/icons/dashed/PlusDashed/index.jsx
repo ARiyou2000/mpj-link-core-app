@@ -8,7 +8,6 @@ const PlusDashed = ({ ...props }) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         stroke="#F4F4F4"
-        strokeWidth="2.16743"
         strokeLinecap="round"
         strokeLinejoin="round"
         {...props}>
