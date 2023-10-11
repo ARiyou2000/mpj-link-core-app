@@ -106,6 +106,9 @@ const useDeviceData = (
                 }
               });
             }
+
+            // This must place here to prevent showing registers list to user on error getting data from server
+            setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
           } catch (e) {
             // If Request get aborted this catcher will run
             if (e.code && e.code === 401) {
@@ -124,8 +127,6 @@ const useDeviceData = (
             console.error(e);
             console.groupEnd();
           }
-
-          setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
         } catch (e) {
           console.error(
             "Error getting device registers by device publicID form localstorage: ",
