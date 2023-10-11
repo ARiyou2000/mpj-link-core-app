@@ -1,7 +1,7 @@
 import styles from "./LoadingSpinner.module.css";
 import { cn } from "@/lib/utils";
 
-const LoadingSpinner = ({ className }) => {
+const LoadingSpinner = ({ className = "" }) => {
   return (
     <>
       <span
