@@ -2,6 +2,7 @@ export { default as AUX } from "./AUX";
 export { default as Checked } from "./Checked";
 export { default as Cloud } from "./Cloud";
 export { default as Error } from "./Error";
+export { default as Hood } from "./Hood";
 export { default as Loading } from "./Loading";
 export { default as Lock } from "./Lock";
 export { default as Minus } from "./Minus";
