@@ -136,11 +136,11 @@ const Carousel = ({
       <div
         aria-disabled={disabled}
         className={cn(
-          "flex flex-row flex-nowrap items-center rounded-2xl border border-milkwhite px-3 py-6 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed",
+          "w-full flex flex-row flex-nowrap items-center rounded-2xl border border-milkwhite px-3 py-6 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed",
           className,
         )}
         {...props}>
-        <div className="embla__buttons flex flex-row gap-2">
+        {/*<div className="flex flex-row gap-2">*/}
           <Button
             onClick={onPrevButtonClick}
             disabled={disabled || prevBtnDisabled}
@@ -148,13 +148,8 @@ const Carousel = ({
             <ChevronRight color={"#F4F4F4"} size={"0.625rem"} />
           </Button>
 
-          <Button
-            onClick={onNextButtonClick}
-            disabled={disabled || nextBtnDisabled}
-            className={nextPrevButtonStyleClassName}>
-            <ChevronLeft color={"#F4F4F4"} size={"0.625rem"} />
-          </Button>
-        </div>
+
+        {/*</div>*/}
         <div
           className={
             "flex-1 flex flex-row overflow-hidden pointer-events-auto"
@@ -172,6 +167,12 @@ const Carousel = ({
             </div>
           ))}
         </div>
+        <Button
+          onClick={onNextButtonClick}
+          disabled={disabled || nextBtnDisabled}
+          className={nextPrevButtonStyleClassName}>
+          <ChevronLeft color={"#F4F4F4"} size={"0.625rem"} />
+        </Button>
       </div>
     </>
   );
