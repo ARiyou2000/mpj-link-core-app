@@ -43,7 +43,7 @@
     right: 0;
     bottom: 0;
     border-radius: inherit;
-    border: 1px solid transparent;
+    border: 0.09375rem solid transparent;
     /*background: linear-gradient(45deg, #EDBAFF, #A1FFFF) border-box;*/
     background: linear-gradient(215.38deg, #FB9393 -6.7%, #FFFFFF 135.15%) border-box;
     -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
