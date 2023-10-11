@@ -72,6 +72,7 @@ const config: Config = {
         card: "1.5625rem",
       },
       borderWidth: {
+        "0.5": "0.03125rem",
         "1": "0.0625rem",
         "1.5": "0.09375rem",
         "4": "0.25rem",
