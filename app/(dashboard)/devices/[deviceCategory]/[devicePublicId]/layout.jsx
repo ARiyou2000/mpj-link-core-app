@@ -18,6 +18,7 @@ export async function generateMetadata({ params, searchParams }, parent) {
 const DevicesLayout = ({
   ductSplitDevicePage,
   irSplitDevicePage,
+  irHoodDevicePage,
   musicPlayerDevicePage,
   relayDevicePage,
   switchDevicePage,
@@ -30,18 +31,20 @@ const DevicesLayout = ({
 }) => {
   const getDevicePage = () => {
     switch (params.deviceCategory) {
-      case "switch":
+      case "modbus_switch":
         return switchDevicePage;
-      case "relay":
+      case "modbus_relay":
         return relayDevicePage;
-      case "thermostat":
+      case "modbus_thermostat":
         return thermostatDevicePage;
-      case "musicPlayer":
+      case "modbus_music_player":
         return musicPlayerDevicePage;
-      case "ductSplit":
+      case "modbus_duct_split":
         return ductSplitDevicePage;
-      case "irSplit":
+      case "ir_split":
         return irSplitDevicePage;
+      case "ir_hood":
+        return irHoodDevicePage;
       case "zigbee_switch":
         return zigbeeSwitchDevicePage;
       default:
