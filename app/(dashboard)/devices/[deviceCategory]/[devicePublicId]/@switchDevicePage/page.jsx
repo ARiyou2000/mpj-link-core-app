@@ -6,7 +6,6 @@ import Switch from "@/components/devicePagesBody/Switch";
 
 const SwitchDevicePage = () => {
   const [info, data] = useDeviceData();
-  console.log(data);
   return (
     <>
       <DeviceHeader

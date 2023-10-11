@@ -34,9 +34,6 @@ const Carousel = ({
   valueIndex = 0,
   ...props
 }) => {
-  // const disabled = false;
-  // console.log("disabled", disabled);
-
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(false);
   const handleButtonsDisable = (value) => {

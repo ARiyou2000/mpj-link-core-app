@@ -109,11 +109,7 @@ const PassCodeInput = ({
           onChange={(event) => {
             setStatus("normal");
             const newVal = event.target.value.trim();
-            // const newDigit = newVal.charAt(-1);
-            // console.log("newDigit", newDigit);
             const newValInt = parseInt(newVal);
-            console.log("newVal", newVal, !!newVal);
-            console.log("newValInt", newValInt, !!newValInt);
             if (
               (newValInt >= 0 && newValInt <= 9999 && newVal.length <= 4) ||
               newVal === "" ||

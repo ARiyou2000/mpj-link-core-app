@@ -31,10 +31,10 @@ const getStaticData = (
         const url = `${getCoreIP()}/${dataUrl || dataTitle}`;
 
         const result = await fetchUrl(url, { signal: options.signal });
-        console.log(
-          `Result for '${dataTitle}' with URL of ${url} has been set to localstorage: `,
-          result,
-        );
+        // console.log(
+        //   `Result for '${dataTitle}' with URL of ${url} has been set to localstorage: `,
+        //   result,
+        // );
         window.localStorage.setItem(dataTitle, JSON.stringify(result));
         return result;
       } catch (e) {

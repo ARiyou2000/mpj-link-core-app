@@ -35,7 +35,7 @@ const UnlockSlider = ({ className, onUnlock = () => null, ...props }) => {
       ResetCurrVal();
     } else {
       // Unlocked -> next page
-      console.log("Unlocked!!!");
+      // console.log("Unlocked!!!");
       onUnlock();
       // reqPasswordStorage !== "8pK426ytybYqqZ6YDjva8hJcagMVT7tQgVxrkHcN"
       //   ? setShowCodeInput(true)

@@ -139,9 +139,6 @@ const useDeviceData = (
 
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
-          console.log(
-            "------------------------- I'm at the end line -------------------",
-          );
           recallTimeoutId = setTimeout(getData, 100);
         } else {
           recallTimeoutId = setTimeout(() => {

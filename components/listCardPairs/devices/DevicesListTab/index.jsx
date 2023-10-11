@@ -18,14 +18,11 @@ const tabContentAndScrollStyleClassName = "h-full w-full";
 const deviceCardClassName = "my-6";
 
 const DevicesListTab = ({ list = [], className, ...props }) => {
-  console.log("list", list);
-
   const [headers, setHeaders] = useState([]);
   const [deviceList, setDeviceList] = useState([]);
 
   useEffect(() => {
     if (list && list?.length > 0) {
-      console.log("list", list);
       const [headers, categorizedDeviceList] = getCategorizedDevices(list);
       setHeaders(headers);
       setDeviceList(categorizedDeviceList);
@@ -97,7 +94,6 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
                     <ScrollArea className={tabContentAndScrollStyleClassName}>
                       {deviceList[header.dataKey]?.map(
                         (device, deviceIndex) => {
-                          console.log("device", device);
                           return (
                             <Link
                               key={`tabContent_${tabContentIndex}_${header.dataKey}_${deviceIndex}_device_${device.publicId}`}

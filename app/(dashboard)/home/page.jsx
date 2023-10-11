@@ -12,7 +12,6 @@ const HomePage = () => {
   const [zonesData] = useStaticData(getZones);
   const [scenarioData, scenarioForceUpdate] = useStaticData(getScenarios);
 
-  console.log("scenarioData", scenarioData);
   return (
     <>
       <div className={"w-full h-full flex flex-col gap-8 pt-8"}>
