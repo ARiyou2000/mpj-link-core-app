@@ -9,13 +9,21 @@ import {
 } from "@/utils/getStaticData";
 import { getDeviceData } from "@/utils/queueHelper";
 import { useToast } from "@/components/ui/use-toast";
+import Register from "@/classes/registers/register";
 
 export const getRegistersValueFormString = (str: string) => {
   return str.match(/.{1,2}/g) ?? [];
 };
 
+type optionsType = {
+  hasFeedback?: boolean;
+  assignmentCallback?:
+    | ((register: Register, registersValueArray: string[]) => string)
+    | null;
+};
+
 const useDeviceData = (
-  options = { hasFeedback: true, assignmentCallback: null },
+  options: optionsType = { hasFeedback: true, assignmentCallback: null },
 ) => {
   const { hasFeedback = true, assignmentCallback = null } = options;
 
@@ -30,7 +38,7 @@ const useDeviceData = (
 
   // Check if there is query params not. if there is use get getZoneDeviceRegisters instead of getDeviceRegisters
   const searchParams = useSearchParams();
-  const zonePublicId = searchParams.get("zpid");
+  const zonePublicId = searchParams?.get("zpid");
 
   const isPagePresent = useRef(true);
   const isThereFetchDataError = useRef(false);
@@ -44,7 +52,7 @@ const useDeviceData = (
       clearTimeout(recallTimeoutId);
       try {
         // Device Public ID
-        const devicePId = urlParams.devicePublicId;
+        const devicePId = urlParams?.devicePublicId;
 
         // -------------------- Device and Its Registers Info --------------------
 
@@ -93,6 +101,7 @@ const useDeviceData = (
                     registersValueArray,
                   );
                 } else {
+                  // Register number represent its value index in value string array
                   register.value = registersValueArray[register.number - 1];
                 }
               });
