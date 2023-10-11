@@ -13,8 +13,8 @@ const FavoritePage = () => {
       <div className={"h-full p-4 flex flex-col gap-6"}>
         <GeneralHeader title={"سناریو های مورد علاقه"} />
         <ScenariosList
-          list={scenarioData.map(
-            ({ publicId, name, description, favorite, image }) =>
+          list={scenarioData?.map(
+            ({ publicId, name, description, favorite, image }, index) =>
               new Scenario(publicId, name, description, favorite, image),
           )}
           hasFavoriteButton={false}

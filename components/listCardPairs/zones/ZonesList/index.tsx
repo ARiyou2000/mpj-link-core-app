@@ -1,5 +1,6 @@
 import ZoneCard from "../ZoneCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import Zone from "@/classes/zone";
 
 const ZonesList = ({ list = [], ...props }) => {
   return (
@@ -10,12 +11,10 @@ const ZonesList = ({ list = [], ...props }) => {
         }
         {...props}>
         {list?.length > 0 ? (
-          list?.map((zone, index) => {
+          list?.map((zone: Zone, index) => {
             return (
               <ZoneCard
-                {...zone}
-                name={zone.name}
-                publicId={zone.publicId}
+                data={zone}
                 key={`zoneCard_${index}_${zone.publicId}`}
               />
             );
