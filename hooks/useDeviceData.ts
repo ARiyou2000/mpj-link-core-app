@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import {useEffect, useRef, useState} from "react";
+import {useParams, useRouter, useSearchParams} from "next/navigation";
 import {
   getDeviceRegisters,
   getDevices,
   getZoneDeviceRegisters,
 } from "@/utils/getStaticData";
-import { getDeviceData } from "@/utils/queueHelper";
-import { useToast } from "@/components/ui/use-toast";
+import {getDeviceData} from "@/utils/queueHelper";
+import {useToast} from "@/components/ui/use-toast";
 import Register from "@/classes/registers/register";
 
 export const getRegistersValueFormString = (str: string) => {
@@ -23,13 +23,13 @@ type optionsType = {
 };
 
 const useDeviceData = (
-  options: optionsType = { hasFeedback: true, assignmentCallback: null },
+  options: optionsType = {hasFeedback: true, assignmentCallback: null},
 ) => {
-  const { hasFeedback = true, assignmentCallback = null } = options;
+  const {hasFeedback = true, assignmentCallback = null} = options;
 
   const router = useRouter();
   const urlParams = useParams();
-  const { toast } = useToast();
+  const {toast} = useToast();
 
   const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] = useState(
     [],
@@ -44,11 +44,14 @@ const useDeviceData = (
   const isThereFetchDataError = useRef(false);
 
   useEffect(() => {
+    isPagePresent.current = true
     const controller = new AbortController();
-    const { signal } = controller;
+    const {signal} = controller;
 
     let recallTimeoutId = 0;
     const getData = async (maxTry = 10) => {
+      isPagePresent.current = true
+      isThereFetchDataError.current = false;
       clearTimeout(recallTimeoutId);
       try {
         // Device Public ID
@@ -76,8 +79,8 @@ const useDeviceData = (
         try {
           // Device registers list and info form local storage
           const deviceRegistersFromStorage = !!zonePublicId
-            ? await getZoneDeviceRegisters(zonePublicId, devicePId, { signal })
-            : await getDeviceRegisters(devicePId, { signal });
+            ? await getZoneDeviceRegisters(zonePublicId, devicePId, {signal})
+            : await getDeviceRegisters(devicePId, {signal});
 
           try {
             // Get device data only if it has feedback
@@ -140,8 +143,10 @@ const useDeviceData = (
 
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
+          console.log("with no error")
           recallTimeoutId = setTimeout(getData, 100);
         } else {
+          console.log("-----> with error", maxTry)
           recallTimeoutId = setTimeout(() => {
             getData(maxTry - 1);
           }, 500);
