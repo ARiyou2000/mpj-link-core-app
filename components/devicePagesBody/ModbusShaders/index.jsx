@@ -65,51 +65,53 @@ const ModbusShadersPageBody = ({ registersList = [], className, ...props }) => {
   return (
     <>
       <ScrollArea className={className}>
-        {registersList?.length > 0 ? (
-          <div
-            className={
-              "h-full flex flex-col items-center justify-center gap-24 pb-5"
-            }
-            {...props}>
-            <div>
-              <Shaders className={"w-60 h-60"} />
-            </div>
-            <div className={"w-full flex flex-col gap-4"}>
-              <Button
-                className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={() => {
-                  handleUpdate("open");
-                }}>
-                <ShadersOpened
-                  className={musicPlayerVolumeButtonIconStyleClassName}
-                />
-                <h3>بازکردن</h3>
-              </Button>
-              <Button
-                className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={() => {
-                  handleUpdate("pause");
-                }}>
-                <Shaders
-                  className={musicPlayerVolumeButtonIconStyleClassName}
-                />
-                <h3>توقف</h3>
-              </Button>
-              <Button
-                className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={() => {
-                  handleUpdate("close");
-                }}>
-                <ShadersClosed
-                  className={musicPlayerVolumeButtonIconStyleClassName}
-                />
-                <h3>بستن</h3>
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <LoadingSpinner />
-        )}
+        <div
+          className={
+            "h-full flex flex-col items-center justify-center gap-24 pb-5"
+          }
+          {...props}>
+          {registersList?.length > 0 ? (
+            <>
+              <div>
+                <Shaders className={"w-60 h-60"} />
+              </div>
+              <div className={"w-full flex flex-col gap-4"}>
+                <Button
+                  className={musicPlayerInputSourceButtonStyleClassName}
+                  onClick={() => {
+                    handleUpdate("open");
+                  }}>
+                  <ShadersOpened
+                    className={musicPlayerVolumeButtonIconStyleClassName}
+                  />
+                  <h3>بازکردن</h3>
+                </Button>
+                <Button
+                  className={musicPlayerInputSourceButtonStyleClassName}
+                  onClick={() => {
+                    handleUpdate("pause");
+                  }}>
+                  <Shaders
+                    className={musicPlayerVolumeButtonIconStyleClassName}
+                  />
+                  <h3>توقف</h3>
+                </Button>
+                <Button
+                  className={musicPlayerInputSourceButtonStyleClassName}
+                  onClick={() => {
+                    handleUpdate("close");
+                  }}>
+                  <ShadersClosed
+                    className={musicPlayerVolumeButtonIconStyleClassName}
+                  />
+                  <h3>بستن</h3>
+                </Button>
+              </div>
+            </>
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
       </ScrollArea>
     </>
   );

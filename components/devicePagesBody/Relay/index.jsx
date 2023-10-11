@@ -68,9 +68,9 @@ const Relay = ({ registersList = [], className, ...props }) => {
           </ScrollArea>
         </Tabs>
       ) : (
-        <>
+        <div className={"w-full h-full flex items-center justify-center"}>
           <LoadingSpinner />
-        </>
+        </div>
       )}
     </>
   );
