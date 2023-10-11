@@ -1,4 +1,4 @@
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import DeviceInfo, { deviceTypeList } from "@/classes/devices/deviceInfo";
 
 type headersType = {
   title: string;
@@ -6,13 +6,15 @@ type headersType = {
 }[];
 
 const headers: headersType = [
-  { title: "کلید", dataKey: "switch" },
-  { title: "رله", dataKey: "relay" },
-  { title: "ترموستات", dataKey: "thermostat" },
-  { title: "موزیک پلیر", dataKey: "musicPlayer" },
-  { title: "داکت اسپلیت", dataKey: "ductSplit" },
-  { title: "اسپلیت", dataKey: "irSplit" },
-  { title: "کلید زیگبی", dataKey: "zigbee_switch" },
+  { title: "کلید", dataKey: deviceTypeList.modbus_switch },
+  { title: "رله", dataKey: deviceTypeList.modbus_relay },
+  { title: "ترموستات", dataKey: deviceTypeList.modbus_thermostat },
+  { title: "موزیک پلیر", dataKey: deviceTypeList.modbus_music_player },
+  { title: "داکت اسپلیت", dataKey: deviceTypeList.modbus_duct_split },
+  { title: "اسپلیت", dataKey: deviceTypeList.ir_split },
+  { title: "هود", dataKey: deviceTypeList.ir_hood },
+  { title: "پرده برقی", dataKey: deviceTypeList.modbus_electrical_shaders },
+  { title: "کلید زیگبی", dataKey: deviceTypeList.zigbee_switch },
 ];
 
 const getCategorizedDevices = (list: DeviceInfo[] = []) => {
@@ -23,11 +25,24 @@ const getCategorizedDevices = (list: DeviceInfo[] = []) => {
   } = {};
   // Create an empty list of devices for each category
   list.forEach((device) => {
-    categorizedDeviceList[device.category] = [];
+    // Create a shared switching with modbus switch
+    if (device.category === deviceTypeList.zigbee_switch) {
+      categorizedDeviceList[deviceTypeList.modbus_switch] = [];
+    } else {
+      // Create an empty list for each device category
+      categorizedDeviceList[device.category] = [];
+    }
   });
   // Add each device to its category.
   list.forEach((device) => {
-    categorizedDeviceList[device.category].push(device);
+    // Create a shared switching with modbus switch
+    if (device.category === deviceTypeList.zigbee_switch) {
+      // Push zigbee switch to shared category with modbus switch
+      categorizedDeviceList[deviceTypeList.modbus_switch].push(device);
+    } else {
+      // Push each device to its own category
+      categorizedDeviceList[device.category].push(device);
+    }
   });
 
   const filteredHeaders = headers.filter((header) => {

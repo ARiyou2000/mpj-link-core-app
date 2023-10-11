@@ -1,4 +1,5 @@
-import { Toaster } from "@/components/ui/toaster"; // export const metadata = {
+import { Toaster } from "@/components/ui/toaster";
+import { deviceTypeList } from "@/classes/devices/deviceInfo"; // export const metadata = {
 
 // export const metadata = {
 //   title: "Device page - MPJ Link App",
@@ -24,6 +25,7 @@ const DevicesLayout = ({
   switchDevicePage,
   thermostatDevicePage,
   zigbeeSwitchDevicePage,
+  electricalShadersDevicePage,
   notFoundDevicePage,
   className,
   params,
@@ -31,22 +33,25 @@ const DevicesLayout = ({
 }) => {
   const getDevicePage = () => {
     switch (params.deviceCategory) {
-      case "modbus_switch":
+      case deviceTypeList.modbus_switch:
         return switchDevicePage;
-      case "modbus_relay":
+      case deviceTypeList.modbus_relay:
         return relayDevicePage;
-      case "modbus_thermostat":
+      case deviceTypeList.modbus_thermostat:
         return thermostatDevicePage;
-      case "modbus_music_player":
+      case deviceTypeList.modbus_music_player:
         return musicPlayerDevicePage;
-      case "modbus_duct_split":
+      case deviceTypeList.modbus_duct_split:
         return ductSplitDevicePage;
-      case "ir_split":
+      case deviceTypeList.ir_split:
         return irSplitDevicePage;
-      case "ir_hood":
+      case deviceTypeList.ir_hood:
         return irHoodDevicePage;
-      case "zigbee_switch":
+      case deviceTypeList.modbus_electrical_shaders:
+        return electricalShadersDevicePage;
+      case deviceTypeList.zigbee_switch:
         return zigbeeSwitchDevicePage;
+      case "uncategorized":
       default:
         return notFoundDevicePage;
     }

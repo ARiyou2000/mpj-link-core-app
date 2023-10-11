@@ -2,8 +2,10 @@
 
 import {
   DuctSplit,
+  Hood,
   Music,
   Relay,
+  Shaders,
   Switches,
   Thermometer,
 } from "@/components/icons/colored";
@@ -11,28 +13,49 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner";
 
 export enum DevicesType {
   invalid,
-  switch_1P,
-  switch_2P,
-  switch_3P,
-  switch_4P,
-  switch_6P,
-  relay,
-  thermostat,
-  musicPlayer,
-  ductSplit,
-  irSplit,
-  touchPanel_s8,
-  touchPanel_10inch,
-  kitchenHook,
-  electrical_shaders,
-  reserved1,
-  reserved2,
-  reserved3,
-  reserved4,
-  zigbee_switch_1,
-  zigbee_switch_2,
-  zigbee_switch_3,
+  modbus_switch_1p,
+  modbus_switch_2p,
+  modbus_switch_3p,
+  modbus_switch_4p,
+  modbus_switch_6p,
+  modbus_relay,
+  modbus_thermostat,
+  modbus_music_player,
+  modbus_duct_split,
+  ir_split,
+  touch_panel_s8,
+  touch_panel_10inch,
+  ir_hood,
+  modbus_electrical_shaders,
+  reserved_15,
+  reserved_16,
+  reserved_17,
+  zigbee_switch_1p,
+  zigbee_switch_2p,
+  zigbee_switch_3p,
+  zigbee_switch_4p,
+  zigbee_switch_6p,
+  reserved_23,
+  reserved_24,
+  reserved_25,
+  reserved_26,
+  reserved_27,
+  reserved_28,
+  reserved_29,
+  reserved_30,
 }
+
+export const deviceTypeList = {
+  modbus_switch: "modbus_switch",
+  modbus_relay: "modbus_relay",
+  modbus_thermostat: "modbus_thermostat",
+  modbus_music_player: "modbus_music_player",
+  modbus_duct_split: "modbus_duct_split",
+  ir_split: "ir_split",
+  ir_hood: "ir_hood",
+  modbus_electrical_shaders: "modbus_electrical_shaders",
+  zigbee_switch: "zigbee_switch",
+};
 
 class DeviceInfo {
   publicId: string = "";
@@ -53,38 +76,48 @@ class DeviceInfo {
     this.description = description;
     this.type = type;
     switch (type) {
-      case DevicesType.switch_1P:
-      case DevicesType.switch_2P:
-      case DevicesType.switch_3P:
-      case DevicesType.switch_4P:
-      case DevicesType.switch_6P:
-        this.category = "switch";
+      case DevicesType.modbus_switch_1p:
+      case DevicesType.modbus_switch_2p:
+      case DevicesType.modbus_switch_3p:
+      case DevicesType.modbus_switch_4p:
+      case DevicesType.modbus_switch_6p:
+        this.category = deviceTypeList.modbus_switch;
         this.icon = Switches;
         break;
-      case DevicesType.relay:
-        this.category = "relay";
+      case DevicesType.modbus_relay:
+        this.category = deviceTypeList.modbus_relay;
         this.icon = Relay;
         break;
-      case DevicesType.thermostat:
-        this.category = "thermostat";
+      case DevicesType.modbus_thermostat:
+        this.category = deviceTypeList.modbus_thermostat;
         this.icon = Thermometer;
         break;
-      case DevicesType.musicPlayer:
-        this.category = "musicPlayer";
+      case DevicesType.modbus_music_player:
+        this.category = deviceTypeList.modbus_music_player;
         this.icon = Music;
         break;
-      case DevicesType.ductSplit:
-        this.category = "ductSplit";
+      case DevicesType.modbus_duct_split:
+        this.category = deviceTypeList.modbus_duct_split;
         this.icon = DuctSplit;
         break;
-      case DevicesType.irSplit:
-        this.category = "irSplit";
+      case DevicesType.ir_split:
+        this.category = deviceTypeList.ir_split;
         this.icon = DuctSplit;
         break;
-      case DevicesType.zigbee_switch_1:
-      case DevicesType.zigbee_switch_2:
-      case DevicesType.zigbee_switch_3:
-        this.category = "zigbee_switch";
+      case DevicesType.ir_hood:
+        this.category = deviceTypeList.ir_hood;
+        this.icon = Hood;
+        break;
+      case DevicesType.modbus_electrical_shaders:
+        this.category = deviceTypeList.modbus_electrical_shaders;
+        this.icon = Shaders;
+        break;
+      case DevicesType.zigbee_switch_1p:
+      case DevicesType.zigbee_switch_2p:
+      case DevicesType.zigbee_switch_3p:
+      case DevicesType.zigbee_switch_4p:
+      case DevicesType.zigbee_switch_6p:
+        this.category = deviceTypeList.zigbee_switch;
         this.icon = Switches;
         break;
       default:
