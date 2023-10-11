@@ -11,7 +11,7 @@ const ZonePage = () => {
   const params = useParams();
   const { zonePublicId } = params;
   const [zones] = useStaticData(getZones);
-  const zoneInfo = zones.find((zoneInfo) => {
+  const zoneInfo = zones?.find((zoneInfo) => {
     return zoneInfo.publicId === zonePublicId;
   });
   const [zoneData] = useStaticData((options) =>
