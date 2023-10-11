@@ -41,27 +41,25 @@ const IrHoodDevicePageBody = ({
             </Button>
 
             <div
-              className={cn(musicPlayerInputSourceButtonStyleClassName, "p-4")}>
-              <h3 className={"flex-1 text-center"}>سرعت فن</h3>
-              <div
-                className={"flex-1 flex flex-row items-center justify-between"}>
-                <Button
-                  className={musicPlayerVolumeButtonStyleClassName}
-                  onClick={() => {
-                    handleDeviceUpdate(registersList[1]?.publicId);
-                  }}>
-                  <Plus className={musicPlayerVolumeButtonIconStyleClassName} />
-                </Button>
-                <Button
-                  className={musicPlayerVolumeButtonStyleClassName}
-                  onClick={() => {
-                    handleDeviceUpdate(registersList[2]?.publicId);
-                  }}>
-                  <Minus
-                    className={musicPlayerVolumeButtonIconStyleClassName}
-                  />
-                </Button>
-              </div>
+              className={cn(
+                musicPlayerInputSourceButtonStyleClassName,
+                "p-4 justify-evenly",
+              )}>
+              <Button
+                className={musicPlayerVolumeButtonStyleClassName}
+                onClick={() => {
+                  handleDeviceUpdate(registersList[1]?.publicId);
+                }}>
+                <Plus className={musicPlayerVolumeButtonIconStyleClassName} />
+              </Button>
+              <h3 className={"text-center"}>سرعت فن</h3>
+              <Button
+                className={musicPlayerVolumeButtonStyleClassName}
+                onClick={() => {
+                  handleDeviceUpdate(registersList[2]?.publicId);
+                }}>
+                <Minus className={musicPlayerVolumeButtonIconStyleClassName} />
+              </Button>
             </div>
           </div>
         </div>
