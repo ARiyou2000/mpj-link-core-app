@@ -23,21 +23,23 @@ const registerNewRequest = async (
   entityType: string,
   entityId: string,
   value: string | null,
+  options: { signal: AbortSignal },
   customUrl?: string,
 ) => {
   try {
     const coreIP = getCoreIP();
     const result = value
       ? ((await fetchUrl(
-          `${customUrl || coreIP}/command/${entityType}/${entityId}`,
-          {
-            method: "PUT",
-            body: { value },
-          },
-        )) as commandResultType)
+        `${customUrl || coreIP}/command/${entityType}/${entityId}`,
+        {
+          method: "PUT",
+          body: {value},
+          signal: options.signal
+        },
+      )) as commandResultType)
       : ((await fetchUrl(
-          `${customUrl || coreIP}/command/${entityType}/${entityId}`,
-        )) as commandResultType);
+        `${customUrl || coreIP}/command/${entityType}/${entityId}`, {signal: options.signal}
+      )) as commandResultType);
 
     return result.actionPublicId;
   } catch (e) {
@@ -49,9 +51,10 @@ const registerNewRequest = async (
 export const registerNewGetRequest = (
   entityType: string,
   entityId: string,
+  options: { signal: AbortSignal },
   customUrl?: string,
 ) => {
-  return registerNewRequest(entityType, entityId, null, customUrl);
+  return registerNewRequest(entityType, entityId, null, options, customUrl);
 };
 
 // Command - Set
@@ -59,9 +62,10 @@ export const registerNewSetRequest = (
   entityType: string,
   entityId: string,
   value: string,
+  options: { signal: AbortSignal },
   customUrl?: string,
 ) => {
-  return registerNewRequest(entityType, entityId, value, customUrl);
+  return registerNewRequest(entityType, entityId, value, options, customUrl);
 };
 
 // Query
@@ -95,13 +99,13 @@ export const getEntityData = async (
   },
   customUrl?: string,
 ) => {
-  const { hasFeedback = true, abortSignal = null } = options;
+  const {hasFeedback = true, abortSignal = null} = options;
 
   try {
     // Register new Get/Set Command
     const reqId = value
-      ? await registerNewSetRequest(entityType, entityId, value, customUrl)
-      : await registerNewGetRequest(entityType, entityId, customUrl);
+      ? await registerNewSetRequest(entityType, entityId, value, options, customUrl)
+      : await registerNewGetRequest(entityType, entityId, options, customUrl);
 
     if (hasFeedback) {
       // Read Data from Query
@@ -118,7 +122,7 @@ export const getEntityData = async (
             setTimeout(() => {
               // console.log(new Date().getTime());
               if (maxTry < 0) {
-                reject({ code: 401, message: "Couldn't read from device" });
+                reject({code: 401, message: "Couldn't read from device"});
               } else {
                 resolve(getActualData(maxTry - 1));
               }
@@ -156,7 +160,7 @@ export const setRegisterData = (
   value: string,
   options: {
     hasFeedback: boolean;
-  } = { hasFeedback: true },
+  } = {hasFeedback: true},
   customUrl?: string,
 ) => getEntityData("port", registerPId, value, options, customUrl);
 
