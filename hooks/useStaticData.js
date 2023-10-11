@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const useStaticData = (fetcher = async () => null) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [flag, setFlag] = useState(false);
   const forceUpdate = () => {
     setFlag((prevState) => !prevState);
