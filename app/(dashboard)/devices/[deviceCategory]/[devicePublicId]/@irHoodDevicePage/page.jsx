@@ -5,20 +5,30 @@ import useDeviceData from "@/hooks/useDeviceData";
 import IrHood from "@/components/devicePagesBody/IrHood";
 import { setRegisterData } from "@/utils/queueHelper";
 import { useState } from "react";
+import { useToast } from "../../../../../../components/ui/use-toast";
 
 const IrHoodDevicePage = () => {
   const [info, deviceRegistersInfoAndData] = useDeviceData({
     hasFeedback: false,
   });
 
-  const handleDeviceUpdate = (value) => {
-    setRegisterData(deviceRegistersInfoAndData[0].publicId, value, {
-      hasFeedback: false,
-    });
-  };
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
-  const [lastHertakiPowerActionType, setLastHertakiPowerActionType] =
-    useState(false);
+  const handleUpdate = async (registerPublicId) => {
+    setLoading(true);
+    const options = { hasFeedback: false };
+    try {
+      const result = await setRegisterData(registerPublicId, "01", options);
+    } catch (e) {
+      toast({
+        variant: "destructive",
+        title: "شما دسترسی تغییر این گزینه را ندارید",
+      });
+      console.error(e);
+    }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -28,13 +38,13 @@ const IrHoodDevicePage = () => {
         hasPowerButton={true}
         powerValue={false}
         onPowerChange={() => {
-          setLastHertakiPowerActionType((prevState) => !prevState);
-          handleDeviceUpdate(lastHertakiPowerActionType ? "51" : "52");
+          handleUpdate(deviceRegistersInfoAndData[0].publicId);
         }}
       />
       <IrHood
         className={"flex-1 h-0 w-full"}
-        handleDeviceUpdate={handleDeviceUpdate}
+        handleDeviceUpdate={handleUpdate}
+        registersList={deviceRegistersInfoAndData}
       />
     </>
   );

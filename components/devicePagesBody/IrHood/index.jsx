@@ -4,19 +4,20 @@ import { Lightbulb, Minus, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { Hood } from "../../icons";
+import { useToast } from "../../ui/use-toast";
+import { setRegisterData } from "../../../utils/queueHelper";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-center p-3 m-0 border-0.5 rounded-card border-milkwhite";
 const musicPlayerVolumeButtonStyleClassName = "p-1.5 rounded-full border-0.5";
 const musicPlayerVolumeButtonIconStyleClassName = "h-8 w-8";
 
-const IrHood = ({
-  handleDeviceUpdate = (value) => null,
+const IrHoodDevicePageBody = ({
+  handleDeviceUpdate = (registerPublicId) => null,
+  registersList = [],
   className,
   ...props
 }) => {
-  const [lastHertakiActionType, setLastHertakiActionType] = useState(false);
-
   return (
     <>
       <ScrollArea className={className}>
@@ -32,7 +33,7 @@ const IrHood = ({
             <Button
               className={musicPlayerInputSourceButtonStyleClassName}
               onClick={() => {
-                handleDeviceUpdate("40");
+                handleDeviceUpdate(registersList[3]?.publicId);
               }}>
               <div className={"rounded-full border-1.5 border-milkwhite p-2.5"}>
                 <Lightbulb className={"w-8 h-8"} />
@@ -47,14 +48,14 @@ const IrHood = ({
                 <Button
                   className={musicPlayerVolumeButtonStyleClassName}
                   onClick={() => {
-                    handleDeviceUpdate("41");
+                    handleDeviceUpdate(registersList[1]?.publicId);
                   }}>
                   <Plus className={musicPlayerVolumeButtonIconStyleClassName} />
                 </Button>
                 <Button
                   className={musicPlayerVolumeButtonStyleClassName}
                   onClick={() => {
-                    handleDeviceUpdate("42");
+                    handleDeviceUpdate(registersList[2]?.publicId);
                   }}>
                   <Minus
                     className={musicPlayerVolumeButtonIconStyleClassName}
@@ -69,4 +70,4 @@ const IrHood = ({
   );
 };
 
-export default IrHood;
+export default IrHoodDevicePageBody;
