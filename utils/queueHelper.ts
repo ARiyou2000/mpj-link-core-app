@@ -170,11 +170,19 @@ export const getRegisterData = (
   customUrl?: string,
 ) => getEntityData("port", registerPId, null, options, customUrl);
 
+const mockController = new AbortController();
 export const setRegisterData = (
   registerPId: string,
   value: string,
   options: getEntityDataOptionsType,
   customUrl?: string,
-) => getEntityData("port", registerPId, value, options, customUrl);
+) =>
+  getEntityData(
+    "port",
+    registerPId,
+    value,
+    { signal: mockController.signal, ...options },
+    customUrl,
+  );
 
 export default registerNewRequest;
