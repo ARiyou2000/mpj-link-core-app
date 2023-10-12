@@ -114,22 +114,27 @@ const useDeviceData = (
 
           // Get device data only if it has feedback
           if (hasFeedback) {
+            console.log(3);
             try {
               // Device registers current value form server
               const deviceRegistersValue = await getDeviceData(devicePId, {
                 signal,
               });
 
+              console.log(3.1);
               // Get registers value from string
               const registersStringValue = deviceRegistersValue.value;
 
               if (!registersStringValue) {
+                console.log(3.2);
                 throw new Error("Registers value is null");
               }
 
+              console.log(3.3);
               const registersValueArray =
                 getRegistersValueFormString(registersStringValue);
 
+              console.log(3.4);
               // Assign each value to its register object
               deviceRegistersFromStorage.forEach((register, index) => {
                 if (assignmentCallback) {
@@ -143,13 +148,14 @@ const useDeviceData = (
                 }
               });
 
+              console.log(4);
               // This must place here to prevent showing registers list to user on error getting data from server
               setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
             } catch (e: {
               code?: number;
               message: string;
             }) {
-              isThereFetchDataError.current = true;
+              // isThereFetchDataError.current = true;
 
               // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
               // This will happen on 50 null constitutive null query result
@@ -164,6 +170,8 @@ const useDeviceData = (
               console.error(e);
               console.groupEnd();
             }
+          } else {
+            setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
           }
         } catch (e) {
           isThereFetchDataError.current = true;
