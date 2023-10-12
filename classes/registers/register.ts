@@ -1,20 +1,27 @@
 import ResponseModel from "@/classes/responseModel";
-import { setRegisterData } from "@/utils/queueHelper";
+import { number } from "prop-types";
 
 type valueType = number | boolean | string;
 
 class Register extends ResponseModel {
   private _value: valueType = "00";
   private _stringValue: string = "00";
+  private _number: number;
 
   constructor(
     publicId: string,
     name: string,
     description: string,
+    number: number,
     stringValue: string,
   ) {
     super(publicId, name, description);
+    this._number = number;
     this._stringValue = stringValue;
+  }
+
+  get number(): number {
+    return this._number;
   }
 
   get value(): valueType {

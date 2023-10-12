@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const useStaticData = (fetcher = async () => null) => {
+const useStaticData = (fetcher: (signal: AbortSignal) => object[]) => {
   const [data, setData] = useState(null);
   const [flag, setFlag] = useState(false);
   const forceUpdate = () => {

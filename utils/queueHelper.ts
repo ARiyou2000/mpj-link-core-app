@@ -18,28 +18,38 @@ type queryResultType = {
   value: string | null;
 };
 
+type fetcherOptionsType = {
+  signal: AbortSignal;
+};
+
+type getEntityDataOptionsType = fetcherOptionsType & {
+  hasFeedback?: boolean;
+};
+
 // Command (Implementation)
 const registerNewRequest = async (
   entityType: string,
   entityId: string,
   value: string | null,
-  options: { signal: AbortSignal },
+  options: fetcherOptionsType,
   customUrl?: string,
 ) => {
   try {
+    const { signal } = options;
     const coreIP = getCoreIP();
     const result = value
       ? ((await fetchUrl(
-        `${customUrl || coreIP}/command/${entityType}/${entityId}`,
-        {
-          method: "PUT",
-          body: {value},
-          signal: options.signal
-        },
-      )) as commandResultType)
+          `${customUrl || coreIP}/command/${entityType}/${entityId}`,
+          {
+            method: "PUT",
+            body: { value },
+            signal,
+          },
+        )) as commandResultType)
       : ((await fetchUrl(
-        `${customUrl || coreIP}/command/${entityType}/${entityId}`, {signal: options.signal}
-      )) as commandResultType);
+          `${customUrl || coreIP}/command/${entityType}/${entityId}`,
+          { signal },
+        )) as commandResultType);
 
     return result.actionPublicId;
   } catch (e) {
@@ -51,7 +61,7 @@ const registerNewRequest = async (
 export const registerNewGetRequest = (
   entityType: string,
   entityId: string,
-  options: { signal: AbortSignal },
+  options: fetcherOptionsType,
   customUrl?: string,
 ) => {
   return registerNewRequest(entityType, entityId, null, options, customUrl);
@@ -62,7 +72,7 @@ export const registerNewSetRequest = (
   entityType: string,
   entityId: string,
   value: string,
-  options: { signal: AbortSignal },
+  options: fetcherOptionsType,
   customUrl?: string,
 ) => {
   return registerNewRequest(entityType, entityId, value, options, customUrl);
@@ -71,9 +81,7 @@ export const registerNewSetRequest = (
 // Query
 export const getRequestedData = async (
   requestId: string,
-  options: {
-    signal?: AbortSignal | null;
-  } = {},
+  options: fetcherOptionsType,
   customUrl?: string,
 ) => {
   try {
@@ -93,41 +101,47 @@ export const getEntityData = async (
   entityType: string,
   entityId: string,
   value: string | null,
-  options: {
-    hasFeedback?: boolean | null;
-    abortSignal?: AbortSignal | null;
-  },
+  options: getEntityDataOptionsType,
   customUrl?: string,
 ) => {
-  const {hasFeedback = true, abortSignal = null} = options;
+  const { hasFeedback = true, signal } = options;
 
   try {
     // Register new Get/Set Command
     const reqId = value
-      ? await registerNewSetRequest(entityType, entityId, value, options, customUrl)
-      : await registerNewGetRequest(entityType, entityId, options, customUrl);
+      ? await registerNewSetRequest(
+          entityType,
+          entityId,
+          value,
+          { signal },
+          customUrl,
+        )
+      : await registerNewGetRequest(
+          entityType,
+          entityId,
+          { signal },
+          customUrl,
+        );
 
     if (hasFeedback) {
       // Read Data from Query
       const getActualData = async (maxTry = 50) => {
         const result = (await getRequestedData(
           reqId,
-          { signal: abortSignal },
+          { signal },
           customUrl,
         )) as queryResultType;
 
+        // Do query again if result is null
         if (!result.value) {
-          // return getActualData();
           return await new Promise((resolve, reject) => {
             setTimeout(() => {
-              // console.log(new Date().getTime());
               if (maxTry < 0) {
-                reject({code: 401, message: "Couldn't read from device"});
+                reject({ code: 401, message: "Couldn't read from device" });
               } else {
                 resolve(getActualData(maxTry - 1));
               }
-              // resolve(getActualData(maxTry - 1));
-            }, 100);
+            }, 150);
           });
         }
 
@@ -145,22 +159,21 @@ export const getEntityData = async (
 
 export const getDeviceData = (
   devicePId: string,
-  options = {},
+  options: fetcherOptionsType,
   customUrl?: string,
-) => getEntityData("device", devicePId, null, options, customUrl);
+): Promise<queryResultType> =>
+  getEntityData("device", devicePId, null, options, customUrl);
 
 export const getRegisterData = (
   registerPId: string,
-  options = {},
+  options: fetcherOptionsType,
   customUrl?: string,
 ) => getEntityData("port", registerPId, null, options, customUrl);
 
 export const setRegisterData = (
   registerPId: string,
   value: string,
-  options: {
-    hasFeedback: boolean;
-  } = {hasFeedback: true},
+  options: getEntityDataOptionsType,
   customUrl?: string,
 ) => getEntityData("port", registerPId, value, options, customUrl);
 

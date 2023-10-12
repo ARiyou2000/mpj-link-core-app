@@ -1,15 +1,17 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
-import {useParams, useRouter, useSearchParams} from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
   getDeviceRegisters,
   getDevices,
   getZoneDeviceRegisters,
+  getZoneDevices,
 } from "@/utils/getStaticData";
-import {getDeviceData} from "@/utils/queueHelper";
-import {useToast} from "@/components/ui/use-toast";
+import { getDeviceData } from "@/utils/queueHelper";
+import { useToast } from "@/components/ui/use-toast";
 import Register from "@/classes/registers/register";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 export const getRegistersValueFormString = (str: string) => {
   return str.match(/.{1,2}/g) ?? [];
@@ -23,52 +25,80 @@ type optionsType = {
 };
 
 const useDeviceData = (
-  options: optionsType = {hasFeedback: true, assignmentCallback: null},
+  options: optionsType = { hasFeedback: true, assignmentCallback: null },
 ) => {
-  const {hasFeedback = true, assignmentCallback = null} = options;
+  const { hasFeedback = true, assignmentCallback = null } = options;
 
   const router = useRouter();
   const urlParams = useParams();
-  const {toast} = useToast();
+  const { toast } = useToast();
 
-  const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] = useState(
-    [],
-  );
-  const [deviceInfo, setDeviceInfo] = useState("");
+  const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] =
+    useState<Register[]>();
+  const [deviceInfo, setDeviceInfo] = useState<{
+    name: string;
+    description: string;
+  }>();
 
   // Check if there is query params not. if there is use get getZoneDeviceRegisters instead of getDeviceRegisters
   const searchParams = useSearchParams();
   const zonePublicId = searchParams?.get("zpid");
 
+  const pushBackOnError = (message?: string) => {
+    toast({
+      variant: "destructive",
+      title: message || "اطلاعات از دستگاه خوانده نشد",
+    });
+    setTimeout(() => {
+      // router.back();
+      router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
+    }, 1500);
+  };
+
+  // // // // // // // // // // // Replace manual fetching data from methods with passing the methods to useStatic Data Hook
+  // // Device Public ID
+  // const devicePId = urlParams?.devicePublicId as string;
+  // // Device registers list and info form local storage
+  // const deviceRegistersFromStorage = !!zonePublicId
+  //   ? useStaticData((signal) =>
+  //       getZoneDeviceRegisters(zonePublicId, devicePId, { signal }),
+  //     )
+  //   : useStaticData((signal) => getDeviceRegisters(devicePId, { signal }));
+
   const isPagePresent = useRef(true);
   const isThereFetchDataError = useRef(false);
 
   useEffect(() => {
-    isPagePresent.current = true
-    const controller = new AbortController();
-    const {signal} = controller;
+    isPagePresent.current = true;
 
-    let recallTimeoutId = 0;
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    let recallTimeoutId: ReturnType<typeof setTimeout>;
     const getData = async (maxTry = 10) => {
-      isPagePresent.current = true
+      // Reset to initial state on retying
+      // --> This must not reset so method timeout won't be call method again -- isPagePresent.current = true;
       isThereFetchDataError.current = false;
       clearTimeout(recallTimeoutId);
+
       try {
         // Device Public ID
-        const devicePId = urlParams?.devicePublicId;
+        const devicePId = urlParams?.devicePublicId as string;
 
         // -------------------- Device and Its Registers Info --------------------
 
-        // ################# Make it read form the zone device list if possible instead of all devices
-
         // All Device list and info form local storage
-        const deviceListFromStorage = getDevices();
+        // Make it read form the zone device list instead of all devices if zone is present (For better performance)
+        const deviceListFromStorage = !!zonePublicId
+          ? await getZoneDevices(zonePublicId, { signal })
+          : await getDevices({ signal });
+
         // Find device form list by device public ID
         const deviceObjFromStorage = deviceListFromStorage?.find(
-          (deviceInfo) => {
+          (deviceInfo: DeviceInfo) => {
             return deviceInfo.publicId === devicePId;
           },
-        );
+        ) as DeviceInfo;
 
         setDeviceInfo({
           name: deviceObjFromStorage.name,
@@ -79,20 +109,24 @@ const useDeviceData = (
         try {
           // Device registers list and info form local storage
           const deviceRegistersFromStorage = !!zonePublicId
-            ? await getZoneDeviceRegisters(zonePublicId, devicePId, {signal})
-            : await getDeviceRegisters(devicePId, {signal});
+            ? await getZoneDeviceRegisters(zonePublicId, devicePId, { signal })
+            : await getDeviceRegisters(devicePId, { signal });
 
-          try {
-            // Get device data only if it has feedback
-            if (hasFeedback) {
+          // Get device data only if it has feedback
+          if (hasFeedback) {
+            try {
               // Device registers current value form server
               const deviceRegistersValue = await getDeviceData(devicePId, {
-                abortSignal: signal,
-                shouldContinueQuery: true,
+                signal,
               });
 
               // Get registers value from string
               const registersStringValue = deviceRegistersValue.value;
+
+              if (!registersStringValue) {
+                throw new Error("Registers value is null");
+              }
+
               const registersValueArray =
                 getRegistersValueFormString(registersStringValue);
 
@@ -108,29 +142,31 @@ const useDeviceData = (
                   register.value = registersValueArray[register.number - 1];
                 }
               });
-            }
 
-            // This must place here to prevent showing registers list to user on error getting data from server
-            setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
-          } catch (e) {
-            // If Request get aborted this catcher will run
-            if (e.code && e.code === 401) {
-              toast({
-                variant: "destructive",
-                title: "اطلاعات از دستگاه خوانده نشد",
-              });
-              setTimeout(() => {
-                router.back();
-              }, 1500);
+              // This must place here to prevent showing registers list to user on error getting data from server
+              setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
+            } catch (e: {
+              code?: number;
+              message: string;
+            }) {
+              isThereFetchDataError.current = true;
+
+              // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
+              // This will happen on 50 null constitutive null query result
+              if (e.code && e.code === 401) {
+                pushBackOnError();
+                console.error("User Aborted Request:", e.message);
+              }
+              console.group("Error getting device data: ");
+              console.info(
+                "This error could happen on user abort request on leaving page",
+              );
+              console.error(e);
+              console.groupEnd();
             }
-            console.group("Error getting device data: ");
-            console.info(
-              "This error could happen on user abort request on leaving page",
-            );
-            console.error(e);
-            console.groupEnd();
           }
         } catch (e) {
+          isThereFetchDataError.current = true;
           console.error(
             "Error getting device registers by device publicID form localstorage: ",
             e,
@@ -143,23 +179,19 @@ const useDeviceData = (
 
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
-          console.log("with no error")
+          console.log("with no error");
           recallTimeoutId = setTimeout(getData, 100);
         } else {
-          console.log("-----> with error", maxTry)
+          console.log("-----> with error", maxTry);
           recallTimeoutId = setTimeout(() => {
             getData(maxTry - 1);
           }, 500);
         }
 
         if (maxTry < 0) {
-          toast({
-            variant: "destructive",
-            title: "اطلاعات از دستگاه خوانده نشد",
-          });
-          setTimeout(() => {
-            router.back();
-          }, 1500);
+          isPagePresent.current = false;
+          isThereFetchDataError.current = true;
+          pushBackOnError("ارتباط با دستگاه با مشکل مواجه شد");
         }
       }
     };
