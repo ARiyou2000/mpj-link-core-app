@@ -21,6 +21,8 @@ const SwitchCard = ({
   // const { onSwitchChange, loading } = useSwitchUpdate(publicId);
   const onSwitchChange = useContext(ZigbeeSwitchUpdateContext);
 
+  const loading = false;
+
   return (
     <>
       <Card.Gradiant
@@ -42,7 +44,9 @@ const SwitchCard = ({
           className={`flex items-center justify-center h-full p-0 m-0`}>
           <Switch
             checked={checked}
-            onCheckedChange={onSwitchChange}
+            onCheckedChange={(checked) => {
+              onSwitchChange(publicId, checked);
+            }}
             disabled={loading}
             loading={loading}
           />

@@ -1,7 +1,9 @@
 import {Server} from "socket.io";
-import onSocketConnection from "@/utils/onSocketConnection";
+import onSocketConnection from "@/helpers/onSocketConnection";
+import connectionConfig from "@/connection.config";
 
 export default function handler(req, res) {
+    // console.log("res.socket", res.socket.server.io)
     if (res.socket.server.io) {
         console.log("Server already started!");
 
@@ -10,16 +12,13 @@ export default function handler(req, res) {
     }
 
     const io = new Server(res.socket.server, {
-        path: "/api/my_awesome_socket",
+        path: connectionConfig.socket.key,
     });
     res.socket.server.io = io;
 
-    const onConnection = (socket) => {
-        console.log("New connection", socket.id);
-        onSocketConnection(io, socket);
-    };
-
-    io.on("connection", onConnection);
+    io.on("connection", (socket) => {
+        onSocketConnection(io, socket)
+    });
 
     console.log("Socket server started successfully!");
     res.end();

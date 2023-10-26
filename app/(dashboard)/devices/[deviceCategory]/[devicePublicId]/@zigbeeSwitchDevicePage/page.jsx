@@ -2,52 +2,63 @@
 
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 
-import useSocket from "@/hooks/useSocket";
-import {ZigbeeSwitchUpdateContext} from "@/contexts/updateProviders";
-import Register from "@/classes/registers/register";
+import { ZigbeeSwitchUpdateContext } from "@/contexts/updateProviders";
 import Switch from "@/components/devicePagesBody/ZigbeeSwitch";
-import {useState} from "react";
+import { useEffect, useState } from "react";
+import useZigbeeDeviceData from "@/hooks/useZigbeeDeviceData";
+import { useParams } from "next/navigation";
 
 const ZigbeeSwitchDevicePage = () => {
-  const deviceId = "0xa4c1381c25a1daf0";
-  const [data, publishHandler] = useSocket();
+  const urlParams = useParams();
+  const deviceId = urlParams?.devicePublicId;
+
+  const data = useZigbeeDeviceData(deviceId);
   const [registersList, setRegistersList] = useState([]);
 
-  if (data?.topic === deviceId) {
-    // setDeviceRegisterData
-    delete data.payload.linkquality;
+  console.log("data in page: ", data);
 
-    const registers = [
-      {
-        publicId: "status_left",
-        name: "پذیرایی اصلی",
-        description: "نورهای لوستر و دیواری",
-        value: data.payload["status_left"],
-      },
-      {
-        publicId: "status_center",
-        name: "نور مخفی",
-        description: "روشنایی‌های مخفی زیر کناف",
-        value: data.payload["status_center"],
-      },
-      {
-        publicId: "status_right",
-        name: "سناریو پذیرایی",
-        description: "فعال سازی خودکار و هوشمند روشنایی",
-        value: data.payload["status_right"],
-      },
-    ];
+  useEffect(() => {
+    if (data) {
+      // if (data === deviceId) {
+      //   // setDeviceRegisterData
+      //   delete data.payload.linkquality;
 
-    setRegistersList(registers);
-  }
+      const registersData = JSON.parse(data);
+      const registers = [
+        {
+          publicId: "state_left",
+          name: "پذیرایی اصلی",
+          description: "نورهای لوستر و دیواری",
+          value: registersData["state_left"],
+        },
+        {
+          publicId: "state_center",
+          name: "نور مخفی",
+          description: "روشنایی‌های مخفی زیر کناف",
+          value: registersData["state_center"],
+        },
+        {
+          publicId: "state_right",
+          name: "سناریو پذیرایی",
+          description: "فعال سازی خودکار و هوشمند روشنایی",
+          value: registersData["state_right"],
+        },
+      ];
 
-  const handelUpdate = (publicId, checked) => {
-    publishHandler(
-      JSON.stringify({
-        topic: deviceId,
-        message: {[publicId]: checked ? "ON" : "OFF"},
-      }),
-    );
+      setRegistersList(registers);
+    }
+  }, [data]);
+
+  const handelUpdate = async (publicId, checked) => {
+    try {
+      await fetch("/api/zigbee/device", {
+        method: "POST",
+        body: JSON.stringify({
+          deviceId: deviceId,
+          message: JSON.stringify({ [publicId]: checked ? "ON" : "OFF" }),
+        }),
+      });
+    } catch (e) {}
   };
 
   return (
@@ -58,7 +69,7 @@ const ZigbeeSwitchDevicePage = () => {
         hasPowerButton={false}
       />
       <ZigbeeSwitchUpdateContext.Provider value={handelUpdate}>
-        <Switch className={"flex-1 h-0 w-full"} registersList={registersList}/>
+        <Switch className={"flex-1 h-0 w-full"} registersList={registersList} />
       </ZigbeeSwitchUpdateContext.Provider>
     </>
   );
