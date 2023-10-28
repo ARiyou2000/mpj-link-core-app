@@ -118,8 +118,8 @@ const useDeviceData = (options: optionsType = {}) => {
             : await getDeviceRegisters(devicePId, { signal });
 
           // Get device data only if it has feedback
-          if (hasFeedback) {
-            if (deviceType === "modbus") {
+          if (deviceType === "modbus") {
+            if (hasFeedback) {
               try {
                 // Device registers current value form server
                 const deviceRegistersValue = await getDeviceData(devicePId, {
@@ -172,20 +172,27 @@ const useDeviceData = (options: optionsType = {}) => {
               }
             } else {
               // If device doesn't have feedback set registers info
-              // setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
+              setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
             }
           } else if (deviceType === "zigbee") {
-            deviceRegistersFromStorage.forEach((register, index) => {
-              if (assignmentCallback) {
+            try {
+              if (!!zigbeeData) {
                 const dataObject = JSON.parse(zigbeeData.toString());
-                register.value = assignmentCallback(register, dataObject);
+                deviceRegistersFromStorage.forEach((register, index) => {
+                  if (assignmentCallback && dataObject) {
+                    register.value = assignmentCallback(register, dataObject);
+                  }
+                });
+                setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
               }
-            });
+            } catch (e) {
+              console.error("Error parsing mqtt data: ", zigbeeData, e);
+            }
           }
         } catch (e) {
           isThereFetchDataError.current = true;
           console.error(
-            "Error getting device registers by device publicID form localstorage: ",
+            "Error getting device registers by device publicID from localstorage: ",
             e,
           );
         }

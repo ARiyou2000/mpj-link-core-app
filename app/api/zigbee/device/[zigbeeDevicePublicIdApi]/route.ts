@@ -17,7 +17,7 @@ export const POST = async (
     });
   }
 
-  return new NextResponse(JSON.stringify({ goodbye: "earth" }));
+  return new NextResponse(JSON.stringify({}));
 };
 
 export const GET = async (
@@ -33,5 +33,5 @@ export const GET = async (
     });
   }
 
-  return new NextResponse(JSON.stringify({ goodbye: "earth" }));
+  return new NextResponse(JSON.stringify({}));
 };

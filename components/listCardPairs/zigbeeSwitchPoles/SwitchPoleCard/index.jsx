@@ -8,12 +8,13 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { useContext } from "react";
-import { ZigbeeSwitchUpdateContext } from "../../../../contexts/updateProviders";
+import { ZigbeeSwitchUpdateContext } from "@/contexts/updateProviders";
 
 const SwitchCard = ({
   name,
   description,
   publicId,
+  number,
   checked = false,
   className,
   ...props
@@ -45,7 +46,7 @@ const SwitchCard = ({
           <Switch
             checked={checked}
             onCheckedChange={(checked) => {
-              onSwitchChange(publicId, checked);
+              onSwitchChange(number, checked);
             }}
             disabled={loading}
             loading={loading}

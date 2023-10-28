@@ -27,14 +27,14 @@ export enum DevicesType {
   touch_panel_10inch,
   ir_hood,
   modbus_electrical_shaders,
-  reserved_15,
+  zigbee_switch_3p,
   reserved_16,
   reserved_17,
-  zigbee_switch_1p,
-  zigbee_switch_2p,
-  zigbee_switch_3p,
-  zigbee_switch_4p,
-  zigbee_switch_6p,
+  reserved_18,
+  reserved_19,
+  reserved_20,
+  reserved_21,
+  reserved_22,
   reserved_23,
   reserved_24,
   reserved_25,
@@ -112,11 +112,11 @@ class DeviceInfo {
         this.category = deviceTypeList.modbus_electrical_shaders;
         this.icon = Shaders;
         break;
-      case DevicesType.zigbee_switch_1p:
-      case DevicesType.zigbee_switch_2p:
+      // case DevicesType.zigbee_switch_1p:
+      // case DevicesType.zigbee_switch_2p:
       case DevicesType.zigbee_switch_3p:
-      case DevicesType.zigbee_switch_4p:
-      case DevicesType.zigbee_switch_6p:
+        // case DevicesType.zigbee_switch_4p:
+        // case DevicesType.zigbee_switch_6p:
         this.category = deviceTypeList.zigbee_switch;
         this.icon = Switches;
         break;

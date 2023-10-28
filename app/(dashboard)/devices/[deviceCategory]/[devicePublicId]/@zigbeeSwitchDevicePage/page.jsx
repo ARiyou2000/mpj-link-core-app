@@ -14,7 +14,7 @@ const ZigbeeSwitchDevicePage = () => {
   const [deviceInfo, registersList] = useDeviceData({
     deviceType: "zigbee",
     assignmentCallback: (register, deviceState) => {
-      return deviceState[register.publicId];
+      return deviceState[register.number];
     },
   });
 
@@ -25,8 +25,8 @@ const ZigbeeSwitchDevicePage = () => {
   return (
     <>
       <DeviceHeader
-        name={deviceInfo.name}
-        description={deviceInfo.description}
+        name={deviceInfo?.name}
+        description={deviceInfo?.description}
         hasPowerButton={false}
       />
       <ZigbeeSwitchUpdateContext.Provider value={handelUpdate}>
