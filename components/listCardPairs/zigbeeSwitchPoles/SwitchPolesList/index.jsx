@@ -14,9 +14,6 @@ const SwitchPolesList = ({ list = [], className, ...props }) => {
           {...props}>
           {list?.length > 0 ? (
             list?.map((switchPoleData, index) => {
-              console.log(
-                `Switch value - ${switchPoleData.publicId}: ${switchPoleData.value}`,
-              );
               return (
                 <SwitchCard
                   key={`switchPole_${index}_${switchPoleData.publicId}`}

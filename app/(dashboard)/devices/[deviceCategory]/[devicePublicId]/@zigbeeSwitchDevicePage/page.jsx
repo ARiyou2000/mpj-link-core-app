@@ -7,6 +7,7 @@ import Switch from "@/components/devicePagesBody/ZigbeeSwitch";
 import { useEffect, useState } from "react";
 import useZigbeeDeviceData from "@/hooks/useZigbeeDeviceData";
 import { useParams } from "next/navigation";
+import setStatus from "@/utils/zigbee/setStatus";
 
 const ZigbeeSwitchDevicePage = () => {
   const urlParams = useParams();
@@ -50,15 +51,7 @@ const ZigbeeSwitchDevicePage = () => {
   }, [data]);
 
   const handelUpdate = async (publicId, checked) => {
-    try {
-      await fetch("/api/zigbee/device", {
-        method: "POST",
-        body: JSON.stringify({
-          deviceId: deviceId,
-          message: JSON.stringify({ [publicId]: checked ? "ON" : "OFF" }),
-        }),
-      });
-    } catch (e) {}
+    await setStatus(deviceId, publicId, checked ? "ON" : "OFF");
   };
 
   return (
