@@ -31,7 +31,7 @@ interface SocketData {
   age: number;
 }
 
-const useMqttData = () => {
+const useMqttData = (isActive: boolean) => {
   const [mqttTopic, setMqttTopic] = useState<topicType>("");
   const [mqttMessage, setMqttMessage] = useState<messageType>("");
   const socket: MutableRefObject<null | Socket<
@@ -68,9 +68,11 @@ const useMqttData = () => {
 
   useEffect(() => {
     if (!socket.current) {
-      console.log("init socket");
-      console.log("Socket current value: ", socket.current);
-      socketInitializer();
+      if (isActive) {
+        console.log("init socket");
+        console.log("Socket current value: ", socket.current);
+        socketInitializer();
+      }
     }
 
     return () => {

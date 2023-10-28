@@ -12,6 +12,7 @@ import { getDeviceData } from "@/utils/queueHelper";
 import { useToast } from "@/components/ui/use-toast";
 import Register from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
+import useZigbeeDeviceData from "@/hooks/useZigbeeDeviceData";
 
 export const getRegistersValueFormString = (str: string) => {
   return str.match(/.{1,2}/g) ?? [];
@@ -21,16 +22,19 @@ type optionsType = {
   hasFeedback?: boolean;
   assignmentCallback?:
     | ((register: Register, registersValueArray: string[]) => string)
+    | ((register: Register, deviceState: Object) => string)
     | null;
+  deviceType?: "modbus" | "zigbee";
 };
 
-const useDeviceData = (
-  options: optionsType = { hasFeedback: true, assignmentCallback: null },
-) => {
-  const { hasFeedback = true, assignmentCallback = null } = options;
+const useDeviceData = (options: optionsType = {}) => {
+  const {
+    hasFeedback = true,
+    assignmentCallback = null,
+    deviceType = "modbus",
+  } = options;
 
   const router = useRouter();
-  const urlParams = useParams();
   const { toast } = useToast();
 
   const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] =
@@ -44,6 +48,10 @@ const useDeviceData = (
   const searchParams = useSearchParams();
   const zonePublicId = searchParams?.get("zpid");
 
+  // Device Public ID
+  const urlParams = useParams();
+  const devicePId = urlParams?.devicePublicId as string;
+
   const pushBackOnError = (message?: string) => {
     toast({
       variant: "destructive",
@@ -56,8 +64,6 @@ const useDeviceData = (
   };
 
   // // // // // // // // // // // Replace manual fetching data from methods with passing the methods to useStatic Data Hook
-  // // Device Public ID
-  // const devicePId = urlParams?.devicePublicId as string;
   // // Device registers list and info form local storage
   // const deviceRegistersFromStorage = !!zonePublicId
   //   ? useStaticData((signal) =>
@@ -67,6 +73,8 @@ const useDeviceData = (
 
   const isPagePresent = useRef(true);
   const isThereFetchDataError = useRef(false);
+
+  const zigbeeData = useZigbeeDeviceData(devicePId, deviceType === "zigbee");
 
   useEffect(() => {
     isPagePresent.current = true;
@@ -82,9 +90,6 @@ const useDeviceData = (
       clearTimeout(recallTimeoutId);
 
       try {
-        // Device Public ID
-        const devicePId = urlParams?.devicePublicId as string;
-
         // -------------------- Device and Its Registers Info --------------------
 
         // All Device list and info form local storage
@@ -114,56 +119,68 @@ const useDeviceData = (
 
           // Get device data only if it has feedback
           if (hasFeedback) {
-            try {
-              // Device registers current value form server
-              const deviceRegistersValue = await getDeviceData(devicePId, {
-                signal,
-              });
+            if (deviceType === "modbus") {
+              try {
+                // Device registers current value form server
+                const deviceRegistersValue = await getDeviceData(devicePId, {
+                  signal,
+                });
 
-              // Get registers value from string
-              const registersStringValue = deviceRegistersValue.value;
+                // Get registers value from string
+                const registersStringValue = deviceRegistersValue.value;
 
-              if (!registersStringValue) {
-                throw new Error("Registers value is null");
-              }
-
-              const registersValueArray =
-                getRegistersValueFormString(registersStringValue);
-
-              // Assign each value to its register object
-              deviceRegistersFromStorage.forEach((register, index) => {
-                if (assignmentCallback) {
-                  register.value = assignmentCallback(
-                    register,
-                    registersValueArray,
-                  );
-                } else {
-                  // Register number represent its value index in value string array
-                  register.value = registersValueArray[register.number - 1];
+                if (!registersStringValue) {
+                  throw new Error("Registers value is null");
                 }
-              });
 
-              // This must place here to prevent showing registers list to user on error getting data from server
-              setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
-            } catch (e: {
-              code?: number;
-              message: string;
-            }) {
-              isThereFetchDataError.current = true;
+                const registersValueArray =
+                  getRegistersValueFormString(registersStringValue);
 
-              // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
-              // This will happen on 50 null constitutive null query result
-              if (e.code && e.code === 401) {
-                pushBackOnError();
-                console.error("User Aborted Request:", e.message);
+                // Assign each value to its register object
+                deviceRegistersFromStorage.forEach((register, index) => {
+                  if (assignmentCallback) {
+                    register.value = assignmentCallback(
+                      register,
+                      registersValueArray,
+                    );
+                  } else {
+                    // Register number represent its value index in value string array
+                    register.value = registersValueArray[register.number - 1];
+                  }
+                });
+
+                // This must place here to prevent showing registers list to user on error getting data from server
+                setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
+              } catch (e: {
+                code?: number;
+                message: string;
+              }) {
+                isThereFetchDataError.current = true;
+
+                // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
+                // This will happen on 50 null constitutive null query result
+                if (e.code && e.code === 401) {
+                  pushBackOnError();
+                  console.error("User Aborted Request:", e.message);
+                }
+                console.group("Error getting device data: ");
+                console.info(
+                  "This error could happen on user abort request on leaving page",
+                );
+                console.error(e);
+                console.groupEnd();
               }
-              console.group("Error getting device data: ");
-              console.info(
-                "This error could happen on user abort request on leaving page",
-              );
-              console.error(e);
-              console.groupEnd();
+            } else {
+              // If device doesn't have feedback set registers info
+              // setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
             }
+          } else if (deviceType === "zigbee") {
+            deviceRegistersFromStorage.forEach((register, index) => {
+              if (assignmentCallback) {
+                const dataObject = JSON.parse(zigbeeData.toString());
+                register.value = assignmentCallback(register, dataObject);
+              }
+            });
           }
         } catch (e) {
           isThereFetchDataError.current = true;
@@ -205,7 +222,7 @@ const useDeviceData = (
       clearTimeout(recallTimeoutId);
       controller.abort();
     };
-  }, []);
+  }, [zigbeeData]);
 
   return [deviceInfo, deviceRegistersInfoAndData];
 };
