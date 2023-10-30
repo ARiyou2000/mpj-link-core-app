@@ -4,7 +4,7 @@ import UnlockSlider from "@/components/UnlockSlider";
 import { loginWithCode } from "@/utils/login";
 import { MPJLink } from "@/components/icons";
 import PassCodeInput from "@/components/PassCodeInput";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LockPageFavoriteNavigation from "@/components/LockPageFavoriteNavigation";
 import { useRouter } from "next/navigation";
@@ -40,6 +40,19 @@ export default function Home() {
     }
   }, [status]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [size, setSize] = useState("100%");
+  const handleWindowSizeChange = (event: Event) => {
+    setSize(window.visualViewport.height);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
   const onSubmitPasscode = async (passcode: string) => {
     setStatus("loading");
     try {
@@ -52,14 +65,22 @@ export default function Home() {
   };
 
   return (
-    <div className={"h-full flex flex-col justify-between items-center"}>
-      <MPJLink className={"h-[3.75rem] w-[10.75rem] mt-28 flex-none"} />
+    <div
+      className={
+        "flex flex-col items-center justify-between transition-all duration-300"
+      }
+      style={{
+        height: size || "100%",
+        maxHeight: size || "100%",
+      }}
+      ref={containerRef}>
+      <MPJLink className={`h-[3.75rem] w-[10.75rem] mt-28 flex-none`} />
 
       <div
-        className={
-          "flex-1 h-0 w-full flex flex-col justify-end items-center gap-16 p-4 overflow-auto"
-        }>
-        <ScrollArea className={`h-full w-full ${isSliderUnlocked && "hidden"}`}>
+        className={`${
+          isSliderUnlocked && "hidden"
+        } flex-1 h-0 w-full flex flex-col justify-end items-center gap-16 p-4 overflow-auto`}>
+        <ScrollArea className={`h-full w-full`}>
           {/*<NotificationsList list={[]} />*/}
         </ScrollArea>
 
@@ -84,7 +105,7 @@ export default function Home() {
       {isSliderUnlocked && (
         <PassCodeInput
           disabled={status === "loading"}
-          className={""}
+          className={``}
           text={text}
           status={status}
           onSubmit={onSubmitPasscode}
