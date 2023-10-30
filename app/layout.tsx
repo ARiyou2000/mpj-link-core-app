@@ -24,7 +24,7 @@ export default function RootLayout({
         <RegisterServiceWorker />
         <div
           className={
-            "max-w-[24.375rem] min-h-screen h-screen mx-auto mainBackgroundColor text-white"
+            "max-w-[24.375rem] h-full min-h-full mx-auto mainBackgroundColor text-white"
           }>
           {children}
         </div>
