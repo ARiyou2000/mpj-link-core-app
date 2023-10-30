@@ -47,9 +47,12 @@ export default function Home() {
     setSize(window.visualViewport.height);
   };
   useEffect(() => {
-    window.addEventListener("resize", handleWindowSizeChange);
+    window.visualViewport.addEventListener("resize", handleWindowSizeChange);
     return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
+      window.visualViewport.removeEventListener(
+        "resize",
+        handleWindowSizeChange,
+      );
     };
   }, []);
 
