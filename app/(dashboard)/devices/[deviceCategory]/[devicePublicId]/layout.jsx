@@ -1,5 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
-import { deviceTypeList } from "@/classes/devices/deviceInfo"; // export const metadata = {
+import { deviceTypeList } from "@/classes/devices/deviceInfo";
 
 // export const metadata = {
 //   title: "Device page - MPJ Link App",
@@ -7,7 +7,6 @@ import { deviceTypeList } from "@/classes/devices/deviceInfo"; // export const m
 // };
 
 export async function generateMetadata({ params, searchParams }, parent) {
-  // read route params
   const { deviceCategory } = params;
 
   return {
@@ -17,6 +16,7 @@ export async function generateMetadata({ params, searchParams }, parent) {
 }
 
 const DevicesLayout = ({
+  // children,
   ductSplitDevicePage,
   irSplitDevicePage,
   irHoodDevicePage,
@@ -27,9 +27,7 @@ const DevicesLayout = ({
   zigbeeSwitchDevicePage,
   electricalShadersDevicePage,
   notFoundDevicePage,
-  className,
   params,
-  ...props
 }) => {
   const getDevicePage = () => {
     switch (params.deviceCategory) {
@@ -58,7 +56,7 @@ const DevicesLayout = ({
   };
 
   return (
-    <div className={"h-full px-4 flex flex-col gap-5"} {...props}>
+    <div className={"h-full px-4 flex flex-col gap-5"}>
       {getDevicePage()}
       <Toaster />
     </div>
