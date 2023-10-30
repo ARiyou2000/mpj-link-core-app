@@ -155,7 +155,8 @@ const useDeviceData = (options: optionsType = {}) => {
                 code?: number;
                 message: string;
               }) {
-              // isThereFetchDataError.current = true;
+                // Do not set isThereFetchDataError to true. Because this error will usually happen on Aborted requests
+                // isThereFetchDataError.current = true;
 
                 // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
                 // This will happen on 50 null constitutive null query result
