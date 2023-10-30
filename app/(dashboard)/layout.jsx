@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import MainLayoutHeader from "@/components/MainLayoutHeader";
 import MainLayoutTabNavigation from "@/components/MainLayoutTabNavigation";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Dashboard - MPJ Link App",
@@ -17,6 +18,7 @@ const MainLayout = ({ children, className, ...props }) => {
         <div className={"flex-1 h-0 pt-3"}>{children}</div>
         <MainLayoutTabNavigation />
       </div>
+      <Toaster />
     </>
   );
 };

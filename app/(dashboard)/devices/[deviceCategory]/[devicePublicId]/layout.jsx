@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
 import { deviceTypeList } from "@/classes/devices/deviceInfo";
 
 // export const metadata = {
@@ -56,10 +55,7 @@ const DevicesLayout = ({
   };
 
   return (
-    <div className={"h-full px-4 flex flex-col gap-5"}>
-      {getDevicePage()}
-      <Toaster />
-    </div>
+    <div className={"h-full px-4 flex flex-col gap-5"}>{getDevicePage()}</div>
   );
 };
 
