@@ -52,7 +52,7 @@ export default function Home() {
   };
 
   return (
-    <div className={"h-full flex flex-col justify-between items-center gap-16"}>
+    <div className={"h-full flex flex-col justify-between items-center"}>
       <MPJLink className={"h-[3.75rem] w-[10.75rem] mt-28 flex-none"} />
 
       <div

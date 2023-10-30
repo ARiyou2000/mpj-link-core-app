@@ -8,7 +8,7 @@ const passLengthCheckedInitState = ["empty", "empty", "empty", "empty"];
 const statusTextInitState = "لطفا رمز ورود خود را وارد کنید";
 
 const PassCodeInput = ({
-  onSubmit = () => null,
+  onSubmit = async (passcode) => null,
   text = statusTextInitState,
   disabled = false,
   status: validationStatus = "initial",
@@ -61,7 +61,7 @@ const PassCodeInput = ({
       <div
         aria-disabled={disabled}
         className={cn(
-          "flex flex-col gap-8 items-center aria-disabled:cursor-not-allowed",
+          "flex flex-col gap-8 pb-8 items-center aria-disabled:cursor-not-allowed",
           className,
         )}
         dir={"ltr"}
@@ -94,36 +94,36 @@ const PassCodeInput = ({
         </div>
 
         <h4 className={"text-lg text-center will-change-contents"}>{text}</h4>
-
-        <Input
-          type={"number"}
-          disabled={disabled}
-          // min={0}
-          max={9999}
-          maxLength={4}
-          className={
-            "opacity-0 disabled:opacity-0 p-0 m-0 w-0 h-0 border-2 text-red"
-          }
-          autoFocus
-          value={pass}
-          onChange={(event) => {
-            setStatus("normal");
-            const newVal = event.target.value.trim();
-            const newValInt = parseInt(newVal);
-            if (
-              (newValInt >= 0 && newValInt <= 9999 && newVal.length <= 4) ||
-              newVal === "" ||
-              newVal === "00" ||
-              newVal === "000" ||
-              newVal === "0000"
-            ) {
-              // if new value has a falsy value (is Nan) replace with ""
-              setPass(newVal || "");
-            }
-          }}
-          ref={inputElRef}
-        />
       </div>
+
+      <Input
+        type={"number"}
+        disabled={disabled}
+        // min={0}
+        max={9999}
+        maxLength={4}
+        className={
+          "opacity-0 bg-transparent disabled:opacity-0 p-0 m-0 w-0 h-0 fixed top-0 left-0 ring-offset-transparent border-transparent border-none"
+        }
+        autoFocus
+        value={pass}
+        onChange={(event) => {
+          setStatus("normal");
+          const newVal = event.target.value.trim();
+          const newValInt = parseInt(newVal);
+          if (
+            (newValInt >= 0 && newValInt <= 9999 && newVal.length <= 4) ||
+            newVal === "" ||
+            newVal === "00" ||
+            newVal === "000" ||
+            newVal === "0000"
+          ) {
+            // if new value has a falsy value (is Nan) replace with ""
+            setPass(newVal || "");
+          }
+        }}
+        ref={inputElRef}
+      />
     </>
   );
 };
