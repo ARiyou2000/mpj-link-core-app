@@ -54,7 +54,9 @@ const fetchUrl = async (url: string, init: fetchInitType = {}) => {
       // attach JWT to headers Here
       const userAuth = window.localStorage.getItem(window.btoa("MPJUserT"));
 
-      params.headers.Authorization = userAuth;
+      if (userAuth) {
+        params.headers.Authorization = userAuth;
+      }
 
       // console.log(`Request params for ${url}: \n`, params);
 
@@ -74,10 +76,17 @@ const fetchUrl = async (url: string, init: fetchInitType = {}) => {
       } else {
         // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
         const errorMessage = JSON.stringify(result.message);
+        console.log(response);
         reject(errorMessage);
       }
       // Following statements will run if fetch result is rejected or fetch has thrown an Error for connection issues
     } catch (e) {
+      if (response && !response.ok) {
+        if (response.status == 401) {
+          window.localStorage.removeItem(window.btoa("MPJUserT"));
+        }
+      }
+      console.log(response);
       console.groupCollapsed(`fetchUrl error for ${url}: `);
       console.error("error : ", e);
       console.groupEnd();
