@@ -37,6 +37,9 @@ const useDeviceData = (options: optionsType = {}) => {
   const router = useRouter();
   const { toast } = useToast();
 
+  const controller = new AbortController();
+  const { signal } = controller;
+
   const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] =
     useState<Register[]>();
   const [deviceInfo, setDeviceInfo] = useState<{
@@ -53,6 +56,9 @@ const useDeviceData = (options: optionsType = {}) => {
   const devicePId = urlParams?.devicePublicId as string;
 
   const pushBackOnError = (message?: string) => {
+    // Prevent useless call after receiving error
+    controller.abort();
+
     toast({
       variant: "destructive",
       title: message || "اطلاعات از دستگاه خوانده نشد",
@@ -78,9 +84,6 @@ const useDeviceData = (options: optionsType = {}) => {
 
   useEffect(() => {
     isPagePresent.current = true;
-
-    const controller = new AbortController();
-    const { signal } = controller;
 
     let recallTimeoutId: ReturnType<typeof setTimeout>;
     const getData = async (maxTry = 10) => {
