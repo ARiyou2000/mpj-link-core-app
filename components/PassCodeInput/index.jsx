@@ -64,7 +64,6 @@ const PassCodeInput = ({
           "flex flex-col gap-8 pb-8 items-center aria-disabled:cursor-not-allowed",
           className,
         )}
-        dir={"ltr"}
         {...props}>
         <div
           className={
@@ -72,7 +71,8 @@ const PassCodeInput = ({
           }
           onClick={() => {
             inputElRef.current.focus();
-          }}>
+          }}
+          dir={"ltr"}>
           {Array(4)
             .fill(null)
             .map((_, index) => {
