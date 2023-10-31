@@ -4,7 +4,12 @@ import styles from "./UnlockSlider.module.css";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const UnlockSlider = ({ className, onUnlock = () => null, ...props }) => {
+const UnlockSlider = ({
+  className,
+  onUnlock = () => null,
+  shouldResetOnUnlock = true,
+  ...props
+}) => {
   // The higher, the smoother
   const sliderMaxValue = 1000;
   // The lower, the smoother
@@ -12,12 +17,8 @@ const UnlockSlider = ({ className, onUnlock = () => null, ...props }) => {
   // For instance when we need center value of 0 and mines value for left side
   const sliderMinValue = 0;
 
-  // const router = useRouter();
   const sliderCurrentValue = useRef(sliderMinValue);
   const [sliderValue, setSliderValue] = useState(sliderMinValue);
-  // const [reqPasswordStorage] = useLocalStorage(
-  //   "X2jzse6EECCG5448x5KFqFZ6vVQxST3wM54mU7RK",
-  // );
   const sliderValueChangeHandler = (e) => {
     sliderCurrentValue.current = e.target.value;
     setSliderValue(e.target.value);
@@ -34,12 +35,8 @@ const UnlockSlider = ({ className, onUnlock = () => null, ...props }) => {
       // Not unlocked -> set value back to sliderMinValue
       ResetCurrVal();
     } else {
-      // Unlocked -> next page
-      // console.log("Unlocked!!!");
       onUnlock();
-      // reqPasswordStorage !== "8pK426ytybYqqZ6YDjva8hJcagMVT7tQgVxrkHcN"
-      //   ? setShowCodeInput(true)
-      //   : router.push("/dashboard");
+      shouldResetOnUnlock && ResetCurrVal();
     }
   };
 
@@ -93,7 +90,6 @@ const UnlockSlider = ({ className, onUnlock = () => null, ...props }) => {
                   opacity:
                     (sliderMaxValue - sliderValue / (3 / 5)) / sliderMaxValue,
                 }}>
-                {/*<ArrowLeft className={"ltr:rotate-180 w-6 h-6"} />*/}
                 باز کردن
               </h1>
             </div>
