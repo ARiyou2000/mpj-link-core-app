@@ -1,12 +1,9 @@
-import { cn } from "@/lib/utils";
 import MainLayoutHeader from "@/components/MainLayoutHeader";
 
-const SystemSettingLayout = ({ children, className, ...props }) => {
+const PasswordManagementLayout = ({ children }) => {
   return (
     <>
-      <div
-        className={cn("h-full w-full flex flex-col justify-between", className)}
-        {...props}>
+      <div className={"h-full w-full flex flex-col justify-between"}>
         <MainLayoutHeader />
         <div className={"flex-1 h-0 pt-3"}>{children}</div>
       </div>
@@ -14,4 +11,4 @@ const SystemSettingLayout = ({ children, className, ...props }) => {
   );
 };
 
-export default SystemSettingLayout;
+export default PasswordManagementLayout;
