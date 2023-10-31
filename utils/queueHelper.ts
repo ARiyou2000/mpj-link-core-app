@@ -143,8 +143,8 @@ export const getEntityData = async (
           customUrl,
         )) as queryResultType;
 
-        // Do query again if result is null
-        if (!result.value) {
+        // Do query again if result is null, 0000, or NaN
+        if (!result.value || !Number(result.value)) {
           return await new Promise((resolve, reject) => {
             setTimeout(() => {
               if (maxTry < 0) {
