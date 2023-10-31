@@ -105,10 +105,11 @@ export const getEntityData = async (
   customUrl?: string,
 ) => {
   const { hasFeedback = true, signal } = options;
+  let reqId: string;
 
   try {
     // Register new Get/Set Command
-    const reqId = value
+    reqId = value
       ? await registerNewSetRequest(
           entityType,
           entityId,
@@ -122,8 +123,18 @@ export const getEntityData = async (
           { signal },
           customUrl,
         );
+  } catch (e) {
+    // This error could contain user abort request
+    console.log("Failed on command. (There is likely a connection error): ", e);
+    throw {
+      code: 561,
+      message: "Couldn't result for command on device",
+      originalErrorObject: e,
+    };
+  }
 
-    if (hasFeedback) {
+  if (hasFeedback) {
+    try {
       // Read Data from Query
       const getActualData = async (maxTry = 50) => {
         const result = (await getRequestedData(
@@ -137,23 +148,22 @@ export const getEntityData = async (
           return await new Promise((resolve, reject) => {
             setTimeout(() => {
               if (maxTry < 0) {
-                reject({ code: 401, message: "Couldn't read from device" });
+                reject({ code: 560, message: "Couldn't read from device" });
               } else {
                 resolve(getActualData(maxTry - 1));
               }
             }, 150);
           });
         }
-
         return result;
       };
 
       const res = await getActualData();
       return res;
+    } catch (e) {
+      console.error("failed to get query result: ", e);
+      throw e;
     }
-  } catch (e) {
-    // This error could contain user abort request
-    throw e;
   }
 };
 

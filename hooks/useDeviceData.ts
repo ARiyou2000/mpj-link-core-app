@@ -58,8 +58,8 @@ const useDeviceData = (options: optionsType = {}) => {
       title: message || "اطلاعات از دستگاه خوانده نشد",
     });
     setTimeout(() => {
-      // router.back();
-      router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
+      router.back();
+      // router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
     }, 1500);
   };
 
@@ -160,10 +160,14 @@ const useDeviceData = (options: optionsType = {}) => {
 
                 // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
                 // This will happen on 50 null constitutive null query result
-                if (e.code && e.code === 401) {
+                if (e.code && e.code === 560) {
                   pushBackOnError();
                   console.error("User Aborted Request:", e.message);
+                } else if (e.code && e.code === 561) {
+                  // in case request fails on command itself or there is network error
+                  throw e;
                 }
+
                 console.group("Error getting device data: ");
                 console.info(
                   "This error could happen on user abort request on leaving page",
