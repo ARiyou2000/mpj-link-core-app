@@ -9,7 +9,7 @@ const SwitchPolesList = ({ list = [], className, ...props }) => {
       <ScrollArea className={cn("w-full h-full", className)}>
         <div
           className={
-            "w-full flex flex-col items-center justify-center gap-6 pb-5"
+            "w-full h-full flex flex-col items-center justify-center gap-6 pb-5"
           }
           {...props}>
           {list?.length > 0 ? (

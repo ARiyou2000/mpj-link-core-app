@@ -31,7 +31,9 @@ const MusicPlayer = ({
   return (
     <>
       <ScrollArea className={className}>
-        <div className={"h-full flex flex-col gap-6 pb-5"} {...props}>
+        <div
+          className={"h-full flex flex-col justify-center gap-6 pb-5"}
+          {...props}>
           <div className={"p-5"}>
             <AspectRatio ratio={2} className={""}>
               <Image
