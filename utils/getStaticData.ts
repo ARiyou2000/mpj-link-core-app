@@ -27,18 +27,17 @@ const getStaticData = (
   dataUrl: string | null,
   options: getStaticDataOptionsType,
 ): resultsType => {
-  const { forceUpdate = false } = options;
-  const localJsonData = window.localStorage.getItem(dataTitle);
-  const localData = localJsonData && JSON.parse(localJsonData);
-  if (localData && !forceUpdate) {
-    // console.log(`Data found for ${dataTitle} from localstorage: `, localData);
-    return localData;
-  } else {
+  const { forceUpdate = false, signal } = options;
+
+  try {
+    const localJsonData = window.localStorage.getItem(dataTitle);
+    const localData = localJsonData && JSON.parse(localJsonData);
+
     const getData = async () => {
       try {
         const url = `${getCoreIP()}/${dataUrl || dataTitle}`;
 
-        const result = await fetchUrl(url, { signal: options.signal });
+        const result = await fetchUrl(url, { signal: signal });
         // console.log(
         //   `Result for '${dataTitle}' with URL of ${url} has been set to localstorage: `,
         //   result,
@@ -52,8 +51,17 @@ const getStaticData = (
         // throw e;
       }
     };
-    const data = getData();
-    return data;
+
+    if (localData && !forceUpdate) {
+      // console.log(`Data found for ${dataTitle} from localstorage: `, localData);
+      return localData;
+    } else {
+      const data = getData();
+      return data;
+    }
+  } catch (e) {
+    // This might happen when you parse wrong json data from local storage (There is data, but it is in wrong format)
+    console.error(e);
   }
 };
 
