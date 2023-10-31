@@ -4,52 +4,76 @@ import UnlockSlider from "@/components/UnlockSlider";
 import { loginWithCode } from "@/utils/login";
 import { MPJLink } from "@/components/icons";
 import PassCodeInput from "@/components/PassCodeInput";
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LockPageFavoriteNavigation from "@/components/LockPageFavoriteNavigation";
 import { useRouter } from "next/navigation";
 import { autoLogin } from "@/utils/login";
 import window from "@/utils/window";
 
-const statusTextInitState = "لطفا رمز ورود خود را وارد کنید";
+type loginStatusType =
+  | "initial"
+  | "normal"
+  | "loading"
+  | "error"
+  | "network_error"
+  | "success";
+const statusTextInitState = <>لطفا رمز ورود خود را وارد کنید</>;
 
 export default function Home() {
   const router = useRouter();
   const [isSliderUnlocked, setIsSliderUnlocked] = useState(false);
 
   // Passcode status & text control
-  const [text, setText] = useState(statusTextInitState);
-  const [status, setStatus] = useState("initial");
+  const [passCodeData, setPassCodeData] = useState<{
+    text: ReactElement | string;
+    status: loginStatusType;
+  }>({ text: statusTextInitState, status: "initial" });
 
+  const [loginStatus, setLoginStatus] = useState<loginStatusType>("initial");
   useEffect(() => {
-    switch (status) {
+    switch (loginStatus) {
       case "initial":
       case "normal":
-        setText(statusTextInitState);
+        setPassCodeData({ text: statusTextInitState, status: loginStatus });
         break;
       case "error":
-        setText("لطفا رمز ورود خود را مجددا وارد کنید");
+        setPassCodeData({
+          text: "لطفا رمز ورود خود را مجددا وارد کنید",
+          status: loginStatus,
+        });
+        break;
+      case "network_error":
+        setPassCodeData({
+          text:
+            // ( <>
+            "اتصال با کور برقرار نیست!",
+          // <br />
+          // لطفا پس از چند لحظه مجددا سعی کنید
+          // </> )
+          status: "error",
+        });
         break;
       case "loading":
-        setText("لطفا منتظر بمانید");
+        setPassCodeData({ text: "لطفا منتظر بمانید...", status: loginStatus });
         break;
       case "success":
         break;
       default:
-        setText(statusTextInitState);
+        setPassCodeData({ text: statusTextInitState, status: loginStatus });
     }
-  }, [status]);
+  }, [loginStatus]);
 
+  // Handle resize on keyboard open
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const [size, setSize] = useState("100%");
+  const [size, setSize] = useState<number | undefined>(undefined);
   const handleWindowSizeChange = (event: Event) => {
-    setSize(window.visualViewport.height);
+    setSize(window.visualViewport?.height);
   };
   useEffect(() => {
-    window.visualViewport.addEventListener("resize", handleWindowSizeChange);
+    window.visualViewport?.addEventListener("resize", handleWindowSizeChange);
     return () => {
-      window.visualViewport.removeEventListener(
+      window.visualViewport?.removeEventListener(
         "resize",
         handleWindowSizeChange,
       );
@@ -57,13 +81,18 @@ export default function Home() {
   }, []);
 
   const onSubmitPasscode = async (passcode: string) => {
-    setStatus("loading");
+    setLoginStatus("loading");
     try {
       await loginWithCode(passcode);
-      setStatus("success");
+      setLoginStatus("success");
       router.push("/home");
-    } catch (e) {
-      setStatus("error");
+    } catch (e: { code: number }) {
+      console.error(e);
+      if (e.code === 555) {
+        setLoginStatus("network_error");
+      } else {
+        setLoginStatus("error");
+      }
     }
   };
 
@@ -77,7 +106,12 @@ export default function Home() {
         maxHeight: size || "100%",
       }}
       ref={containerRef}>
-      <MPJLink className={`h-[3.75rem] w-[10.75rem] mt-28 flex-none`} />
+      <MPJLink
+        className={`h-[3.75rem] w-[10.75rem] mt-28 flex-none`}
+        onClick={() => {
+          setIsSliderUnlocked(false);
+        }}
+      />
 
       <div
         className={`${
@@ -89,6 +123,7 @@ export default function Home() {
 
         {/*<div className={`${!isSliderUnlocked && "hidden"}`} />*/}
 
+        {/*{!isSliderUnlocked && (*/}
         <UnlockSlider
           className={`flex-none ${isSliderUnlocked ? "hidden" : ""}`}
           onUnlock={async () => {
@@ -103,14 +138,15 @@ export default function Home() {
             }
           }}
         />
+        {/*)}*/}
       </div>
 
       {isSliderUnlocked && (
         <PassCodeInput
-          disabled={status === "loading"}
+          disabled={passCodeData.status === "loading"}
           className={``}
-          text={text}
-          status={status}
+          text={passCodeData.text}
+          status={passCodeData.status}
           onSubmit={onSubmitPasscode}
         />
       )}
