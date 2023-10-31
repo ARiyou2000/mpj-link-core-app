@@ -36,17 +36,19 @@ export const loginWithCode = async (passCode: string) => {
         resolve(result);
       } else {
         // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
-        const errorMessage = JSON.stringify(result.message);
-        reject(errorMessage);
+        const errorMessage = result && JSON.stringify(result.message);
+        reject({ code: response.status, message: errorMessage });
       }
       // Following statements will run if fetch result is rejected or fetch has thrown an Error for connection issues
     } catch (e) {
       console.groupCollapsed("fetchUrl error : ");
       console.error("error : ", e);
       console.groupEnd();
-      reject(
-        "A network error is encountered or there is syntax error in result",
-      );
+      reject({
+        code: 555,
+        message:
+          "A network error is encountered or there is syntax error in result",
+      });
     }
   });
 };
