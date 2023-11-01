@@ -3,7 +3,7 @@ import getCoreIP from "@/utils/getCoreIP";
 
 const config = {
   retryNullQueryInterval: 150,
-  maxTryForNullQuery: 50,
+  maxTryForNullQuery: 20,
 };
 
 interface getDataRequest {

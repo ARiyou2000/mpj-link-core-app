@@ -28,7 +28,7 @@ type optionsType = {
 };
 
 const config = {
-  intervalTimeOnCallWithoutError: 100,
+  intervalTimeOnCallWithoutError: 200,
   intervalTimeOnCallWithError: 500,
 };
 const useDeviceData = (options: optionsType = {}) => {
@@ -96,23 +96,18 @@ const useDeviceData = (options: optionsType = {}) => {
     };
 
     const getData = async (maxTry = 10) => {
-      console.log("!!!!!!!!!!!!!!!!!!!Call to get data!!!!!!!!!!!!!!!!!!!");
-
       console.time();
       // Reset to initial state on retying
       // --> This must not reset so method timeout won't be call method again -- isPagePresent.current = true;
       isThereFetchDataError.current = false;
       clearTimeout(recallTimeoutId);
 
-      console.log("signal before renew", signal.aborted);
       if (signal.aborted) {
+        // Controller must be placed in 'getData' function so that we renew controller on every call
         controller = new AbortController();
       }
       // signal = controller.signal;
-      console.log("signal after renew", signal.aborted);
 
-      // Controller must be placed in 'getData' function so that we renew controller on every call
-      // controller = new AbortController();
       try {
         // -------------------- Device and Its Registers Info --------------------
 
@@ -235,7 +230,6 @@ const useDeviceData = (options: optionsType = {}) => {
 
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
-          console.log("with no error");
           recallTimeoutId = setTimeout(
             getData,
             config.intervalTimeOnCallWithoutError,
