@@ -8,9 +8,7 @@ const connectionConfig = {
   mqtt: {
     mainTopic: "zigbee2mqtt",
     protocol: "tcp",
-    host: process.env.NEXT_PUBLIC_ABSOLUTE_URL
-      ? process.env.NEXT_PUBLIC_ABSOLUTE_URL
-      : "127.0.0.1",
+    host: process.env.NEXT_PUBLIC_ABSOLUTE_URL || "127.0.0.1",
     port: "1883",
     options: {
       // clientId: `clientId`,
