@@ -4,19 +4,25 @@ import { messageType } from "@/mqtt";
 import getStatus from "@/utils/zigbee/getStatus";
 
 const useZigbeeDeviceData = (devicePublicId: string, isActive: boolean) => {
-  const [topic, message] = useMqttData(isActive);
+  const [topic, message, isConnected] = useMqttData(isActive);
 
   useEffect(() => {
-    if (isActive) {
+    if (isActive && isConnected) {
       getStatus(devicePublicId);
     }
-  }, [devicePublicId]);
+  }, [devicePublicId, isConnected]);
 
   const [data, setData] = useState<messageType>("");
   useEffect(() => {
     // getStatus(devicePublicId);
 
-    if (!!topic && !!devicePublicId && topic === devicePublicId && isActive) {
+    if (
+      !!topic &&
+      !!devicePublicId &&
+      topic === devicePublicId &&
+      isActive &&
+      isConnected
+    ) {
       setData(message);
     }
   }, [topic, message]);

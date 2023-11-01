@@ -34,6 +34,7 @@ interface SocketData {
 const useMqttData = (isActive: boolean) => {
   const [mqttTopic, setMqttTopic] = useState<topicType>("");
   const [mqttMessage, setMqttMessage] = useState<messageType>("");
+  const [isConnected, setIsConnected] = useState(false);
   const socket: MutableRefObject<null | Socket<
     ServerToClientEvents,
     ClientToServerEvents
@@ -49,6 +50,7 @@ const useMqttData = (isActive: boolean) => {
 
     socket.current.on("connect", () => {
       console.log("Socket Connected", socket.current?.id);
+      setIsConnected(true);
     });
 
     socket.current.on(
@@ -63,6 +65,7 @@ const useMqttData = (isActive: boolean) => {
 
     socket.current?.on("disconnect", () => {
       console.log("! ! ! ! ! ! ! socket disconnected ! ! ! ! ! ! !");
+      setIsConnected(false);
     });
   }, []);
 
@@ -82,7 +85,7 @@ const useMqttData = (isActive: boolean) => {
     };
   }, []);
 
-  return [mqttTopic, mqttMessage];
+  return [mqttTopic, mqttMessage, isConnected];
 };
 
 export default useMqttData;
