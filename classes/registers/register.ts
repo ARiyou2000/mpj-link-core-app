@@ -1,18 +1,17 @@
 import ResponseModel from "@/classes/responseModel";
-import { number } from "prop-types";
 
 type valueType = number | boolean | string;
 
 class Register extends ResponseModel {
   private _value: valueType = "00";
   private _stringValue: string = "00";
-  private _number: number;
+  private _number: string;
 
   constructor(
     publicId: string,
     name: string,
     description: string,
-    number: number,
+    number: string,
     stringValue: string,
   ) {
     super(publicId, name, description);
@@ -20,7 +19,7 @@ class Register extends ResponseModel {
     this._stringValue = stringValue;
   }
 
-  get number(): number {
+  get number(): string {
     return this._number;
   }
 

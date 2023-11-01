@@ -33,20 +33,21 @@ const Thermostat = ({
   //   currentTempRegister,
   //   powerRegister,
   // ] = registersList;
+
   const seasonModeRegister = registersList?.find(
-    (register) => register.number === 1,
+    (register) => Number(register.number) === 1,
   );
   const fanSpeedRegister = registersList?.find(
-    (register) => register.number === 2,
+    (register) => Number(register.number) === 2,
   );
   const targetTempRegister = registersList?.find(
-    (register) => register.number === 4,
+    (register) => Number(register.number) === 4,
   );
   const currentTempRegister = registersList?.find(
-    (register) => register.number === 5,
+    (register) => Number(register.number) === 5,
   );
   const powerRegister = registersList?.find(
-    (register) => register.number === 7,
+    (register) => Number(register.number) === 7,
   );
 
   const power = powerRegister?.value === "02";

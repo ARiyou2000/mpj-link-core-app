@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 const handelGastroenterologistAssignment = (register, valueArray) => {
-  switch (register.number) {
+  switch (Number(register.number)) {
     case 1:
       return valueArray[0];
     case 2:
@@ -28,7 +28,7 @@ const ThermostatDevicePage = () => {
   const [info, data] = useDeviceData({
     assignmentCallback: handelGastroenterologistAssignment,
   });
-  const powerRegister = data?.find((register) => register.number === 7);
+  const powerRegister = data?.find((register) => Number(register.number) === 7);
   const { toast } = useToast();
 
   const handleRegistersUpdate = async (registerPublicId, value) => {

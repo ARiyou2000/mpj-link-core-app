@@ -22,7 +22,9 @@ const Relay = ({ registersList = [], className, ...props }) => {
   const outputs = [];
 
   registersList?.forEach((register) => {
-    register.number < 8 ? inputs.push(register) : outputs.push(register);
+    Number(register.number) < 8
+      ? inputs.push(register)
+      : outputs.push(register);
   });
 
   return (
