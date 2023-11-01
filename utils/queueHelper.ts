@@ -1,6 +1,11 @@
 import fetchUrl from "@/utils/fetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
 
+const config = {
+  retryNullQueryInterval: 150,
+  maxTryForNullQuery: 50,
+};
+
 interface getDataRequest {
   customUrl: string;
   entityType: string;
@@ -107,6 +112,7 @@ export const getEntityData = async (
   const { hasFeedback = true, signal } = options;
   let reqId: string;
 
+  // Command can omit the original signal. you can replace it with mockController signal
   try {
     // Register new Get/Set Command
     reqId = value
@@ -136,7 +142,7 @@ export const getEntityData = async (
   if (hasFeedback) {
     try {
       // Read Data from Query
-      const getActualData = async (maxTry = 50) => {
+      const getActualData = async (maxTry = config.maxTryForNullQuery) => {
         const result = (await getRequestedData(
           reqId,
           { signal },
@@ -146,13 +152,13 @@ export const getEntityData = async (
         // Do query again if result is null, 0000, or NaN
         if (!result.value || !Number(result.value)) {
           return await new Promise((resolve, reject) => {
-            setTimeout(() => {
-              if (maxTry < 0) {
-                reject({ code: 560, message: "Couldn't read from device" });
-              } else {
+            if (maxTry < 0) {
+              reject({ code: 560, message: "Couldn't read from device" });
+            } else {
+              setTimeout(() => {
                 resolve(getActualData(maxTry - 1));
-              }
-            }, 150);
+              }, config.retryNullQueryInterval);
+            }
           });
         }
         return result;
