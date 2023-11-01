@@ -27,6 +27,10 @@ type optionsType = {
   deviceType?: "modbus" | "zigbee";
 };
 
+const config = {
+  intervalTimeOnCallWithoutError: 100,
+  intervalTimeOnCallWithError: 500,
+};
 const useDeviceData = (options: optionsType = {}) => {
   const {
     hasFeedback = true,
@@ -36,9 +40,6 @@ const useDeviceData = (options: optionsType = {}) => {
 
   const router = useRouter();
   const { toast } = useToast();
-
-  const controller = new AbortController();
-  const { signal } = controller;
 
   const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] =
     useState<Register[]>();
@@ -54,20 +55,6 @@ const useDeviceData = (options: optionsType = {}) => {
   // Device Public ID
   const urlParams = useParams();
   const devicePId = urlParams?.devicePublicId as string;
-
-  const pushBackOnError = (message?: string) => {
-    // Prevent useless call after receiving error
-    controller.abort();
-
-    toast({
-      variant: "destructive",
-      title: message || "اطلاعات از دستگاه خوانده نشد",
-    });
-    setTimeout(() => {
-      router.back();
-      // router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
-    }, 1500);
-  };
 
   // // // // // // // // // // // Replace manual fetching data from methods with passing the methods to useStatic Data Hook
   // // Device registers list and info form local storage
@@ -86,12 +73,46 @@ const useDeviceData = (options: optionsType = {}) => {
     isPagePresent.current = true;
 
     let recallTimeoutId: ReturnType<typeof setTimeout>;
+
+    let controller = new AbortController();
+    let signal = controller.signal;
+
+    const resetOnPageLeave = () => {
+      isPagePresent.current = false;
+      clearTimeout(recallTimeoutId);
+      controller.abort("Exiting a page that use 'useDeviceData' hook");
+    };
+    const pushBackOnError = (message?: string) => {
+      resetOnPageLeave();
+
+      toast({
+        variant: "destructive",
+        title: message || "اطلاعات از دستگاه خوانده نشد",
+      });
+      setTimeout(() => {
+        router.back();
+        // router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
+      }, 1500);
+    };
+
     const getData = async (maxTry = 10) => {
+      console.log("!!!!!!!!!!!!!!!!!!!Call to get data!!!!!!!!!!!!!!!!!!!");
+
+      console.time();
       // Reset to initial state on retying
       // --> This must not reset so method timeout won't be call method again -- isPagePresent.current = true;
       isThereFetchDataError.current = false;
       clearTimeout(recallTimeoutId);
 
+      console.log("signal before renew", signal.aborted);
+      if (signal.aborted) {
+        controller = new AbortController();
+      }
+      // signal = controller.signal;
+      console.log("signal after renew", signal.aborted);
+
+      // Controller must be placed in 'getData' function so that we renew controller on every call
+      // controller = new AbortController();
       try {
         // -------------------- Device and Its Registers Info --------------------
 
@@ -131,8 +152,7 @@ const useDeviceData = (options: optionsType = {}) => {
 
                 // Get registers value from string
                 const registersStringValue = deviceRegistersValue.value;
-
-                if (!registersStringValue) {
+                if (!registersStringValue || !Number(registersStringValue)) {
                   throw new Error("Registers value is null");
                 }
 
@@ -148,7 +168,8 @@ const useDeviceData = (options: optionsType = {}) => {
                     );
                   } else {
                     // Register number represent its value index in value string array
-                    register.value = registersValueArray[register.number - 1];
+                    register.value =
+                      registersValueArray[Number(register.number) - 1];
                   }
                 });
 
@@ -164,11 +185,14 @@ const useDeviceData = (options: optionsType = {}) => {
                 // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
                 // This will happen on 50 null constitutive null query result
                 if (e.code && e.code === 560) {
-                  pushBackOnError();
-                  console.error("User Aborted Request:", e.message);
+                  // pushBackOnError();
+                  // throw the error so it will try again on 50 null query
+                  // DO NOT ABORT ON 50 NULL REQUEST OR APP WILL STOP controller.abort();
+                  throw e;
                 } else if (e.code && e.code === 561) {
                   // in case request fails on command itself or there is network error
-                  throw e;
+                  console.error(e);
+                  // throw e;
                 }
 
                 console.group("Error getting device data: ");
@@ -212,16 +236,19 @@ const useDeviceData = (options: optionsType = {}) => {
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
           console.log("with no error");
-          recallTimeoutId = setTimeout(getData, 100);
+          recallTimeoutId = setTimeout(
+            getData,
+            config.intervalTimeOnCallWithoutError,
+          );
         } else {
           console.log("-----> with error", maxTry);
           recallTimeoutId = setTimeout(() => {
             getData(maxTry - 1);
-          }, 500);
+          }, config.intervalTimeOnCallWithError);
         }
 
         if (maxTry < 0) {
-          isPagePresent.current = false;
+          resetOnPageLeave();
           isThereFetchDataError.current = true;
           pushBackOnError("ارتباط با دستگاه با مشکل مواجه شد");
         }
@@ -232,10 +259,9 @@ const useDeviceData = (options: optionsType = {}) => {
 
     // const myInterval = setInterval(getData, 200);
     return () => {
-      isPagePresent.current = false;
-      // clearInterval(myInterval);
-      clearTimeout(recallTimeoutId);
-      controller.abort();
+      console.warn("Exiting useDeviceData");
+      console.log("zigbeeData: ", zigbeeData);
+      resetOnPageLeave();
     };
   }, [zigbeeData]);
 
