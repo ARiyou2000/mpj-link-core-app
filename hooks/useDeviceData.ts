@@ -96,7 +96,6 @@ const useDeviceData = (options: optionsType = {}) => {
     };
 
     const getData = async (maxTry = 10) => {
-      console.time();
       // Reset to initial state on retying
       // --> This must not reset so method timeout won't be call method again -- isPagePresent.current = true;
       isThereFetchDataError.current = false;
