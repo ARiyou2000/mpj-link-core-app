@@ -167,6 +167,7 @@ export const getEntityData = async (
   }
 };
 
+// Set only need 'signal'
 export const getDeviceData = (
   devicePId: string,
   options: fetcherOptionsType,
@@ -180,6 +181,7 @@ export const getRegisterData = (
   customUrl?: string,
 ) => getEntityData("port", registerPId, null, options, customUrl);
 
+// Set only need 'hasFeedback'
 const mockController = new AbortController();
 export const setRegisterData = (
   registerPId: string,
