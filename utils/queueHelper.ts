@@ -2,7 +2,7 @@ import fetchUrl from "@/utils/fetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
 
 const config = {
-  retryNullQueryInterval: 150,
+  retryNullQueryInterval: 200,
   maxTryForNullQuery: 20,
 };
 
@@ -149,8 +149,15 @@ export const getEntityData = async (
           customUrl,
         )) as queryResultType;
 
-        // Do query again if result is null, 0000, or NaN
-        if (!result.value || !Number(result.value)) {
+        // // Reject immediately if device data is invalid (`0000` or `NaN`)
+        // if (!Number(result.value)) {
+        //   throw new Error({ code: 560, message: "Couldn't read from device" });
+        // }
+
+        if (!result) {
+          //  If the result is empty
+        } else if (!result.value || !Number(result.value)) {
+          // Do query again if result is null, `0000`, or `NaN`
           return await new Promise((resolve, reject) => {
             if (maxTry < 0) {
               reject({ code: 560, message: "Couldn't read from device" });
@@ -192,7 +199,7 @@ const mockController = new AbortController();
 export const setRegisterData = (
   registerPId: string,
   value: string,
-  options: getEntityDataOptionsType,
+  options?: getEntityDataOptionsType,
   customUrl?: string,
 ) =>
   getEntityData(
