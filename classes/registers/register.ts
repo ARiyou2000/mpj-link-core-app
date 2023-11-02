@@ -1,43 +1,112 @@
 import ResponseModel from "@/classes/responseModel";
+import e from "cors";
 
-type valueType = number | boolean | string;
+export type generalValueType = number | boolean | string;
+export type objectType = { [key: string]: generalValueType };
+
+const checkValueValidity = (
+  value: generalValueType | undefined,
+): generalValueType | never => {
+  if (typeof value === "undefined") {
+    throw new Error("invalid value");
+  } else {
+    return value;
+  }
+};
+
+export const stringToActualValue = (valuesMap: objectType, value: string) => {
+  const convertedValue: generalValueType | undefined = valuesMap[value];
+  return checkValueValidity(convertedValue);
+};
+
+export const actualValueToString = (
+  valueMap: objectType,
+  value: generalValueType,
+) => {
+  const convertedValue = Object.keys(valueMap).find((key) => {
+    return valueMap[key] === value;
+  });
+  return checkValueValidity(convertedValue);
+};
+
+const registerValueConverter = {
+  stringToActualValue,
+  actualValueToString,
+};
 
 class Register extends ResponseModel {
-  private _value: valueType = "00";
-  private _stringValue: string = "00";
-  private _number: string;
+  private _stringValue: string;
+  private _indicator: string;
+  private _value: generalValueType;
+  private _valueMap: objectType;
 
   constructor(
     publicId: string,
     name: string,
     description: string,
-    number: string,
+    indicator: string,
     stringValue: string,
+    valueMap: objectType,
   ) {
     super(publicId, name, description);
-    this._number = number;
-    this._stringValue = stringValue;
+    this._indicator = indicator || "";
+    this._stringValue = stringValue || "00";
+    this._valueMap = valueMap;
+    try {
+      this._value = registerValueConverter.stringToActualValue(
+        valueMap,
+        stringValue,
+      );
+    } catch (e) {
+      throw e;
+    }
   }
 
-  get number(): string {
-    return this._number;
+  get valueMap(): objectType {
+    return this._valueMap;
   }
 
-  get value(): valueType {
-    return this._value;
+  get indicator(): string {
+    return this._indicator;
   }
 
   get stringValue(): string {
     return this._stringValue;
   }
 
-  // Following methods will be implemented by descendants.
-  set value(value: valueType) {
-    // Will get logical value and call to server for changes
+  set stringValue(value: string) {
+    this._stringValue = value;
+
+    try {
+      this._value = registerValueConverter.stringToActualValue(
+        this._valueMap,
+        value,
+      ) as boolean;
+    } catch (e) {
+      throw e;
+    }
   }
 
-  set stringValue(value: string) {
-    // Will get value from server and set logical value
+  get value(): generalValueType {
+    return this._value;
+  }
+
+  set value(value: generalValueType) {
+    this._value = value;
+    // Actual implementation will be implemented by descendants.
+  }
+
+  async updateValue(value: generalValueType) {
+    // return await setRegisterData(this.publicId, valueToStringValueLogic(value));
+    try {
+      const newValue = registerValueConverter.actualValueToString(
+        this._valueMap,
+        value,
+      ) as string;
+      // return await setRegisterData(this.publicId, newValue);
+    } catch (e) {
+      throw e;
+    }
   }
 }
 
