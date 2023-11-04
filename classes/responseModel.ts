@@ -1,24 +1,27 @@
 class ResponseModel {
-  private _publicId: string;
-  private _name: string;
-  private _description: string;
+  // @ts-ignore
+  #publicId: string;
+  // @ts-ignore
+  #name: string;
+  // @ts-ignore
+  #description: string;
 
   constructor(publicId: string, name: string, description: string) {
-    this._publicId = publicId || "";
-    this._name = name || "";
-    this._description = description || "";
+    this.#publicId = publicId || "";
+    this.#name = name || "";
+    this.#description = description || "";
   }
 
   get publicId(): string {
-    return this._publicId;
+    return this.#publicId;
   }
 
   get name(): string {
-    return this._name;
+    return this.#name;
   }
 
   get description(): string {
-    return this._description;
+    return this.#description;
   }
 }
 
