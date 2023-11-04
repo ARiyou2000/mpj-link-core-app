@@ -5,6 +5,13 @@ import { setZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
 
 export type generalValueType = number | boolean | string;
 export type objectType = { [key: string]: generalValueType };
+export type ServerSideRegisterType = {
+  publicId: string;
+  name: string;
+  description: string;
+  number: string;
+  value: string;
+};
 
 const checkValueValidity = (
   value: generalValueType | undefined,

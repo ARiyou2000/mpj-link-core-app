@@ -3,7 +3,7 @@
 import window from "@/utils/window";
 import fetchUrl from "@/utils/fetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
-import Register from "@/classes/registers/register";
+import { ServerSideRegisterType } from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
 import Scenario from "@/classes/scenario";
 import Zone from "@/classes/zone";
@@ -20,7 +20,7 @@ type resultsType =
   | Promise<Zone[]>
   | Promise<Scenario[]>
   | Promise<DeviceInfo[]>
-  | Promise<Register[]>;
+  | Promise<ServerSideRegisterType[]>;
 
 const getStaticData = (
   dataTitle: string,
@@ -88,7 +88,7 @@ export const getDevices = (
 export const getDeviceRegisters = (
   devicePublicId: string,
   options: fetcherOptionsType,
-): Promise<Register[]> =>
+): Promise<ServerSideRegisterType[]> =>
   getStaticData(`device/${devicePublicId}`, null, options);
 
 export const getZoneDevices = (
@@ -101,7 +101,7 @@ export const getZoneDeviceRegisters = (
   zonePublicId: string,
   devicePublicId: string,
   options: fetcherOptionsType,
-): Promise<Register[]> =>
+): Promise<ServerSideRegisterType[]> =>
   getStaticData(`zone/${zonePublicId}/device/${devicePublicId}`, null, options);
 
 export default getStaticData;
