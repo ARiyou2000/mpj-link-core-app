@@ -23,20 +23,22 @@ type queryResultType = {
   value: string | null;
 };
 
-type fetcherOptionsType = {
+type getDataOptionsType = {
   signal: AbortSignal;
 };
 
-type getEntityDataOptionsType = fetcherOptionsType & {
+type setDataOptionsType = {
   hasFeedback?: boolean;
 };
+
+type getEntityDataOptionsType = getDataOptionsType & setDataOptionsType;
 
 // Command (Implementation)
 const registerNewRequest = async (
   entityType: string,
   entityId: string,
   value: string | null,
-  options: fetcherOptionsType,
+  options: getDataOptionsType,
   customUrl?: string,
 ) => {
   try {
@@ -66,7 +68,7 @@ const registerNewRequest = async (
 export const registerNewGetRequest = (
   entityType: string,
   entityId: string,
-  options: fetcherOptionsType,
+  options: getDataOptionsType,
   customUrl?: string,
 ) => {
   return registerNewRequest(entityType, entityId, null, options, customUrl);
@@ -77,7 +79,7 @@ export const registerNewSetRequest = (
   entityType: string,
   entityId: string,
   value: string,
-  options: fetcherOptionsType,
+  options: getDataOptionsType,
   customUrl?: string,
 ) => {
   return registerNewRequest(entityType, entityId, value, options, customUrl);
@@ -86,7 +88,7 @@ export const registerNewSetRequest = (
 // Query
 export const getRequestedData = async (
   requestId: string,
-  options: fetcherOptionsType,
+  options: getDataOptionsType,
   customUrl?: string,
 ) => {
   try {
@@ -183,14 +185,14 @@ export const getEntityData = async (
 // Set only need 'signal'
 export const getDeviceData = (
   devicePId: string,
-  options: fetcherOptionsType,
+  options: getDataOptionsType,
   customUrl?: string,
 ): Promise<queryResultType> =>
   getEntityData("device", devicePId, null, options, customUrl);
 
 export const getRegisterData = (
   registerPId: string,
-  options: fetcherOptionsType,
+  options: getDataOptionsType,
   customUrl?: string,
 ) => getEntityData("port", registerPId, null, options, customUrl);
 
@@ -199,7 +201,7 @@ const mockController = new AbortController();
 export const setRegisterData = (
   registerPId: string,
   value: string,
-  options?: getEntityDataOptionsType,
+  options?: setDataOptionsType,
   customUrl?: string,
 ) =>
   getEntityData(
