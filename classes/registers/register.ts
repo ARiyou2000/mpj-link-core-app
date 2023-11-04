@@ -1,7 +1,6 @@
 import ResponseModel from "@/classes/responseModel";
 import { Protocols } from "@/classes/protocols";
 import { setRegisterData } from "@/utils/queueHelper";
-import e from "cors";
 import { setZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
 
 export type generalValueType = number | boolean | string;
@@ -43,13 +42,28 @@ class Register extends ResponseModel {
   // @ts-ignore
   #indicator: string;
   // @ts-ignore
+  #stringValue: string;
+  // @ts-ignore
   #value: generalValueType;
   // @ts-ignore
   #valueMap: objectType;
   // @ts-ignore
   #hasFeedback: boolean;
   // @ts-ignore
-  #protocole: Protocols;
+  #protocol: Protocols;
+
+  // @ts-ignore
+  #setValue(stringValue: string) {
+    this.#stringValue = stringValue;
+    try {
+      this.#value = registerValueConverter.stringToActualValue(
+        this.#valueMap,
+        stringValue,
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
 
   constructor(
     protocol: Protocols,
@@ -63,19 +77,16 @@ class Register extends ResponseModel {
     hasFeedback: boolean,
   ) {
     super(publicId, name, description);
-    this.#protocole = protocol;
+    this.#protocol = protocol;
     this.#devicePublicId = devicePublicId;
     this.#indicator = indicator;
     this.#hasFeedback = hasFeedback || true;
     this.#valueMap = valueMap;
-    try {
-      this.#value = registerValueConverter.stringToActualValue(
-        valueMap,
-        stringValue,
-      );
-    } catch (e) {
-      throw e;
-    }
+    this.#setValue(stringValue);
+  }
+
+  set stringValue(value: string) {
+    this.#setValue(value);
   }
 
   get indicator(): string {
@@ -96,11 +107,11 @@ class Register extends ResponseModel {
         this.#valueMap,
         value,
       ) as string;
-      if (this.#protocole === Protocols.modbus) {
+      if (this.#protocol === Protocols.modbus) {
         return await setRegisterData(this.publicId, convertedValue, {
           hasFeedback: this.#hasFeedback,
         });
-      } else if (this.#protocole === Protocols.zigbee) {
+      } else if (this.#protocol === Protocols.zigbee) {
         return await setZigbeeDeviceStatus(
           this.devicePublicId,
           this.publicId,
