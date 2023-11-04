@@ -11,7 +11,7 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React, { useEffect, useState } from "react";
-import getCategorizedDevices from "@/utils/deviceTypeList";
+import getCategorizedDevices from "@/utils/getCategorizedDevices";
 import Link from "next/link";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
