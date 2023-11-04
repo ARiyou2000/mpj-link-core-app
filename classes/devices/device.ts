@@ -1,20 +1,22 @@
 import Register from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
+import { Protocols } from "@/classes/protocols";
 
-type RegistersListObjectType = { [key: string]: Register };
+export type RegistersListObjectType = { [key: string]: Register };
 
 class Device extends DeviceInfo {
   // @ts-ignore
   private _registers: RegistersListObjectType;
 
   constructor(
+    protocol: Protocols,
     publicId: string,
     name: string,
     description: string,
     type: number,
     registers: RegistersListObjectType,
   ) {
-    super(publicId, name, description, type);
+    super(protocol, publicId, name, description, type);
     this._registers = registers;
   }
 
@@ -22,9 +24,7 @@ class Device extends DeviceInfo {
     return this._registers;
   }
 
-  set registers(value: RegistersListObjectType) {
-    this._registers = value;
-  }
+  // makeRegisters(registersList: ServerSideRegisterType[]) {}
 }
 
 export default Device;
