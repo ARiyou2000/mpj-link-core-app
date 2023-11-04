@@ -86,8 +86,8 @@ export class ThermostatSeasonMode extends ThermostatRegister {
   }
 }
 
-//  ---------- Set Point Temperature ----------
-const setPointTemperatureMap = (() => {
+//  ---------- Target Point Temperature ----------
+const targetPointTemperatureMap = (() => {
   const startTemp = 15;
   const endTemp = 35 + 1;
   const temp: objectType = {};
@@ -98,7 +98,7 @@ const setPointTemperatureMap = (() => {
   return temp;
 })();
 
-export class ThermostatSetPointTemperature extends ThermostatRegister {
+export class ThermostatTargetPointTemperature extends ThermostatRegister {
   constructor(
     devicePublicId: string,
     publicId: string,
@@ -114,7 +114,7 @@ export class ThermostatSetPointTemperature extends ThermostatRegister {
       description,
       indicator,
       stringValue,
-      setPointTemperatureMap,
+      targetPointTemperatureMap,
     );
   }
 }
@@ -131,7 +131,7 @@ const currentTemperatureMap = (() => {
   return temp;
 })();
 
-export class ThermostatCurrentTeperature extends ThermostatRegister {
+export class ThermostatCurrentTemperature extends ThermostatRegister {
   constructor(
     devicePublicId: string,
     publicId: string,
