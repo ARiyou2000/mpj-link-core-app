@@ -19,6 +19,7 @@ const valueMap = {
 
 export class MusicplayerMainReg extends Register {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -27,6 +28,7 @@ export class MusicplayerMainReg extends Register {
   ) {
     super(
       Protocols.modbus,
+      devicePublicId,
       publicId,
       name,
       description,

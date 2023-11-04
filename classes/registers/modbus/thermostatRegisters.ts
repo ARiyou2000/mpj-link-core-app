@@ -3,21 +3,12 @@ import Register, { objectType } from "@/classes/registers/register";
 import { Protocols } from "@/classes/protocols";
 
 // ---------- Power ----------
-export class ThermostatPower extends GeneralPower {
-  constructor(
-    publicId: string,
-    name: string,
-    description: string,
-    indicator: string,
-    stringValue: string,
-  ) {
-    super(publicId, name, description, indicator, stringValue, true);
-  }
-}
+export class ThermostatPower extends GeneralPower {}
 
 // ---------- Value registers ----------
 class ThermostatRegister extends Register {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -27,6 +18,7 @@ class ThermostatRegister extends Register {
   ) {
     super(
       Protocols.modbus,
+      devicePublicId,
       publicId,
       name,
       description,
@@ -48,6 +40,7 @@ const fanSpeedValueMap = {
 
 export class ThermostatFanSpeed extends ThermostatRegister {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -55,6 +48,7 @@ export class ThermostatFanSpeed extends ThermostatRegister {
     stringValue: string,
   ) {
     super(
+      devicePublicId,
       publicId,
       name,
       description,
@@ -73,6 +67,7 @@ const seasonModeValueMap = {
 
 export class ThermostatSeasonMode extends ThermostatRegister {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -80,6 +75,7 @@ export class ThermostatSeasonMode extends ThermostatRegister {
     stringValue: string,
   ) {
     super(
+      devicePublicId,
       publicId,
       name,
       description,
@@ -104,6 +100,7 @@ const setPointTemperatureMap = (() => {
 
 export class ThermostatSetPointTemperature extends ThermostatRegister {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -111,6 +108,7 @@ export class ThermostatSetPointTemperature extends ThermostatRegister {
     stringValue: string,
   ) {
     super(
+      devicePublicId,
       publicId,
       name,
       description,
@@ -135,6 +133,7 @@ const currentTemperatureMap = (() => {
 
 export class ThermostatCurrentTeperature extends ThermostatRegister {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -142,6 +141,7 @@ export class ThermostatCurrentTeperature extends ThermostatRegister {
     stringValue: string,
   ) {
     super(
+      devicePublicId,
       publicId,
       name,
       description,

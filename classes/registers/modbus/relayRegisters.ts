@@ -7,13 +7,14 @@ class RelayPort extends GeneralPower {
   #portType: portTypeT;
 
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
     stringValue: string,
   ) {
-    super(publicId, name, description, indicator, stringValue, true);
+    super(devicePublicId, publicId, name, description, indicator, stringValue);
     const portNumber = Number(indicator);
     if (portNumber > 0 && portNumber <= 8) {
       this.#portType = "input";
@@ -29,12 +30,10 @@ class RelayPort extends GeneralPower {
   }
 }
 
-class RelayPortOut extends RelayPort {}
+export class RelayPortOut extends RelayPort {}
 
-class RelayPortIn extends RelayPort {
+export class RelayPortIn extends RelayPort {
   async updateValue(value: boolean) {
     throw new Error("Relay Port In can be read only!");
   }
 }
-
-export { RelayPortIn, RelayPortOut, RelayPort as default };

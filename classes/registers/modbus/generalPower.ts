@@ -1,4 +1,4 @@
-import Register, { objectType } from "@/classes/registers/register";
+import Register from "@/classes/registers/register";
 import { Protocols } from "@/classes/protocols";
 
 const valueMap = {
@@ -8,22 +8,23 @@ const valueMap = {
 
 class GeneralPower extends Register {
   constructor(
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
     stringValue: string,
-    hasFeedback: boolean,
   ) {
     super(
       Protocols.modbus,
+      devicePublicId,
       publicId,
       name,
       description,
       indicator,
       stringValue,
       valueMap,
-      hasFeedback,
+      true,
     );
   }
 }
