@@ -9,6 +9,7 @@ import {
   Thermometer,
 } from "@/components/icons/colored";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { Protocols } from "@/classes/protocols";
 
 export enum DevicesType {
   invalid,
@@ -58,6 +59,8 @@ export const deviceTypeList = {
 
 class DeviceInfo extends ResponseModel {
   // @ts-ignore
+  #protocol: Protocols;
+  // @ts-ignore
   #type: DevicesType;
   // @ts-ignore
   #category: string;
@@ -65,12 +68,14 @@ class DeviceInfo extends ResponseModel {
   #icon: any;
 
   constructor(
+    protocol: Protocols,
     publicId: string,
     name: string,
     description: string,
     type: DevicesType,
   ) {
     super(publicId, name, description);
+    this.#protocol = protocol;
     this.#type = type;
 
     switch (type) {
@@ -123,6 +128,10 @@ class DeviceInfo extends ResponseModel {
         this.#category = "uncategorized";
         this.#icon = LoadingSpinner;
     }
+  }
+
+  get protocol(): Protocols {
+    return this.#protocol;
   }
 
   get type(): DevicesType {
