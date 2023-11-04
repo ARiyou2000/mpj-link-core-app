@@ -1,5 +1,6 @@
 import GeneralPower from "./generalPower";
 import Register, { objectType } from "@/classes/registers/register";
+import { Protocols } from "@/classes/protocols";
 
 // ---------- Power ----------
 export class ThermostatPower extends GeneralPower {
@@ -14,6 +15,29 @@ export class ThermostatPower extends GeneralPower {
   }
 }
 
+// ---------- Value registers ----------
+class ThermostatRegister extends Register {
+  constructor(
+    publicId: string,
+    name: string,
+    description: string,
+    indicator: string,
+    stringValue: string,
+    valueMap: objectType,
+  ) {
+    super(
+      Protocols.modbus,
+      publicId,
+      name,
+      description,
+      indicator,
+      stringValue,
+      valueMap,
+      true,
+    );
+  }
+}
+
 // ---------- Fan Speed ----------
 const fanSpeedValueMap = {
   "01": "slow",
@@ -22,7 +46,7 @@ const fanSpeedValueMap = {
   "04": "auto",
 };
 
-export class ThermostatFanSpeed extends Register {
+export class ThermostatFanSpeed extends ThermostatRegister {
   constructor(
     publicId: string,
     name: string,
@@ -37,7 +61,6 @@ export class ThermostatFanSpeed extends Register {
       indicator,
       stringValue,
       fanSpeedValueMap,
-      true,
     );
   }
 }
@@ -48,7 +71,7 @@ const seasonModeValueMap = {
   "03": "hot",
 };
 
-export class ThermostatSeasonMode extends Register {
+export class ThermostatSeasonMode extends ThermostatRegister {
   constructor(
     publicId: string,
     name: string,
@@ -63,7 +86,6 @@ export class ThermostatSeasonMode extends Register {
       indicator,
       stringValue,
       seasonModeValueMap,
-      true,
     );
   }
 }
@@ -80,7 +102,7 @@ const setPointTemperatureMap = (() => {
   return temp;
 })();
 
-export class ThermostatSetPointTemperature extends Register {
+export class ThermostatSetPointTemperature extends ThermostatRegister {
   constructor(
     publicId: string,
     name: string,
@@ -95,7 +117,6 @@ export class ThermostatSetPointTemperature extends Register {
       indicator,
       stringValue,
       setPointTemperatureMap,
-      true,
     );
   }
 }
@@ -112,7 +133,7 @@ const currentTemperatureMap = (() => {
   return temp;
 })();
 
-export class ThermostatCurrentTeperature extends Register {
+export class ThermostatCurrentTeperature extends ThermostatRegister {
   constructor(
     publicId: string,
     name: string,
@@ -127,7 +148,6 @@ export class ThermostatCurrentTeperature extends Register {
       indicator,
       stringValue,
       currentTemperatureMap,
-      true,
     );
   }
 

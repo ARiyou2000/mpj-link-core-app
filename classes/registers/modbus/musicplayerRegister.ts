@@ -1,4 +1,5 @@
 import Register from "@/classes/registers/register";
+import { Protocols } from "@/classes/protocols";
 
 const valueMap = {
   "00": "defaultValue",
@@ -24,6 +25,15 @@ export class MusicplayerMainReg extends Register {
     indicator: string,
     stringValue: string,
   ) {
-    super(publicId, name, description, indicator, stringValue, valueMap, false);
+    super(
+      Protocols.modbus,
+      publicId,
+      name,
+      description,
+      indicator,
+      stringValue,
+      valueMap,
+      false,
+    );
   }
 }

@@ -1,5 +1,5 @@
 import ResponseModel from "@/classes/responseModel";
-import e from "cors";
+import { Protocols } from "@/classes/protocols";
 import { setRegisterData } from "@/utils/queueHelper";
 
 export type generalValueType = number | boolean | string;
@@ -44,8 +44,11 @@ class Register extends ResponseModel {
   #valueMap: objectType;
   // @ts-ignore
   #hasFeedback: boolean;
+  // @ts-ignore
+  #protocole: Protocols;
 
   constructor(
+    protocol: Protocols,
     publicId: string,
     name: string,
     description: string,
@@ -55,7 +58,8 @@ class Register extends ResponseModel {
     hasFeedback: boolean,
   ) {
     super(publicId, name, description);
-    this.#indicator = indicator || "";
+    this.#protocole = protocol;
+    this.#indicator = indicator;
     this.#hasFeedback = hasFeedback || true;
     this.#valueMap = valueMap;
     try {
@@ -82,9 +86,14 @@ class Register extends ResponseModel {
         this.#valueMap,
         value,
       ) as string;
-      return await setRegisterData(this.publicId, newValue, {
-        hasFeedback: this.#hasFeedback,
-      });
+      if (this.#protocole === Protocols.modbus) {
+        return await setRegisterData(this.publicId, newValue, {
+          hasFeedback: this.#hasFeedback,
+        });
+      } else if (this.#protocole === Protocols.zigbee) {
+      } else {
+        throw new Error("Unsupported protocol!");
+      }
     } catch (e) {
       throw e;
     }

@@ -1,4 +1,5 @@
 import Register, { objectType } from "@/classes/registers/register";
+import { Protocols } from "@/classes/protocols";
 
 const valueMap = {
   "01": false,
@@ -15,6 +16,7 @@ class GeneralPower extends Register {
     hasFeedback: boolean,
   ) {
     super(
+      Protocols.modbus,
       publicId,
       name,
       description,
