@@ -1,4 +1,4 @@
-import Register from "@/classes/registers/register";
+import Register, { objectType } from "@/classes/registers/register";
 
 const valueMap = {
   "01": false,
@@ -12,8 +12,17 @@ class GeneralPower extends Register {
     description: string,
     indicator: string,
     stringValue: string,
+    hasFeedback: boolean,
   ) {
-    super(publicId, name, description, indicator, stringValue, valueMap);
+    super(
+      publicId,
+      name,
+      description,
+      indicator,
+      stringValue,
+      valueMap,
+      hasFeedback,
+    );
   }
 }
 

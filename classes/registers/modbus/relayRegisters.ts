@@ -3,11 +3,8 @@ import GeneralPower from "./generalPower";
 type portTypeT = "input" | "output";
 
 class RelayPort extends GeneralPower {
-  private _portType: portTypeT;
-
-  get portType(): portTypeT {
-    return this._portType;
-  }
+  // @ts-ignore
+  #portType: portTypeT;
 
   constructor(
     publicId: string,
@@ -16,29 +13,25 @@ class RelayPort extends GeneralPower {
     indicator: string,
     stringValue: string,
   ) {
-    super(publicId, name, description, indicator, stringValue);
+    super(publicId, name, description, indicator, stringValue, true);
     const portNumber = Number(indicator);
     if (portNumber > 0 && portNumber <= 8) {
-      this._portType = "input";
+      this.#portType = "input";
     } else if (portNumber > 8 && portNumber <= 16) {
-      this._portType = "output";
+      this.#portType = "output";
     } else {
       throw new Error("Port Number is not a valid number");
     }
+  }
+
+  get portType(): portTypeT {
+    return this.#portType;
   }
 }
 
 class RelayPortOut extends RelayPort {}
 
 class RelayPortIn extends RelayPort {
-  private set stringValue(value: string) {
-    throw new Error("Relay Port In can be read only!");
-  }
-
-  get stringValue(): string {
-    return super["stringValue"];
-  }
-
   async updateValue(value: boolean) {
     throw new Error("Relay Port In can be read only!");
   }

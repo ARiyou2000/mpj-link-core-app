@@ -2,7 +2,17 @@ import GeneralPower from "./generalPower";
 import Register, { objectType } from "@/classes/registers/register";
 
 // ---------- Power ----------
-export class ThermostatPower extends GeneralPower {}
+export class ThermostatPower extends GeneralPower {
+  constructor(
+    publicId: string,
+    name: string,
+    description: string,
+    indicator: string,
+    stringValue: string,
+  ) {
+    super(publicId, name, description, indicator, stringValue, true);
+  }
+}
 
 // ---------- Fan Speed ----------
 const fanSpeedValueMap = {
@@ -27,6 +37,7 @@ export class ThermostatFanSpeed extends Register {
       indicator,
       stringValue,
       fanSpeedValueMap,
+      true,
     );
   }
 }
@@ -52,6 +63,7 @@ export class ThermostatSeasonMode extends Register {
       indicator,
       stringValue,
       seasonModeValueMap,
+      true,
     );
   }
 }
@@ -83,6 +95,7 @@ export class ThermostatSetPointTemperature extends Register {
       indicator,
       stringValue,
       setPointTemperatureMap,
+      true,
     );
   }
 }
@@ -114,15 +127,8 @@ export class ThermostatCurrentTeperature extends Register {
       indicator,
       stringValue,
       currentTemperatureMap,
+      true,
     );
-  }
-
-  private set stringValue(value: string) {
-    throw new Error("Thermostat current temperature can be read only!");
-  }
-
-  get stringValue(): string {
-    return super["stringValue"];
   }
 
   async updateValue(value: boolean) {

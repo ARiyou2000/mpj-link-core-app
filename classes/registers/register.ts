@@ -1,5 +1,6 @@
 import ResponseModel from "@/classes/responseModel";
 import e from "cors";
+import { setRegisterData } from "@/utils/queueHelper";
 
 export type generalValueType = number | boolean | string;
 export type objectType = { [key: string]: generalValueType };
@@ -35,10 +36,14 @@ const registerValueConverter = {
 };
 
 class Register extends ResponseModel {
-  private _stringValue: string;
-  private _indicator: string;
-  private _value: generalValueType;
-  private _valueMap: objectType;
+  // @ts-ignore
+  #indicator: string;
+  // @ts-ignore
+  #value: generalValueType;
+  // @ts-ignore
+  #valueMap: objectType;
+  // @ts-ignore
+  #hasFeedback: boolean;
 
   constructor(
     publicId: string,
@@ -47,13 +52,14 @@ class Register extends ResponseModel {
     indicator: string,
     stringValue: string,
     valueMap: objectType,
+    hasFeedback: boolean,
   ) {
     super(publicId, name, description);
-    this._indicator = indicator || "";
-    this._stringValue = stringValue || "00";
-    this._valueMap = valueMap;
+    this.#indicator = indicator || "";
+    this.#hasFeedback = hasFeedback || true;
+    this.#valueMap = valueMap;
     try {
-      this._value = registerValueConverter.stringToActualValue(
+      this.#value = registerValueConverter.stringToActualValue(
         valueMap,
         stringValue,
       );
@@ -62,48 +68,23 @@ class Register extends ResponseModel {
     }
   }
 
-  get valueMap(): objectType {
-    return this._valueMap;
-  }
-
   get indicator(): string {
-    return this._indicator;
-  }
-
-  get stringValue(): string {
-    return this._stringValue;
-  }
-
-  set stringValue(value: string) {
-    this._stringValue = value;
-
-    try {
-      this._value = registerValueConverter.stringToActualValue(
-        this._valueMap,
-        value,
-      ) as boolean;
-    } catch (e) {
-      throw e;
-    }
+    return this.#indicator;
   }
 
   get value(): generalValueType {
-    return this._value;
-  }
-
-  set value(value: generalValueType) {
-    this._value = value;
-    // Actual implementation will be implemented by descendants.
+    return this.#value;
   }
 
   async updateValue(value: generalValueType) {
-    // return await setRegisterData(this.publicId, valueToStringValueLogic(value));
     try {
       const newValue = registerValueConverter.actualValueToString(
-        this._valueMap,
+        this.#valueMap,
         value,
       ) as string;
-      // return await setRegisterData(this.publicId, newValue);
+      return await setRegisterData(this.publicId, newValue, {
+        hasFeedback: this.#hasFeedback,
+      });
     } catch (e) {
       throw e;
     }
