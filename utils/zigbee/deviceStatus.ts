@@ -1,4 +1,13 @@
-const setStatus = async (
+export const getZigbeeDeviceStatus = async (deviceId: string) => {
+  try {
+    await fetch(`/api/zigbee/device/${deviceId}`);
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+export const setZigbeeDeviceStatus = async (
   deviceId: string,
   registerId: string,
   value: string,
@@ -15,5 +24,3 @@ const setStatus = async (
     throw e;
   }
 };
-
-export default setStatus;

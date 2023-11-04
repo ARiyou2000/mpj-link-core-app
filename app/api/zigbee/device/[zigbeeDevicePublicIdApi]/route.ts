@@ -11,7 +11,7 @@ export const POST = async (
   console.log("Publish to MQTT: ", body);
 
   if (zigbeeDevicePublicIdApi && body) {
-    mqttPublish({
+    await mqttPublish({
       topic: `${connectionConfig.mqtt.mainTopic}/${zigbeeDevicePublicIdApi}/set`,
       message: JSON.stringify(body),
     });
@@ -27,7 +27,7 @@ export const GET = async (
   console.log("getRequestCalled");
 
   if (zigbeeDevicePublicIdApi) {
-    mqttPublish({
+    await mqttPublish({
       topic: `${connectionConfig.mqtt.mainTopic}/${zigbeeDevicePublicIdApi}/get`,
       message: JSON.stringify({ state: "" }),
     });

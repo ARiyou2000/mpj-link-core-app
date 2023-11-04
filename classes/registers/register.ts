@@ -1,6 +1,8 @@
 import ResponseModel from "@/classes/responseModel";
 import { Protocols } from "@/classes/protocols";
 import { setRegisterData } from "@/utils/queueHelper";
+import e from "cors";
+import { setZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
 
 export type generalValueType = number | boolean | string;
 export type objectType = { [key: string]: generalValueType };
@@ -37,6 +39,8 @@ const registerValueConverter = {
 
 class Register extends ResponseModel {
   // @ts-ignore
+  #devicePublicId: string;
+  // @ts-ignore
   #indicator: string;
   // @ts-ignore
   #value: generalValueType;
@@ -49,6 +53,7 @@ class Register extends ResponseModel {
 
   constructor(
     protocol: Protocols,
+    devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
@@ -59,6 +64,7 @@ class Register extends ResponseModel {
   ) {
     super(publicId, name, description);
     this.#protocole = protocol;
+    this.#devicePublicId = devicePublicId;
     this.#indicator = indicator;
     this.#hasFeedback = hasFeedback || true;
     this.#valueMap = valueMap;
@@ -80,17 +86,26 @@ class Register extends ResponseModel {
     return this.#value;
   }
 
+  get devicePublicId(): string {
+    return this.#devicePublicId;
+  }
+
   async updateValue(value: generalValueType) {
     try {
-      const newValue = registerValueConverter.actualValueToString(
+      const convertedValue = registerValueConverter.actualValueToString(
         this.#valueMap,
         value,
       ) as string;
       if (this.#protocole === Protocols.modbus) {
-        return await setRegisterData(this.publicId, newValue, {
+        return await setRegisterData(this.publicId, convertedValue, {
           hasFeedback: this.#hasFeedback,
         });
       } else if (this.#protocole === Protocols.zigbee) {
+        return await setZigbeeDeviceStatus(
+          this.devicePublicId,
+          this.publicId,
+          convertedValue,
+        );
       } else {
         throw new Error("Unsupported protocol!");
       }
