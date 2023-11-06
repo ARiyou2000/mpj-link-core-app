@@ -10,6 +10,7 @@ import LockPageFavoriteNavigation from "@/components/LockPageFavoriteNavigation"
 import { useRouter } from "next/navigation";
 import { autoLogin } from "@/utils/login";
 import window from "@/utils/window";
+import useResizableContainer from "@/hooks/useResizableContainer";
 
 type loginStatusType =
   | "initial"
@@ -18,7 +19,7 @@ type loginStatusType =
   | "error"
   | "network_error"
   | "success";
-const statusTextInitState = <>لطفا رمز ورود خود را وارد کنید</>;
+const statusTextInitState = "لطفا رمز ورود خود را وارد کنید";
 
 export default function Home() {
   const router = useRouter();
@@ -45,12 +46,7 @@ export default function Home() {
         break;
       case "network_error":
         setPassCodeData({
-          text:
-            // ( <>
-            "اتصال با کور برقرار نیست!",
-          // <br />
-          // لطفا پس از چند لحظه مجددا سعی کنید
-          // </> )
+          text: "اتصال با کور برقرار نیست!",
           status: "error",
         });
         break;
@@ -63,22 +59,6 @@ export default function Home() {
         setPassCodeData({ text: statusTextInitState, status: loginStatus });
     }
   }, [loginStatus]);
-
-  // Handle resize on keyboard open
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState<number | undefined>(undefined);
-  const handleWindowSizeChange = (event: Event) => {
-    setSize(window.visualViewport?.height);
-  };
-  useEffect(() => {
-    window.visualViewport?.addEventListener("resize", handleWindowSizeChange);
-    return () => {
-      window.visualViewport?.removeEventListener(
-        "resize",
-        handleWindowSizeChange,
-      );
-    };
-  }, []);
 
   const onSubmitPasscode = async (passcode: string) => {
     setLoginStatus("loading");
@@ -95,16 +75,14 @@ export default function Home() {
       }
     }
   };
+  const [containerRef, size, styleObject] = useResizableContainer();
 
   return (
     <div
       className={
-        "flex flex-col items-center justify-between transition-all duration-300"
+        "h-full flex flex-col items-center justify-between transition-all duration-200"
       }
-      style={{
-        height: size || "100%",
-        maxHeight: size || "100%",
-      }}
+      style={styleObject}
       ref={containerRef}>
       <MPJLink
         className={`h-[3.75rem] w-[10.75rem] mt-28 flex-none`}
