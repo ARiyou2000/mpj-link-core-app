@@ -24,7 +24,7 @@ class Device extends DeviceInfo {
     return this._registers;
   }
 
-  // makeRegisters(registersList: ServerSideRegisterType[]) {}
+  valueAssingment(valueArray: string[]) {}
 }
 
 export default Device;
