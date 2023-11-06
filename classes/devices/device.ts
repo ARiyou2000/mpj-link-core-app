@@ -1,4 +1,4 @@
-import Register from "@/classes/registers/register";
+import Register, { objectType } from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
 import { Protocols } from "@/classes/protocols";
 
@@ -24,7 +24,7 @@ class Device extends DeviceInfo {
     return this._registers;
   }
 
-  valueAssingment(valueArray: string[]) {}
+  valueAssingment(values: string[] | objectType) {}
 }
 
 export default Device;
