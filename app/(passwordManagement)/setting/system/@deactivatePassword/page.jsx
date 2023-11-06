@@ -1,10 +1,10 @@
 "use client";
 
-import PassCodeInput from "@/components/PassCodeInput";
 import { useContext, useState } from "react";
 import { SystemSettingPageToShowContext } from "../layout";
 import { loginWithCode } from "@/utils/login";
 import window from "@/utils/window";
+import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 
 const DeactivatePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -42,14 +42,12 @@ const DeactivatePasswordPage = () => {
 
   return (
     <>
-      <div className={"h-full px-4 pt-8 pb-16 flex flex-col justify-between"}>
-        <h3 className={"text-white text-lg"}>غیر فعال سازی رمز عبور</h3>
-        <PassCodeInput
-          text={passcodeData.text}
-          status={passcodeData.status}
-          onSubmit={passcodeData.onSubmit}
-        />
-      </div>
+      <PasswordManagementPageWrapper
+        header={"غیر فعال سازی رمز عبور"}
+        passcodeText={passcodeData.text}
+        passcodeStatus={passcodeData.status}
+        onPasscodeSubmit={passcodeData.onSubmit}
+      />
     </>
   );
 };

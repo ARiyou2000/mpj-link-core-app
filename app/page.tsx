@@ -122,7 +122,6 @@ export default function Home() {
       {isSliderUnlocked && (
         <PassCodeInput
           disabled={passCodeData.status === "loading"}
-          className={``}
           text={passCodeData.text}
           status={passCodeData.status}
           onSubmit={onSubmitPasscode}
