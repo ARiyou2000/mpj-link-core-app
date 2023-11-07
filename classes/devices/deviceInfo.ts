@@ -11,7 +11,7 @@ import {
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { Protocols } from "@/classes/protocols";
 
-export type ServerSideDeviceInfo = {
+export type ServerSideDeviceInfoT = {
   publicId: string;
   name: string;
   description: string;

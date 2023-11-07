@@ -3,10 +3,10 @@
 import window from "@/utils/window";
 import fetchUrl from "@/utils/fetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
-import { ServerSideRegisterType } from "@/classes/registers/register";
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import Scenario from "@/classes/scenario";
 import Zone from "@/classes/zone";
+import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 
 type fetcherOptionsType = {
   signal: AbortSignal;
@@ -19,8 +19,8 @@ type getStaticDataOptionsType = fetcherOptionsType & {
 type resultsType =
   | Promise<Zone[]>
   | Promise<Scenario[]>
-  | Promise<DeviceInfo[]>
-  | Promise<ServerSideRegisterType[]>;
+  | Promise<ServerSideDeviceInfoT[]>
+  | Promise<ServerSideRegisterInfoT[]>;
 
 const getStaticData = (
   dataTitle: string,
@@ -83,25 +83,25 @@ export const getFavoredScenarios = (
 
 export const getDevices = (
   options: fetcherOptionsType,
-): Promise<DeviceInfo[]> => getStaticData("device", null, options);
+): Promise<ServerSideDeviceInfoT[]> => getStaticData("device", null, options);
 
 export const getDeviceRegisters = (
   devicePublicId: string,
   options: fetcherOptionsType,
-): Promise<ServerSideRegisterType[]> =>
+): Promise<ServerSideRegisterInfoT[]> =>
   getStaticData(`device/${devicePublicId}`, null, options);
 
 export const getZoneDevices = (
   zonePublicId: string,
   options: fetcherOptionsType,
-): Promise<DeviceInfo[]> =>
+): Promise<ServerSideDeviceInfoT[]> =>
   getStaticData(`zone/${zonePublicId}`, null, options);
 
 export const getZoneDeviceRegisters = (
   zonePublicId: string,
   devicePublicId: string,
   options: fetcherOptionsType,
-): Promise<ServerSideRegisterType[]> =>
+): Promise<ServerSideRegisterInfoT[]> =>
   getStaticData(`zone/${zonePublicId}/device/${devicePublicId}`, null, options);
 
 export default getStaticData;
