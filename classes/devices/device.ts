@@ -1,12 +1,15 @@
 import Register, { objectType } from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
 import { Protocols } from "@/classes/protocols";
+import { type } from "os";
 
 export type RegistersListObjectType = { [key: string]: Register };
 
 class Device extends DeviceInfo {
   // @ts-ignore
   private _registers: RegistersListObjectType;
+  // @ts-ignore
+  #protocol: Protocols;
 
   constructor(
     protocol: Protocols,
@@ -16,12 +19,17 @@ class Device extends DeviceInfo {
     type: number,
     registers: RegistersListObjectType,
   ) {
-    super(protocol, publicId, name, description, type);
+    super(publicId, name, description, type);
+    this.#protocol = protocol;
     this._registers = registers;
   }
 
   get registers(): RegistersListObjectType {
     return this._registers;
+  }
+
+  get protocol(): Protocols {
+    return this.#protocol;
   }
 
   valueAssignment(values: string[] | objectType) {}

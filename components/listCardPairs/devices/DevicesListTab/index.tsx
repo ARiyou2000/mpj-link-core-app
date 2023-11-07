@@ -11,15 +11,22 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React, { useEffect, useState } from "react";
-import getCategorizedDevices from "@/utils/getCategorizedDevices";
+import getCategorizedDevices, { HeadersT } from "@/utils/getCategorizedDevices";
 import Link from "next/link";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
 const deviceCardClassName = "my-6";
 
-const DevicesListTab = ({ list = [], className, ...props }) => {
-  const [headers, setHeaders] = useState([]);
-  const [deviceList, setDeviceList] = useState([]);
+type propsT = {
+  className?: string;
+  list: DeviceInfo[];
+};
+const DevicesListTab = ({ list = [], className = "", ...props }: propsT) => {
+  const [headers, setHeaders] = useState<HeadersT>([]);
+  const [deviceList, setDeviceList] = useState<{
+    [key: string]: DeviceInfo[];
+  }>();
 
   useEffect(() => {
     if (list && list?.length > 0) {
@@ -37,7 +44,6 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
         {...props}>
         <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-2.5 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 bg-black bg-opacity-50 rounded-none">
           {list?.length > 0 ? (
-            // <>
             <React.Fragment key={"tabHeader"}>
               <TabsTrigger value={"all"} key={"tabHeader_noIndexing_all"}>
                 همه دستگاه ها
@@ -53,7 +59,6 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
               })}
             </React.Fragment>
           ) : (
-            // </>
             <LoadingSpinner />
           )}
         </TabsList>
@@ -63,7 +68,6 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
             "flex-1 h-0 px-4 flex flex-col items-center justify-center"
           }>
           {list?.length > 0 ? (
-            // <>
             <React.Fragment key={"tabContent"}>
               <TabsContent
                 value="all"
@@ -74,10 +78,10 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
                     return (
                       <Link
                         key={`tabContent_noIndexing_all_${deviceIndex}_device_${device.publicId}`}
-                        href={`/devices/${device.category}/${device.publicId}`}>
+                        href={`/devices/${device.type}/${device.publicId}`}>
                         <DeviceCard
                           className={deviceCardClassName}
-                          {...device}
+                          deviceInfo={device}
                         />
                       </Link>
                     );
@@ -97,10 +101,10 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
                           return (
                             <Link
                               key={`tabContent_${tabContentIndex}_${header.dataKey}_${deviceIndex}_device_${device.publicId}`}
-                              href={`/devices/${device.category}/${device.publicId}`}>
+                              href={`/devices/${device.type}/${device.publicId}`}>
                               <DeviceCard
                                 className={deviceCardClassName}
-                                {...device}
+                                deviceInfo={device}
                               />
                             </Link>
                           );
@@ -112,7 +116,6 @@ const DevicesListTab = ({ list = [], className, ...props }) => {
               })}
             </React.Fragment>
           ) : (
-            // </>
             <LoadingSpinner />
           )}
         </div>

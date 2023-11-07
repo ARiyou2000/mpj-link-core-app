@@ -26,7 +26,7 @@ export enum DevicesType {
   touch_panel_s8,
   touch_panel_10inch,
   ir_hood,
-  modbus_electrical_shaders,
+  modbus_curtains,
   zigbee_switch_3p,
   reserved_16,
   reserved_17,
@@ -45,37 +45,37 @@ export enum DevicesType {
   reserved_30,
 }
 
-export const deviceTypeList = {
-  modbus_switch: "modbus_switch",
-  modbus_relay: "modbus_relay",
-  modbus_thermostat: "modbus_thermostat",
-  modbus_music_player: "modbus_music_player",
-  modbus_duct_split: "modbus_duct_split",
-  ir_split: "ir_split",
-  ir_hood: "ir_hood",
-  modbus_electrical_shaders: "modbus_electrical_shaders",
-  zigbee_switch: "zigbee_switch",
-};
+export enum deviceCategories {
+  uncategorized,
+  switch,
+  relay,
+  thermostat,
+  music_player,
+  split,
+  hood,
+  curtains,
+}
 
+/**
+ * Represent a Device Info class containing pure device information.
+ * Omit information about device registers, etc.
+ * Fetch data on /devices
+ **/
 class DeviceInfo extends ResponseModel {
-  // @ts-ignore
-  #protocol: Protocols;
   // @ts-ignore
   #type: DevicesType;
   // @ts-ignore
-  #category: string;
+  #category: deviceCategories;
   // @ts-ignore
   #icon: any;
 
   constructor(
-    protocol: Protocols,
     publicId: string,
     name: string,
     description: string,
     type: DevicesType,
   ) {
     super(publicId, name, description);
-    this.#protocol = protocol;
     this.#type = type;
 
     switch (type) {
@@ -84,61 +84,47 @@ class DeviceInfo extends ResponseModel {
       case DevicesType.modbus_switch_3p:
       case DevicesType.modbus_switch_4p:
       case DevicesType.modbus_switch_6p:
-        this.#category = deviceTypeList.modbus_switch;
+      case DevicesType.zigbee_switch_3p:
+        this.#category = deviceCategories.switch;
         this.#icon = Switches;
         break;
       case DevicesType.modbus_relay:
-        this.#category = deviceTypeList.modbus_relay;
+        this.#category = deviceCategories.relay;
         this.#icon = Relay;
         break;
       case DevicesType.modbus_thermostat:
-        this.#category = deviceTypeList.modbus_thermostat;
+        this.#category = deviceCategories.thermostat;
         this.#icon = Thermometer;
         break;
       case DevicesType.modbus_music_player:
-        this.#category = deviceTypeList.modbus_music_player;
+        this.#category = deviceCategories.music_player;
         this.#icon = Music;
         break;
       case DevicesType.modbus_duct_split:
-        this.#category = deviceTypeList.modbus_duct_split;
-        this.#icon = DuctSplit;
-        break;
       case DevicesType.ir_split:
-        this.#category = deviceTypeList.ir_split;
+        this.#category = deviceCategories.split;
         this.#icon = DuctSplit;
         break;
       case DevicesType.ir_hood:
-        this.#category = deviceTypeList.ir_hood;
+        this.#category = deviceCategories.hood;
         this.#icon = Hood;
         break;
-      case DevicesType.modbus_electrical_shaders:
-        this.#category = deviceTypeList.modbus_electrical_shaders;
+      case DevicesType.modbus_curtains:
+        this.#category = deviceCategories.curtains;
         this.#icon = Shaders;
-        break;
-      // case DevicesType.zigbee_switch_1p:
-      // case DevicesType.zigbee_switch_2p:
-      case DevicesType.zigbee_switch_3p:
-        // case DevicesType.zigbee_switch_4p:
-        // case DevicesType.zigbee_switch_6p:
-        this.#category = deviceTypeList.zigbee_switch;
-        this.#icon = Switches;
         break;
       default:
         console.error("uncategorized device with type number of: ", type);
-        this.#category = "uncategorized";
+        this.#category = deviceCategories.uncategorized;
         this.#icon = LoadingSpinner;
     }
-  }
-
-  get protocol(): Protocols {
-    return this.#protocol;
   }
 
   get type(): DevicesType {
     return this.#type;
   }
 
-  get category(): string {
+  get category(): deviceCategories {
     return this.#category;
   }
 

@@ -6,17 +6,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import deviceInfo from "@/classes/devices/deviceInfo";
 
-const DeviceCard = ({
-  name,
-  description,
-  type,
-  publicId,
-  className,
-  icon,
-  ...props
-}) => {
-  const Icon = icon;
+type propsT = { deviceInfo: deviceInfo; className?: string };
+const DeviceCard = ({ deviceInfo, className = "", ...props }: propsT) => {
+  const Icon = deviceInfo.icon;
 
   return (
     <>
@@ -29,10 +23,10 @@ const DeviceCard = ({
         <CardHeader
           className={"basis-2/3 w-2/3 flex-initial flex flex-col gap-2 "}>
           <CardTitle className={"font-normal text-sm text-milkwhite"}>
-            {name}
+            {deviceInfo.name}
           </CardTitle>
           <CardDescription className={"font-normal text-xs text-milkwhite"}>
-            {description}
+            {deviceInfo.description}
           </CardDescription>
         </CardHeader>
         <CardContent
