@@ -1,12 +1,10 @@
 import Register, { objectType } from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
 import { Protocols } from "@/classes/protocols";
-import { type } from "os";
 
 export type RegistersListObjectType = { [key: string]: Register };
 
 class Device extends DeviceInfo {
-  // @ts-ignore
   private _registers: RegistersListObjectType;
   // @ts-ignore
   #protocol: Protocols;

@@ -11,6 +11,13 @@ import {
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { Protocols } from "@/classes/protocols";
 
+export type ServerSideDeviceInfo = {
+  publicId: string;
+  name: string;
+  description: string;
+  type: string;
+};
+
 export enum DevicesType {
   invalid,
   modbus_switch_1p,
