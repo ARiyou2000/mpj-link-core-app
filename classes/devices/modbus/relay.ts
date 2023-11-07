@@ -2,6 +2,11 @@ import Device from "@/classes/devices/device";
 import { ServerSideRegisterType } from "@/classes/registers/register";
 import { SwitchPole } from "@/classes/registers/modbus/switchRegister";
 import { Protocols } from "@/classes/protocols";
+import {
+  getRelayPortType,
+  RelayPortIn,
+  RelayPortOut,
+} from "@/classes/registers/modbus/relayRegisters";
 
 const createRegisters = (
   devicePublicId: string,
@@ -19,14 +24,16 @@ const createRegisters = (
       register.value,
     ] as const;
 
-    registersObject[`pole${registerNumber.toString().padStart(2, "0")}`] =
-      new SwitchPole(...params);
+    registersObject[`port${registerNumber.toString().padStart(2, "0")}`] =
+      getRelayPortType(registerNumber) === "output"
+        ? new RelayPortOut(...params)
+        : new RelayPortIn(...params);
   });
 
   return registersObject;
 };
 
-class Switch extends Device {
+class Relay extends Device {
   constructor(
     publicId: string,
     name: string,
@@ -52,4 +59,4 @@ class Switch extends Device {
   }
 }
 
-export default Switch;
+export default Relay;
