@@ -2,7 +2,6 @@ import Register from "@/classes/registers/register";
 import { Protocols } from "@/classes/protocols";
 
 const valueMap = {
-  "00": "defaultValue",
   "31": "previous",
   "32": "next",
   "37": "play",
@@ -24,7 +23,6 @@ export class MusicplayerMainReg extends Register {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       Protocols.modbus,
@@ -33,7 +31,6 @@ export class MusicplayerMainReg extends Register {
       name,
       description,
       indicator,
-      stringValue,
       valueMap,
       false,
     );

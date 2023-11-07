@@ -4,7 +4,7 @@ import { Protocols } from "@/classes/protocols";
 const valueMap = {
   "01": false,
   "02": true,
-};
+} as const;
 
 class GeneralPower extends Register {
   constructor(
@@ -13,7 +13,6 @@ class GeneralPower extends Register {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       Protocols.modbus,
@@ -22,7 +21,6 @@ class GeneralPower extends Register {
       name,
       description,
       indicator,
-      stringValue,
       valueMap,
       true,
     );

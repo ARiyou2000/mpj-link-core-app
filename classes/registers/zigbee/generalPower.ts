@@ -4,7 +4,7 @@ import { Protocols } from "@/classes/protocols";
 const valueMap = {
   ON: true,
   OFF: false,
-};
+} as const;
 
 class GeneralPower extends Register {
   constructor(
@@ -13,7 +13,6 @@ class GeneralPower extends Register {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       Protocols.zigbee,
@@ -22,7 +21,6 @@ class GeneralPower extends Register {
       name,
       description,
       indicator,
-      stringValue,
       valueMap,
       false,
     );

@@ -13,7 +13,6 @@ class ThermostatRegister extends Register {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
     valueMap: objectType,
   ) {
     super(
@@ -23,7 +22,6 @@ class ThermostatRegister extends Register {
       name,
       description,
       indicator,
-      stringValue,
       valueMap,
       true,
     );
@@ -45,7 +43,6 @@ export class ThermostatFanSpeed extends ThermostatRegister {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       devicePublicId,
@@ -53,7 +50,6 @@ export class ThermostatFanSpeed extends ThermostatRegister {
       name,
       description,
       indicator,
-      stringValue,
       fanSpeedValueMap,
     );
   }
@@ -72,7 +68,6 @@ export class ThermostatSeasonMode extends ThermostatRegister {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       devicePublicId,
@@ -80,7 +75,6 @@ export class ThermostatSeasonMode extends ThermostatRegister {
       name,
       description,
       indicator,
-      stringValue,
       seasonModeValueMap,
     );
   }
@@ -105,7 +99,6 @@ export class ThermostatTargetPointTemperature extends ThermostatRegister {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       devicePublicId,
@@ -113,7 +106,6 @@ export class ThermostatTargetPointTemperature extends ThermostatRegister {
       name,
       description,
       indicator,
-      stringValue,
       targetPointTemperatureMap,
     );
   }
@@ -138,7 +130,6 @@ export class ThermostatCurrentTemperature extends ThermostatRegister {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
     super(
       devicePublicId,
@@ -146,7 +137,6 @@ export class ThermostatCurrentTemperature extends ThermostatRegister {
       name,
       description,
       indicator,
-      stringValue,
       currentTemperatureMap,
     );
   }

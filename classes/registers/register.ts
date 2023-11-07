@@ -2,10 +2,11 @@ import ResponseModel from "@/classes/responseModel";
 import { Protocols } from "@/classes/protocols";
 import { setRegisterData } from "@/utils/queueHelper";
 import { setZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
+import e from "cors";
 
 export type generalValueType = number | boolean | string;
 export type objectType = { [key: string]: generalValueType };
-export type ServerSideRegisterType = {
+export type ServerSideRegisterInfoT = {
   publicId: string;
   name: string;
   description: string;
@@ -32,6 +33,7 @@ export const actualValueToString = (
   valueMap: objectType,
   value: generalValueType,
 ) => {
+  console.log(value, valueMap);
   const convertedValue = Object.keys(valueMap).find((key) => {
     return valueMap[key] === value;
   });
@@ -79,7 +81,6 @@ class Register extends ResponseModel {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
     valueMap: objectType,
     hasFeedback: boolean,
   ) {
@@ -89,7 +90,6 @@ class Register extends ResponseModel {
     this.#indicator = indicator;
     this.#hasFeedback = hasFeedback || true;
     this.#valueMap = valueMap;
-    this.#setValue(stringValue);
   }
 
   set stringValue(value: string) {
@@ -121,7 +121,7 @@ class Register extends ResponseModel {
       } else if (this.#protocol === Protocols.zigbee) {
         return await setZigbeeDeviceStatus(
           this.devicePublicId,
-          this.publicId,
+          this.#indicator,
           convertedValue,
         );
       } else {

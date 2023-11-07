@@ -22,9 +22,8 @@ class RelayPort extends GeneralPower {
     name: string,
     description: string,
     indicator: string,
-    stringValue: string,
   ) {
-    super(devicePublicId, publicId, name, description, indicator, stringValue);
+    super(devicePublicId, publicId, name, description, indicator);
     const portNumber = Number(indicator);
     this.#portType = getRelayPortType(portNumber);
   }
