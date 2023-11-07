@@ -18,7 +18,6 @@ const getCategorizedDevices = (list: DeviceInfo[] = []) => {
     [key: string]: DeviceInfo[];
   } = {};
 
-  console.log(list);
   // Create an empty list of devices for each category
   list.forEach((device) => {
     // Create an empty list for each device category
