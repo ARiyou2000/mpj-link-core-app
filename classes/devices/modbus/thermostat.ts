@@ -84,3 +84,5 @@ class Thermostat extends Device {
     this.registers.power.stringValue = values[4];
   }
 }
+
+export default Thermostat;
