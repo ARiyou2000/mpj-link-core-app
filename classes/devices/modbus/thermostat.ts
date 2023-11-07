@@ -76,7 +76,7 @@ class Thermostat extends Device {
     );
   }
 
-  valueAssingment(values: string[]) {
+  valueAssignment(values: string[]) {
     this.registers.seasonMode.stringValue = values[0];
     this.registers.fanSpeed.stringValue = values[1];
     this.registers.targetPointTemperature.stringValue = values[2];

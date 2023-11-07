@@ -24,7 +24,7 @@ class Device extends DeviceInfo {
     return this._registers;
   }
 
-  valueAssingment(values: string[] | objectType) {}
+  valueAssignment(values: string[] | objectType) {}
 }
 
 export default Device;
