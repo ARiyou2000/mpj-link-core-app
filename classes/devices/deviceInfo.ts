@@ -15,7 +15,7 @@ export type ServerSideDeviceInfoT = {
   publicId: string;
   name: string;
   description: string;
-  type: string;
+  type: number;
 };
 
 export enum DevicesType {
