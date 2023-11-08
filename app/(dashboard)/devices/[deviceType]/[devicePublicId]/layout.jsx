@@ -28,6 +28,7 @@ const DevicesLayout = ({
       case DevicesType.zigbee_switch_3p:
         return switchDevicePage;
       case DevicesType.modbus_relay:
+      case DevicesType.zigbee_relay:
         return relayDevicePage;
       case DevicesType.modbus_thermostat:
         return thermostatDevicePage;

@@ -35,7 +35,7 @@ export enum DevicesType {
   ir_hood,
   modbus_curtains,
   zigbee_switch_3p,
-  reserved_16,
+  zigbee_relay,
   reserved_17,
   reserved_18,
   reserved_19,
@@ -96,6 +96,7 @@ class DeviceInfo extends ResponseModel {
         this.#icon = Switches;
         break;
       case DevicesType.modbus_relay:
+      case DevicesType.zigbee_relay:
         this.#category = deviceCategories.relay;
         this.#icon = Relay;
         break;

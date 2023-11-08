@@ -19,6 +19,7 @@ import ModbusRelay from "@/classes/devices/modbus/relay";
 import ModbusThermostat from "@/classes/devices/modbus/thermostat";
 import { Protocols } from "@/classes/protocols";
 import ModbusMusicPlayer from "@/classes/devices/modbus/musicPlayer";
+import ZigbeeRelay from "@/classes/devices/zigbee/relay";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -147,6 +148,9 @@ const useDeviceData = () => {
               break;
             case DevicesType.modbus_relay:
               Device = new ModbusRelay(...props);
+              break;
+            case DevicesType.zigbee_relay:
+              Device = new ZigbeeRelay(...props);
               break;
             case DevicesType.modbus_thermostat:
               Device = new ModbusThermostat(...props);
