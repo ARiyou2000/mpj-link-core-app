@@ -1,8 +1,7 @@
 import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { SwitchPole } from "@/classes/registers/modbus/switchRegister";
 import { Protocols } from "@/classes/protocols";
-import {
+import RelayPort, {
   getRelayPortType,
   RelayPortIn,
   RelayPortOut,
@@ -12,7 +11,7 @@ const createRegisters = (
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
 ) => {
-  const registersObject: { [key: string]: SwitchPole } = {};
+  const registersObject: { [key: string]: RelayPort } = {};
   registersList.forEach((register) => {
     const registerNumber = Number(register.number);
     const params = [
