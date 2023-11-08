@@ -39,6 +39,7 @@ class Switch extends Device {
       description,
       type,
       createRegisters(publicId, registersInfo),
+      true,
     );
   }
 

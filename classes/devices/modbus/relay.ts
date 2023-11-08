@@ -47,6 +47,7 @@ class Relay extends Device {
       description,
       type,
       createRegisters(publicId, registersInfo),
+      true,
     );
   }
 

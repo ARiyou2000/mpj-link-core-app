@@ -72,6 +72,7 @@ class Thermostat extends Device {
       description,
       type,
       createRegisters(publicId, registersInfo),
+      true,
     );
   }
 
