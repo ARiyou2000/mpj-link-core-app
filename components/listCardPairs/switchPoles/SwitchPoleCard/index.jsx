@@ -7,18 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import useSwitchUpdate from "@/hooks/useSwitchUpdate";
-
-const SwitchCard = ({
-  name,
-  description,
-  publicId,
-  checked = false,
-  className,
-  ...props
-}) => {
-  const { onSwitchChange, loading } = useSwitchUpdate(publicId);
-
+const SwitchCard = ({ registerInstance, className, ...props }) => {
   return (
     <>
       <Card.Gradiant
@@ -31,18 +20,20 @@ const SwitchCard = ({
           className={
             "basis-2/3 text-right flex flex-col gap-2.5 justify-center p-2.5 text-milkwhite"
           }>
-          <CardTitle className={"font-normal text-base"}>{name}</CardTitle>
+          <CardTitle className={"font-normal text-base"}>
+            {registerInstance.name}
+          </CardTitle>
           <CardDescription className={"font-normal text-xs text-milkwhite"}>
-            {description}
+            {registerInstance.description}
           </CardDescription>
         </CardHeader>
         <CardContent
           className={`flex items-center justify-center h-full p-0 m-0`}>
           <Switch
-            checked={checked}
-            onCheckedChange={onSwitchChange}
-            disabled={loading}
-            loading={loading}
+            checked={registerInstance.value}
+            onCheckedChange={registerInstance.updateValue}
+            // disabled={loading}
+            // loading={loading}
           />
         </CardContent>
         {/*<CardFooter></CardFooter>*/}

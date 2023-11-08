@@ -18,8 +18,7 @@ const SwitchPolesList = ({ list = [], className, ...props }) => {
                 <SwitchCard
                   key={`switchPole_${index}_${switchPoleData.publicId}`}
                   className={"w-full"}
-                  checked={switchPoleData.value === "02"}
-                  {...switchPoleData}
+                  registerInstance={switchPoleData}
                 />
               );
             })
