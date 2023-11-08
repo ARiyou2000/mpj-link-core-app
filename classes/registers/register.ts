@@ -33,7 +33,6 @@ export const actualValueToString = (
   valueMap: objectType,
   value: generalValueType,
 ) => {
-  console.log(value, valueMap);
   const convertedValue = Object.keys(valueMap).find((key) => {
     return valueMap[key] === value;
   });
@@ -108,7 +107,7 @@ class Register extends ResponseModel {
     return this.#devicePublicId;
   }
 
-  async updateValue(value: generalValueType) {
+  #updateValue = async (value: generalValueType) => {
     try {
       const convertedValue = registerValueConverter.actualValueToString(
         this.#valueMap,
@@ -130,6 +129,10 @@ class Register extends ResponseModel {
     } catch (e) {
       throw e;
     }
+  };
+
+  get updateValue(): (value: generalValueType) => Promise<unknown> {
+    return this.#updateValue;
   }
 }
 
