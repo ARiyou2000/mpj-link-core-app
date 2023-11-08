@@ -14,7 +14,7 @@ const DevicesLayout = ({
   relayDevicePage,
   switchDevicePage,
   thermostatDevicePage,
-  electricalShadersDevicePage,
+  curtainsDevicePage,
   notFoundDevicePage,
   params,
 }) => {
@@ -41,7 +41,8 @@ const DevicesLayout = ({
       case DevicesType.ir_hood:
         return irHoodDevicePage;
       case DevicesType.modbus_curtains:
-        return electricalShadersDevicePage;
+      case DevicesType.zigbee_curtains:
+        return curtainsDevicePage;
       case DevicesType.invalid:
       default:
         return notFoundDevicePage;
