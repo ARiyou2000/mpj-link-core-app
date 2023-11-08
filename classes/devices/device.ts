@@ -1,7 +1,6 @@
 import Register, { objectType } from "@/classes/registers/register";
 import DeviceInfo from "@/classes/devices/deviceInfo";
 import { Protocols } from "@/classes/protocols";
-import { type } from "os";
 
 export type RegistersListObjectType = { [key: string]: Register };
 
@@ -40,6 +39,18 @@ class Device extends DeviceInfo {
   }
 
   valueAssignment(values: string[] | objectType) {}
+
+  // // @ts-ignore
+  // #getData = (signal: AbortSignal) => {
+  //   if (this.#protocol === Protocols.modbus) {
+  //   } else if (this.#protocol === Protocols.zigbee) {
+  //   } else {
+  //   }
+  // };
+  //
+  // get getData(): (signal: AbortSignal) => void {
+  //   return this.#getData;
+  // }
 }
 
 export default Device;
