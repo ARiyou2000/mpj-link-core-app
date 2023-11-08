@@ -1,14 +1,17 @@
 import generalPower from "@/classes/registers/zigbee/generalPower";
 
-type RelayPortTypeT = "input" | "output";
+export enum RelayPortType {
+  input,
+  output,
+}
 
-export const getRelayPortType = (portNumber: string): RelayPortTypeT => {
-  return "output";
+export const getRelayPortType = (portNumber: string): RelayPortType => {
+  return RelayPortType.output;
 };
 
 class RelayPort extends generalPower {
   // @ts-ignore
-  #portType: RelayPortTypeT;
+  #portType: RelayPortType;
 
   constructor(
     devicePublicId: string,
@@ -21,7 +24,7 @@ class RelayPort extends generalPower {
     this.#portType = getRelayPortType(indicator);
   }
 
-  get portType(): RelayPortTypeT {
+  get portType(): RelayPortType {
     return this.#portType;
   }
 }

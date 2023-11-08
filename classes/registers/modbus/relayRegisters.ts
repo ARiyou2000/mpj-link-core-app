@@ -1,12 +1,11 @@
 import GeneralPower from "./generalPower";
+import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 
-type RelayPortTypeT = "input" | "output";
-
-export const getRelayPortType = (portNumber: number): RelayPortTypeT => {
+export const getRelayPortType = (portNumber: number): RelayPortType => {
   if (portNumber > 0 && portNumber <= 8) {
-    return "input";
+    return RelayPortType.input;
   } else if (portNumber > 8 && portNumber <= 16) {
-    return "output";
+    return RelayPortType.output;
   } else {
     throw new Error("Port Number is not a valid number");
   }
@@ -14,7 +13,7 @@ export const getRelayPortType = (portNumber: number): RelayPortTypeT => {
 
 class RelayPort extends GeneralPower {
   // @ts-ignore
-  #portType: RelayPortTypeT;
+  #portType: RelayPortType;
 
   constructor(
     devicePublicId: string,
@@ -28,7 +27,7 @@ class RelayPort extends GeneralPower {
     this.#portType = getRelayPortType(portNumber);
   }
 
-  get portType(): RelayPortTypeT {
+  get portType(): RelayPortType {
     return this.#portType;
   }
 }
