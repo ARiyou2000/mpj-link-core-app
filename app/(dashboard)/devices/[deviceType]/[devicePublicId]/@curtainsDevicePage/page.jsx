@@ -4,7 +4,7 @@ import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useDeviceData from "@/hooks/useDeviceData";
 import ModbusShaders from "@/components/devicePagesBody/ModbusShaders";
 
-const ModbusShadersDevicePage = () => {
+const curtainsDevicePage = () => {
   const [info, deviceRegistersInfoAndData] = useDeviceData({
     hasFeedback: false,
   });
@@ -23,4 +23,4 @@ const ModbusShadersDevicePage = () => {
   );
 };
 
-export default ModbusShadersDevicePage;
+export default curtainsDevicePage;
