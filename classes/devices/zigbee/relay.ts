@@ -1,10 +1,9 @@
-import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
 import { DevicesType } from "@/classes/devices/deviceInfo";
 import RelayPort, {
   RelayPortOut,
 } from "@/classes/registers/zigbee/relayRegisters";
+import GeneralToggleDevice from "@/classes/devices/zigbee/generalToggleDevice";
 
 const createRegisters = (
   devicePublicId: string,
@@ -26,7 +25,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Relay extends Device {
+class Relay extends GeneralToggleDevice {
   constructor(
     publicId: string,
     name: string,
@@ -35,7 +34,6 @@ class Relay extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.zigbee,
       publicId,
       name,
       description,
@@ -43,13 +41,6 @@ class Relay extends Device {
       createRegisters(publicId, registersInfo),
       true,
     );
-  }
-
-  valueAssignment(values: { [key: string]: "ON" | "OFF" }) {
-    Object.keys(this.registers).forEach((registerKey) => {
-      const register = this.registers[registerKey];
-      register.stringValue = values[register.indicator];
-    });
   }
 }
 

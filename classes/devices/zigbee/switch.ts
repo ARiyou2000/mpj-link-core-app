@@ -1,8 +1,7 @@
-import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import { SwitchPole } from "@/classes/registers/zigbee/switchRegister";
-import { Protocols } from "@/classes/protocols";
 import { DevicesType } from "@/classes/devices/deviceInfo";
+import GeneralToggleDevice from "@/classes/devices/zigbee/generalToggleDevice";
 
 const createRegisters = (
   devicePublicId: string,
@@ -24,7 +23,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Switch extends Device {
+class Switch extends GeneralToggleDevice {
   constructor(
     publicId: string,
     name: string,
@@ -33,7 +32,6 @@ class Switch extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.zigbee,
       publicId,
       name,
       description,
@@ -41,13 +39,6 @@ class Switch extends Device {
       createRegisters(publicId, registersInfo),
       true,
     );
-  }
-
-  valueAssignment(values: { [key: string]: "ON" | "OFF" }) {
-    Object.keys(this.registers).forEach((registerKey) => {
-      const register = this.registers[registerKey];
-      register.stringValue = values[register.indicator];
-    });
   }
 }
 
