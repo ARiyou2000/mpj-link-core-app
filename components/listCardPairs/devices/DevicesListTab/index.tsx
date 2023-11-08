@@ -11,7 +11,9 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React, { useEffect, useState } from "react";
-import getCategorizedDevices, { HeadersT } from "@/utils/getCategorizedDevices";
+import getCategorizedDevices, {
+  DevicesCategoryHeadersT,
+} from "@/utils/getCategorizedDevices";
 import Link from "next/link";
 import DeviceInfo from "@/classes/devices/deviceInfo";
 
@@ -23,7 +25,7 @@ type propsT = {
   list: DeviceInfo[];
 };
 const DevicesListTab = ({ list = [], className = "", ...props }: propsT) => {
-  const [headers, setHeaders] = useState<HeadersT>([]);
+  const [headers, setHeaders] = useState<DevicesCategoryHeadersT>([]);
   const [deviceList, setDeviceList] = useState<{
     [key: string]: DeviceInfo[];
   }>();

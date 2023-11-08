@@ -1,7 +1,11 @@
 import DeviceInfo, { deviceCategories } from "@/classes/devices/deviceInfo";
 
-export type HeadersT = { title: string; dataKey: deviceCategories }[];
-const headers: HeadersT = [
+export type DevicesCategoryHeadersT = {
+  title: string;
+  dataKey: deviceCategories;
+}[];
+
+const headers: DevicesCategoryHeadersT = [
   { title: "کلید", dataKey: deviceCategories.switch },
   { title: "رله", dataKey: deviceCategories.relay },
   { title: "ترموستات", dataKey: deviceCategories.thermostat },
