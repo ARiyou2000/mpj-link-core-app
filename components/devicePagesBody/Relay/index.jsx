@@ -11,6 +11,7 @@ import {
 } from "@/components/listCardPairs/relayPorts/RelayPortsList";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { RelayPortType } from "../../../classes/registers/zigbee/relayRegisters";
 
 const tabContentStyleClassName = "h-full pt-6 pb-5";
 const relayPortStyleClassName = "h-full";
@@ -22,9 +23,12 @@ const Relay = ({ registersList = [], className, ...props }) => {
   const outputs = [];
 
   registersList?.forEach((register) => {
-    Number(register.number) < 8
-      ? inputs.push(register)
-      : outputs.push(register);
+    if (register.portType === RelayPortType.output) {
+      outputs.push(register);
+    } else if (register.portType === RelayPortType.input) {
+      inputs.push(register);
+    } else {
+    }
   });
 
   return (
@@ -34,24 +38,26 @@ const Relay = ({ registersList = [], className, ...props }) => {
           defaultValue={
             registersList?.length
               ? outputs.length > 0
-                ? "output"
-                : "input"
-              : "outputs"
+                ? RelayPortType.output
+                : RelayPortType.input
+              : RelayPortType.output
           }
           className={cn("w-full flex flex-col gap-2", className)}
           {...props}>
           <TabsList>
             {outputs?.length > 0 && (
-              <TabsTrigger value="output">خروجی</TabsTrigger>
+              <TabsTrigger value={RelayPortType.output}>خروجی</TabsTrigger>
             )}
             {inputs?.length > 0 && (
-              <TabsTrigger value="input">ورودی</TabsTrigger>
+              <TabsTrigger value={RelayPortType.input}>ورودی</TabsTrigger>
             )}
           </TabsList>
 
           <ScrollArea className={"flex-1 w-full"}>
             {outputs?.length > 0 && (
-              <TabsContent value="output" className={tabContentStyleClassName}>
+              <TabsContent
+                value={RelayPortType.output}
+                className={tabContentStyleClassName}>
                 <RelayOutputPortsList
                   list={outputs}
                   className={relayPortStyleClassName}
@@ -60,7 +66,9 @@ const Relay = ({ registersList = [], className, ...props }) => {
             )}
 
             {inputs?.length > 0 && (
-              <TabsContent value="input" className={tabContentStyleClassName}>
+              <TabsContent
+                value={RelayPortType.input}
+                className={tabContentStyleClassName}>
                 <RelayInputPortsList
                   list={inputs}
                   className={relayPortStyleClassName}

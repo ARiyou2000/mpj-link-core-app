@@ -7,15 +7,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-const RelayPortCard = ({
-  name,
-  description,
-  children,
-  value,
-  publicId,
-  className,
-  ...props
-}) => {
+const RelayPortCard = ({ registerInstance, children, className, ...props }) => {
   return (
     <>
       <Card.Gradiant
@@ -29,13 +21,13 @@ const RelayPortCard = ({
             "flex flex-col gap-1 justify-start items-center p-1 text-milkwhite"
           }>
           <CardTitle className={"font-normal text-sm text-center"}>
-            {name}
+            {registerInstance.name}
           </CardTitle>
           <CardDescription
             className={
               "font-normal text-[0.625rem] leading-4 text-milkwhite text-right"
             }>
-            {description}
+            {registerInstance.description}
           </CardDescription>
         </CardHeader>
         <CardContent className={"p-0 m-0 flex items-center justify-center"}>

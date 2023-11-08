@@ -5,15 +5,17 @@ import Relay from "@/components/devicePagesBody/Relay";
 import useDeviceData from "@/hooks/useDeviceData";
 
 const RelayDevicePage = () => {
-  const [info, data] = useDeviceData();
+  const Device = useDeviceData();
+  const registersList = (Device && Object.values(Device?.registers)) || [];
+
   return (
     <>
       <DeviceHeader
-        name={info?.name}
-        description={info?.description}
+        name={Device?.name}
+        description={Device?.description}
         hasPowerButton={false}
       />
-      <Relay className={"flex-1 h-0 w-full"} registersList={data} />
+      <Relay className={"flex-1 h-0 w-full"} registersList={registersList} />
     </>
   );
 };

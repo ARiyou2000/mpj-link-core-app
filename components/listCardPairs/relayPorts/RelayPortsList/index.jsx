@@ -3,14 +3,9 @@ import RelayPortInCard from "../RelayPortInCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 
-const RelayPortsListComponent = ({
-  list = [],
-  type = "output",
-  className,
-  ...props
-}) => {
-  const PortModel = type === "output" ? RelayPortOutCard : RelayPortInCard;
+const RelayPortsListComponent = ({ list = [], className, ...props }) => {
   return (
     <>
       <ScrollArea className={cn("w-full h-full", className)}>
@@ -21,14 +16,18 @@ const RelayPortsListComponent = ({
           {...props}>
           {list?.length > 0 ? (
             list?.map((relayPortData, index) => {
-              return (
-                <PortModel
-                  key={`relayPort_${type}_${index}_${relayPortData.publicId}`}
-                  className={"basis-[48%]"}
-                  checked={relayPortData.value === "02"}
-                  {...relayPortData}
-                />
-              );
+              const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
+                props = {
+                  className: "basis-[48%]",
+                  registerInstance: relayPortData,
+                };
+
+              if (relayPortData.portType === RelayPortType.output) {
+                return <RelayPortOutCard key={key} {...props} />;
+              } else if (relayPortData.portType === RelayPortType.input) {
+                return <RelayPortInCard key={key} {...props} />;
+              } else {
+              }
             })
           ) : (
             <LoadingSpinner />
@@ -40,11 +39,11 @@ const RelayPortsListComponent = ({
 };
 
 export const RelayInputPortsList = ({ ...props }) => (
-  <RelayPortsListComponent type={"input"} {...props} />
+  <RelayPortsListComponent {...props} />
 );
 
 export const RelayOutputPortsList = ({ children, ...props }) => (
-  <RelayPortsListComponent type={"output"} {...props} />
+  <RelayPortsListComponent {...props} />
 );
 
 const RelayPortsList = {

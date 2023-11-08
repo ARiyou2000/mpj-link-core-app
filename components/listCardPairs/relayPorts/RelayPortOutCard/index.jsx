@@ -1,24 +1,15 @@
 import { Switch } from "@/components/ui/switch";
 import RelayPortCard from "../RelayPortCard";
-import useSwitchUpdate from "@/hooks/useSwitchUpdate";
 
-const RelayPortOutCard = ({
-  name,
-  description,
-  publicId,
-  checked = false,
-  ...props
-}) => {
-  const { onSwitchChange, loading } = useSwitchUpdate(publicId);
-
+const RelayPortOutCard = ({ registerInstance, ...props }) => {
   return (
     <>
-      <RelayPortCard name={name} description={description} {...props}>
+      <RelayPortCard registerInstance={registerInstance} {...props}>
         <Switch
-          checked={checked}
-          onCheckedChange={onSwitchChange}
-          disabled={loading}
-          loading={loading}
+          checked={registerInstance.value}
+          onCheckedChange={registerInstance.updateValue}
+          // disabled={loading}
+          // loading={loading}
         />
       </RelayPortCard>
     </>
