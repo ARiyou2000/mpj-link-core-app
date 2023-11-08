@@ -141,7 +141,7 @@ export class ThermostatCurrentTemperature extends ThermostatRegister {
     );
   }
 
-  async updateValue(value: boolean) {
+  get updateValue() {
     throw new Error("Thermostat current temperature can be read only!");
   }
 }

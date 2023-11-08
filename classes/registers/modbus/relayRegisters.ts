@@ -1,8 +1,8 @@
 import GeneralPower from "./generalPower";
 
-type portTypeT = "input" | "output";
+type RelayPortTypeT = "input" | "output";
 
-export const getRelayPortType = (portNumber: number) => {
+export const getRelayPortType = (portNumber: number): RelayPortTypeT => {
   if (portNumber > 0 && portNumber <= 8) {
     return "input";
   } else if (portNumber > 8 && portNumber <= 16) {
@@ -14,7 +14,7 @@ export const getRelayPortType = (portNumber: number) => {
 
 class RelayPort extends GeneralPower {
   // @ts-ignore
-  #portType: portTypeT;
+  #portType: RelayPortTypeT;
 
   constructor(
     devicePublicId: string,
@@ -28,7 +28,7 @@ class RelayPort extends GeneralPower {
     this.#portType = getRelayPortType(portNumber);
   }
 
-  get portType(): portTypeT {
+  get portType(): RelayPortTypeT {
     return this.#portType;
   }
 }
@@ -36,7 +36,9 @@ class RelayPort extends GeneralPower {
 export class RelayPortOut extends RelayPort {}
 
 export class RelayPortIn extends RelayPort {
-  async updateValue(value: boolean) {
+  get updateValue() {
     throw new Error("Relay Port In can be read only!");
   }
 }
+
+export default RelayPort;
