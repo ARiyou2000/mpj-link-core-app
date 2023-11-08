@@ -88,7 +88,7 @@ class Register extends ResponseModel {
     this.#protocol = protocol;
     this.#devicePublicId = devicePublicId;
     this.#indicator = indicator;
-    this.#hasFeedback = hasFeedback || true;
+    this.#hasFeedback = hasFeedback;
     this.#valueMap = valueMap;
   }
 
