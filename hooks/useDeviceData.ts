@@ -10,43 +10,30 @@ import {
 } from "@/utils/getStaticData";
 import { getDeviceData } from "@/utils/queueHelper";
 import { useToast } from "@/components/ui/use-toast";
-import Register from "@/classes/registers/register";
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import { DevicesType } from "@/classes/devices/deviceInfo";
 import useZigbeeDeviceData from "@/hooks/useZigbeeDeviceData";
+import Device from "@/classes/devices/device";
+import ModbusSwitch from "@/classes/devices/modbus/switch";
+import ZigbeeSwitch from "@/classes/devices/zigbee/switch";
+import ModbusRelay from "@/classes/devices/modbus/relay";
+import ModbusThermostat from "@/classes/devices/modbus/thermostat";
+import { Protocols } from "@/classes/protocols";
+import ModbusMusicPlayer from "@/classes/devices/modbus/musicPlayer";
 
-export const getRegistersValueFormString = (str: string) => {
+export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
-};
-
-type optionsType = {
-  hasFeedback?: boolean;
-  assignmentCallback?:
-    | ((register: Register, registersValueArray: string[]) => string)
-    | ((register: Register, deviceState: Object) => string)
-    | null;
-  deviceType?: "modbus" | "zigbee";
 };
 
 const config = {
   intervalTimeOnCallWithoutError: 200,
   intervalTimeOnCallWithError: 500,
 };
-const useDeviceData = (options: optionsType = {}) => {
-  const {
-    hasFeedback = true,
-    assignmentCallback = null,
-    deviceType = "modbus",
-  } = options;
-
+const useDeviceData = () => {
   const router = useRouter();
   const { toast } = useToast();
 
   const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] =
-    useState<Register[]>();
-  const [deviceInfo, setDeviceInfo] = useState<{
-    name: string;
-    description: string;
-  }>();
+    useState<Device>();
 
   // Check if there is query params not. if there is use get getZoneDeviceRegisters instead of getDeviceRegisters
   const searchParams = useSearchParams();
@@ -67,7 +54,10 @@ const useDeviceData = (options: optionsType = {}) => {
   const isPagePresent = useRef(true);
   const isThereFetchDataError = useRef(false);
 
-  const zigbeeData = useZigbeeDeviceData(devicePId, deviceType === "zigbee");
+  const zigbeeData = useZigbeeDeviceData(
+    devicePId,
+    Protocols.zigbee === Protocols.zigbee,
+  );
 
   useEffect(() => {
     isPagePresent.current = true;
@@ -116,17 +106,17 @@ const useDeviceData = (options: optionsType = {}) => {
           ? await getZoneDevices(zonePublicId, { signal })
           : await getDevices({ signal });
 
-        // Find device form list by device public ID
         const deviceObjFromStorage = deviceListFromStorage?.find(
-          (deviceInfo: DeviceInfo) => {
+          (deviceInfo) => {
             return deviceInfo.publicId === devicePId;
           },
-        ) as DeviceInfo;
+        );
 
-        setDeviceInfo({
-          name: deviceObjFromStorage.name,
-          description: deviceObjFromStorage.description,
-        });
+        if (!deviceObjFromStorage) {
+          throw new Error(
+            `Couldn't find device by the id of ${devicePId} from localstorage!`,
+          );
+        }
 
         // -------------------- Device Registers Value --------------------
         try {
@@ -135,9 +125,55 @@ const useDeviceData = (options: optionsType = {}) => {
             ? await getZoneDeviceRegisters(zonePublicId, devicePId, { signal })
             : await getDeviceRegisters(devicePId, { signal });
 
+          const props = [
+            devicePId,
+            deviceObjFromStorage.name,
+            deviceObjFromStorage.description,
+            deviceObjFromStorage.type,
+            deviceRegistersFromStorage,
+          ] as const;
+
+          let Device: Device;
+          switch (Number(deviceObjFromStorage.type)) {
+            case DevicesType.modbus_switch_1p:
+            case DevicesType.modbus_switch_2p:
+            case DevicesType.modbus_switch_3p:
+            case DevicesType.modbus_switch_4p:
+            case DevicesType.modbus_switch_6p:
+              Device = new ModbusSwitch(...props);
+              break;
+            case DevicesType.zigbee_switch_3p:
+              Device = new ZigbeeSwitch(...props);
+              break;
+            case DevicesType.modbus_relay:
+              Device = new ModbusRelay(...props);
+              break;
+            case DevicesType.modbus_thermostat:
+              Device = new ModbusThermostat(...props);
+              break;
+            case DevicesType.modbus_music_player:
+              Device = new ModbusMusicPlayer(...props);
+              break;
+            // case DevicesType.modbus_duct_split:
+            //   Device = new ModbusDuctSplit(...props);
+            //   break;
+            // case DevicesType.ir_split:
+            //   Device = new ZigbeeSwitch(...props);
+            //   break;
+            // case DevicesType.ir_hood:
+            //   Device = new ZigbeeSwitch(...props);
+            //   break;
+            // case DevicesType.modbus_curtains:
+            //   Device = new ZigbeeSwitch(...props);
+            //   break;
+            case DevicesType.invalid:
+            default:
+              throw new Error("device type is not mapped with a class!");
+          }
+
           // Get device data only if it has feedback
-          if (deviceType === "modbus") {
-            if (hasFeedback) {
+          if (Device.protocol === Protocols.modbus) {
+            if (Device.hasDataFeedback) {
               try {
                 // Device registers current value form server
                 const deviceRegistersValue = await getDeviceData(devicePId, {
@@ -153,22 +189,10 @@ const useDeviceData = (options: optionsType = {}) => {
                 const registersValueArray =
                   getRegistersValueFormString(registersStringValue);
 
-                // Assign each value to its register object
-                deviceRegistersFromStorage.forEach((register, index) => {
-                  if (assignmentCallback) {
-                    register.value = assignmentCallback(
-                      register,
-                      registersValueArray,
-                    );
-                  } else {
-                    // Register number represent its value index in value string array
-                    register.value =
-                      registersValueArray[Number(register.number) - 1];
-                  }
-                });
+                Device.valueAssignment(registersValueArray);
 
                 // This must place here to prevent showing registers list to user on error getting data from server
-                setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
+                setDeviceRegistersInfoAndData(Device);
               } catch (e: {
                 code?: number;
                 message: string;
@@ -198,18 +222,14 @@ const useDeviceData = (options: optionsType = {}) => {
               }
             } else {
               // If device doesn't have feedback set registers info
-              setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
+              setDeviceRegistersInfoAndData(Device);
             }
-          } else if (deviceType === "zigbee") {
+          } else if (Device.protocol === Protocols.zigbee) {
             try {
               if (!!zigbeeData) {
                 const dataObject = JSON.parse(zigbeeData.toString());
-                deviceRegistersFromStorage.forEach((register, index) => {
-                  if (assignmentCallback && dataObject) {
-                    register.value = assignmentCallback(register, dataObject);
-                  }
-                });
-                setDeviceRegistersInfoAndData(deviceRegistersFromStorage);
+                Device.valueAssignment(dataObject);
+                setDeviceRegistersInfoAndData(Device);
               }
             } catch (e) {
               console.error("Error parsing mqtt data: ", zigbeeData, e);
@@ -258,7 +278,7 @@ const useDeviceData = (options: optionsType = {}) => {
     };
   }, [zigbeeData]);
 
-  return [deviceInfo, deviceRegistersInfoAndData];
+  return deviceRegistersInfoAndData;
 };
 
 export default useDeviceData;
