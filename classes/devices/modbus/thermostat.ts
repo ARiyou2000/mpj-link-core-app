@@ -1,6 +1,6 @@
 import Device from "@/classes/devices/device";
 import { Protocols } from "@/classes/protocols";
-import { ServerSideRegisterType } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import {
   ThermostatCurrentTemperature,
   ThermostatFanSpeed,
@@ -19,7 +19,7 @@ type ThermostatRegistersListType = {
 
 const createRegisters = (
   devicePublicId: string,
-  registersList: ServerSideRegisterType[],
+  registersList: ServerSideRegisterInfoT[],
 ) => {
   const registersObject = <ThermostatRegistersListType>{};
   registersList.forEach((register) => {
@@ -29,7 +29,6 @@ const createRegisters = (
       register.name,
       register.description,
       register.number,
-      register.value,
     ] as const;
     switch (Number(register.number)) {
       case 1:
@@ -64,7 +63,7 @@ class Thermostat extends Device {
     name: string,
     description: string,
     type: number,
-    registersInfo: ServerSideRegisterType[],
+    registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
       Protocols.modbus,

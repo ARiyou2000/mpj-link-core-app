@@ -1,5 +1,5 @@
 import Device from "@/classes/devices/device";
-import { ServerSideRegisterType } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import { SwitchPole } from "@/classes/registers/modbus/switchRegister";
 import { Protocols } from "@/classes/protocols";
 import {
@@ -10,7 +10,7 @@ import {
 
 const createRegisters = (
   devicePublicId: string,
-  registersList: ServerSideRegisterType[],
+  registersList: ServerSideRegisterInfoT[],
 ) => {
   const registersObject: { [key: string]: SwitchPole } = {};
   registersList.forEach((register) => {
@@ -21,7 +21,6 @@ const createRegisters = (
       register.name,
       register.description,
       register.number,
-      register.value,
     ] as const;
 
     registersObject[`port${registerNumber.toString().padStart(2, "0")}`] =
@@ -39,7 +38,7 @@ class Relay extends Device {
     name: string,
     description: string,
     type: number,
-    registersInfo: ServerSideRegisterType[],
+    registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
       Protocols.modbus,

@@ -1,11 +1,12 @@
 import Device from "@/classes/devices/device";
-import { ServerSideRegisterType } from "@/classes/registers/register";
-import { SwitchPole } from "@/classes/registers/modbus/switchRegister";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { SwitchPole } from "@/classes/registers/zigbee/switchRegister";
 import { Protocols } from "@/classes/protocols";
+import { DevicesType } from "@/classes/devices/deviceInfo";
 
 const createRegisters = (
   devicePublicId: string,
-  registersList: ServerSideRegisterType[],
+  registersList: ServerSideRegisterInfoT[],
 ) => {
   const registersObject: { [key: string]: SwitchPole } = {};
   registersList.forEach((register) => {
@@ -16,7 +17,6 @@ const createRegisters = (
       register.name,
       register.description,
       register.number,
-      register.value,
     ] as const;
 
     registersObject[`pole${registerNumber.toString().padStart(2, "0")}`] =
@@ -31,8 +31,8 @@ class Switch extends Device {
     publicId: string,
     name: string,
     description: string,
-    type: number,
-    registersInfo: ServerSideRegisterType[],
+    type: DevicesType,
+    registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
       Protocols.modbus,
