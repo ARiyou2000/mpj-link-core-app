@@ -50,7 +50,7 @@ const SplitIR = ({
   return (
     <>
       <ScrollArea className={className}>
-        <div className={"h-full pb-5"} {...props}>
+        <div className={"h-full pb-5 flex flex-col justify-center"} {...props}>
           <div
             className={
               "px-7 py-[4.5rem] flex flex-row items-center justify-between"
