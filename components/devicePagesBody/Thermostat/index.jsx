@@ -45,7 +45,7 @@ const Thermostat = ({
             onTargetTemperatureChange={async (value) => {
               await registerUpdateHandler(() => {
                 const stringVal = String(value).padStart(2, "0");
-                // targetPointTemperature?.updateValue(stringVal);
+                // await registerUpdateHandler(()=>targetPointTemperature?.updateValue(stringVal));
                 deviceInstance.setTargetTemp(stringVal);
               });
             }}
@@ -56,7 +56,7 @@ const Thermostat = ({
             <RadioGroup
               value={powerValue && seasonMode?.value}
               onValueChange={async (value) => {
-                // await registerUpdateHandler(seasonMode.updateValue(value));
+                // await registerUpdateHandler(()=>seasonMode.updateValue(value));
                 if (value === "cold") {
                   await registerUpdateHandler(deviceInstance.coolingMode);
                 } else if (value === "hot") {
@@ -88,7 +88,7 @@ const Thermostat = ({
               }
               onChange={async (index) => {
                 const value = fanSpeedsDataTable[index].value;
-                // await registerUpdateHandler(fanSpeed.updateValue(value));
+                // await registerUpdateHandler(()=>fanSpeed.updateValue(value));
                 switch (value) {
                   case "slow":
                     await registerUpdateHandler(deviceInstance.slowFanSpeed);
