@@ -8,6 +8,7 @@ import {
   ThermostatSeasonMode,
   ThermostatTargetPointTemperature,
 } from "@/classes/registers/modbus/thermostatRegisters";
+import { type } from "os";
 
 type ThermostatRegistersListType = {
   power: ThermostatPower;
@@ -82,6 +83,101 @@ class Thermostat extends Device {
     this.registers.targetPointTemperature.stringValue = values[2];
     this.registers.currentTemperature.stringValue = values[3];
     this.registers.power.stringValue = values[4];
+  }
+
+  // @ts-ignore
+  #powerOn = async () => {
+    return await this.registers.power.updateValue(true);
+  };
+  // @ts-ignore
+  #powerOff = async () => {
+    return await this.registers.power.updateValue(false);
+  };
+  // @ts-ignore
+  #togglePower = async () => {
+    if (this.registers.power.value) {
+      return await this.#powerOff();
+    }
+    return await this.#powerOn();
+  };
+  // @ts-ignore
+  #coolingMode = async () => {
+    return await this.registers.seasonMode.updateValue("cold");
+  };
+  // @ts-ignore
+  #heatingMode = async () => {
+    return await this.registers.seasonMode.updateValue("hot");
+  };
+  // @ts-ignore
+  #toggleSeasonMode = async () => {
+    if (this.registers.seasonMode.value === "cold") {
+      return await this.#heatingMode();
+    }
+    return await this.#coolingMode();
+  };
+  // @ts-ignore
+  #slowFanSpeed = async () => {
+    return await this.registers.fanSpeed.updateValue("slow");
+  };
+  // @ts-ignore
+  #mediumFanSpeed = async () => {
+    return await this.registers.fanSpeed.updateValue("medium");
+  };
+  // @ts-ignore
+  #fastFanSpeed = async () => {
+    return await this.registers.fanSpeed.updateValue("fast");
+  };
+  // @ts-ignore
+  #autoFanSpeed = async () => {
+    return await this.registers.fanSpeed.updateValue("auto");
+  };
+  // @ts-ignore
+  #setTargetTemp = async (value: string) => {
+    return await this.registers.targetPointTemperature.updateValue(value);
+  };
+
+  get powerOn(): () => Promise<unknown> {
+    return this.#powerOn;
+  }
+
+  get powerOff(): () => Promise<unknown> {
+    return this.#powerOff;
+  }
+
+  get togglePower(): () => Promise<unknown> {
+    return this.#togglePower;
+  }
+
+  get coolingMode(): () => Promise<unknown> {
+    return this.#coolingMode;
+  }
+
+  get heatingMode(): () => Promise<unknown> {
+    return this.#heatingMode;
+  }
+
+  get toggleSeasonMode(): () => Promise<unknown> {
+    return this.#toggleSeasonMode;
+  }
+
+  get slowFanSpeed(): () => Promise<unknown> {
+    return this.#slowFanSpeed;
+  }
+
+  get mediumFanSpeed(): () => Promise<unknown> {
+    return this.#mediumFanSpeed;
+  }
+
+  get fastFanSpeed(): () => Promise<unknown> {
+    return this.#fastFanSpeed;
+  }
+
+  get autoFanSpeed(): () => Promise<unknown> {
+    return this.#autoFanSpeed;
+  }
+
+  get setTargetTemp(): (value: string) => Promise<unknown> {
+    return this.#setTargetTemp;
   }
 }
 
