@@ -3,48 +3,28 @@
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useDeviceData from "@/hooks/useDeviceData";
 import IrHood from "@/components/devicePagesBody/IrHood";
-import { setRegisterData } from "@/utils/queueHelper";
-import { useState } from "react";
-import { useToast } from "../../../../../../components/ui/use-toast";
+import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 
 const IrHoodDevicePage = () => {
-  const [info, deviceRegistersInfoAndData] = useDeviceData({
-    hasFeedback: false,
-  });
+  const device = useDeviceData();
 
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
-
-  const handleUpdate = async (registerPublicId) => {
-    setLoading(true);
-    const options = { hasFeedback: false };
-    try {
-      const result = await setRegisterData(registerPublicId, "01", options);
-    } catch (e) {
-      toast({
-        variant: "destructive",
-        title: "شما دسترسی تغییر این گزینه را ندارید",
-      });
-      console.error(e);
-    }
-    setLoading(false);
-  };
+  const [handleRegistersUpdate] = useRegisterUpdateToast();
 
   return (
     <>
       <DeviceHeader
-        name={info?.name}
-        description={info?.description}
+        name={device?.name}
+        description={device?.description}
         hasPowerButton={true}
         powerValue={false}
-        onPowerChange={() => {
-          handleUpdate(deviceRegistersInfoAndData[0].publicId);
+        onPowerChange={async () => {
+          await handleRegistersUpdate(device.changePower);
         }}
       />
       <IrHood
         className={"flex-1 h-0 w-full"}
-        handleDeviceUpdate={handleUpdate}
-        registersList={deviceRegistersInfoAndData}
+        handleDeviceUpdate={handleRegistersUpdate}
+        deviceInstance={device}
       />
     </>
   );

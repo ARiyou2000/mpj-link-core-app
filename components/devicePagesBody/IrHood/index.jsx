@@ -2,10 +2,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Lightbulb, Minus, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-import { Hood } from "../../icons";
-import { useToast } from "../../ui/use-toast";
-import { setRegisterData } from "../../../utils/queueHelper";
+import { Hood } from "@/components/icons";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-center p-3 m-0 border-0.5 rounded-card border-milkwhite";
@@ -13,8 +10,8 @@ const musicPlayerVolumeButtonStyleClassName = "p-1.5 rounded-full border-0.5";
 const musicPlayerVolumeButtonIconStyleClassName = "h-8 w-8";
 
 const IrHoodDevicePageBody = ({
-  handleDeviceUpdate = (registerPublicId) => null,
-  registersList = [],
+  handleDeviceUpdate = () => null,
+  deviceInstance,
   className,
   ...props
 }) => {
@@ -33,7 +30,7 @@ const IrHoodDevicePageBody = ({
             <Button
               className={musicPlayerInputSourceButtonStyleClassName}
               onClick={() => {
-                handleDeviceUpdate(registersList[3]?.publicId);
+                handleDeviceUpdate(deviceInstance.changeLight);
               }}>
               <div className={"rounded-full border-1.5 border-milkwhite p-2.5"}>
                 <Lightbulb className={"w-8 h-8"} />
@@ -48,7 +45,7 @@ const IrHoodDevicePageBody = ({
               <Button
                 className={musicPlayerVolumeButtonStyleClassName}
                 onClick={() => {
-                  handleDeviceUpdate(registersList[1]?.publicId);
+                  handleDeviceUpdate(deviceInstance.increaseFanSpeed);
                 }}>
                 <Plus className={musicPlayerVolumeButtonIconStyleClassName} />
               </Button>
@@ -56,7 +53,7 @@ const IrHoodDevicePageBody = ({
               <Button
                 className={musicPlayerVolumeButtonStyleClassName}
                 onClick={() => {
-                  handleDeviceUpdate(registersList[2]?.publicId);
+                  handleDeviceUpdate(deviceInstance.decreaseFanSpeed);
                 }}>
                 <Minus className={musicPlayerVolumeButtonIconStyleClassName} />
               </Button>

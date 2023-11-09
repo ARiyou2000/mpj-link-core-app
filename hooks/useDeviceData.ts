@@ -21,6 +21,8 @@ import { Protocols } from "@/classes/protocols";
 import ModbusMusicPlayer from "@/classes/devices/modbus/musicPlayer";
 import ZigbeeRelay from "@/classes/devices/zigbee/relay";
 import ZigbeeCurtains from "@/classes/devices/zigbee/curtains";
+import IrSplit from "@/classes/devices/modbus/irSplit";
+import IrHood from "@/classes/devices/modbus/irHood";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -162,12 +164,12 @@ const useDeviceData = () => {
             // case DevicesType.modbus_duct_split:
             //   Device = new ModbusDuctSplit(...props);
             //   break;
-            // case DevicesType.ir_split:
-            //   Device = new ZigbeeSwitch(...props);
-            //   break;
-            // case DevicesType.ir_hood:
-            //   Device = new ZigbeeSwitch(...props);
-            //   break;
+            case DevicesType.ir_split:
+              Device = new IrSplit(...props);
+              break;
+            case DevicesType.ir_hood:
+              Device = new IrHood(...props);
+              break;
             case DevicesType.modbus_curtains:
               Device = new ZigbeeSwitch(...props);
               break;
