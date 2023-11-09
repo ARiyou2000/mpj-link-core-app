@@ -5,8 +5,10 @@ const useRegisterUpdateToast = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
-  const handleRegistersUpdate = async (callbackFn) => {
-    setLoading((prevState) => true);
+  const handleRegistersUpdate = async (
+    callbackFn: () => unknown = async () => null,
+  ) => {
+    // setLoading((prevState) => true);
     try {
       const result = await callbackFn();
     } catch (e) {
@@ -16,7 +18,7 @@ const useRegisterUpdateToast = () => {
       });
       console.error(e);
     }
-    setLoading((prevState) => false);
+    // setLoading((prevState) => false);
   };
 
   return [handleRegistersUpdate, loading];
