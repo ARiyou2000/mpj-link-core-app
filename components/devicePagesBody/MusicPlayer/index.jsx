@@ -12,7 +12,6 @@ import { Bluetooth, Mute } from "@/components/icons/dashed";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center px-1.5 py-6 m-0 border rounded-card";
@@ -21,13 +20,7 @@ const musicPlayerVolumeButtonStyleClassName =
   "mx-3 p-1.5 rounded-full border-1.5";
 const musicPlayerVolumeButtonIconStyleClassName = "h-4 w-4";
 
-const MusicPlayer = ({
-  handleDeviceUpdate = (value) => null,
-  className,
-  ...props
-}) => {
-  const [lastHertakiActionType, setLastHertakiActionType] = useState(false);
-
+const MusicPlayer = ({ deviceInstance, className, ...props }) => {
   return (
     <>
       <ScrollArea className={className}>
@@ -50,26 +43,17 @@ const MusicPlayer = ({
 
           <div
             className={"flex flex-row justify-between items-center px-16 py-4"}>
-            <Button
-              className={"p-0 m-0"}
-              onClick={() => {
-                handleDeviceUpdate("32");
-              }}>
+            <Button className={"p-0 m-0"} onClick={deviceInstance?.nextTrack}>
               <NextTrack className={"w-8 h-8"} />
             </Button>
             <Button
               className={"p-0 m-0 rounded-full"}
-              onClick={() => {
-                // setLastHertakiActionType((prevState) => !prevState);
-                handleDeviceUpdate(lastHertakiActionType ? "37" : "38");
-              }}>
+              onClick={deviceInstance?.play}>
               <PlayPause className={"w-14 h-14"} />
             </Button>
             <Button
               className={"p-0 m-0"}
-              onClick={() => {
-                handleDeviceUpdate("31");
-              }}>
+              onClick={deviceInstance?.previousTrack}>
               <PreviousTrack className={"w-8 h-8"} />
             </Button>
           </div>
@@ -81,9 +65,7 @@ const MusicPlayer = ({
               }>
               <Button
                 className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={() => {
-                  handleDeviceUpdate("77");
-                }}>
+                onClick={deviceInstance?.aux}>
                 <span>AUX</span>
                 <AUX
                   className={musicPlayerInputSourceButtonIconStyleClassName}
@@ -91,9 +73,7 @@ const MusicPlayer = ({
               </Button>
               <Button
                 className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={() => {
-                  handleDeviceUpdate("78");
-                }}>
+                onClick={deviceInstance?.bluetooth}>
                 <span>Bluetooth</span>
                 <Bluetooth
                   className={musicPlayerInputSourceButtonIconStyleClassName}
@@ -101,9 +81,7 @@ const MusicPlayer = ({
               </Button>
               <Button
                 className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={() => {
-                  handleDeviceUpdate("70");
-                }}>
+                onClick={deviceInstance?.sd}>
                 <span>SD Card</span>
                 <SDCard
                   className={musicPlayerInputSourceButtonIconStyleClassName}
@@ -116,9 +94,7 @@ const MusicPlayer = ({
               }>
               <Button
                 className={musicPlayerVolumeButtonStyleClassName}
-                onClick={() => {
-                  handleDeviceUpdate("41");
-                }}>
+                onClick={deviceInstance?.volumeUp}>
                 <Plus className={musicPlayerVolumeButtonIconStyleClassName} />
               </Button>
               <Button
@@ -126,16 +102,12 @@ const MusicPlayer = ({
                   musicPlayerVolumeButtonStyleClassName,
                   "p-2 border-none",
                 )}
-                onClick={() => {
-                  handleDeviceUpdate("43");
-                }}>
+                onClick={deviceInstance?.mute}>
                 <Mute className={"w-8 h-8"} />
               </Button>
               <Button
                 className={musicPlayerVolumeButtonStyleClassName}
-                onClick={() => {
-                  handleDeviceUpdate("42");
-                }}>
+                onClick={deviceInstance?.volumeDown}>
                 <Minus className={musicPlayerVolumeButtonIconStyleClassName} />
               </Button>
             </div>
