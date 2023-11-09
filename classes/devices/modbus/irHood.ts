@@ -74,19 +74,19 @@ class IrHood extends Device {
 
   // @ts-ignore
   #changePower = async () => {
-    return await this.registers.power.updateValue(false);
+    return await this.registers.power.updateValue("trigger");
   };
   // @ts-ignore
   #changeLight = async () => {
-    return await this.registers.light.updateValue(false);
+    return await this.registers.light.updateValue("trigger");
   };
   // @ts-ignore
   #increaseFanSpeed = async () => {
-    return await this.registers.increaseFanSpeed.updateValue(false);
+    return await this.registers.increaseFanSpeed.updateValue("trigger");
   };
   // @ts-ignore
   #decreaseFanSpeed = async () => {
-    return await this.registers.decreaseFanSpeed.updateValue(false);
+    return await this.registers.decreaseFanSpeed.updateValue("trigger");
   };
 
   get changePower(): () => Promise<unknown> {
