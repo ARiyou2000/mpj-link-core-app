@@ -1,9 +1,12 @@
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const useRegisterUpdateToast = () => {
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
   const handleRegistersUpdate = async (callbackFn) => {
+    setLoading((prevState) => true);
     try {
       const result = await callbackFn();
     } catch (e) {
@@ -13,9 +16,10 @@ const useRegisterUpdateToast = () => {
       });
       console.error(e);
     }
+    setLoading((prevState) => false);
   };
 
-  return handleRegistersUpdate;
+  return [handleRegistersUpdate, loading];
 };
 
 export default useRegisterUpdateToast;

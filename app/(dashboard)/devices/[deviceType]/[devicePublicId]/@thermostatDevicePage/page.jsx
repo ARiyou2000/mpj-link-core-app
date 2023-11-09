@@ -3,15 +3,12 @@
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useDeviceData from "@/hooks/useDeviceData";
 import Thermostat from "@/components/devicePagesBody/Thermostat";
-import { setRegisterData } from "@/utils/queueHelper";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import useRegisterUpdateToast from "../../../../../../hooks/useRegisterUpdateToast";
+import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 
 const ThermostatDevicePage = () => {
   const device = useDeviceData();
 
-  const handleRegistersUpdate = useRegisterUpdateToast();
+  const [handleRegistersUpdate, loading] = useRegisterUpdateToast();
 
   return (
     <>
