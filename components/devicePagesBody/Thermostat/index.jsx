@@ -5,7 +5,6 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/components/ui/thermostat-radio-group";
-import { useState } from "react";
 import { Snow, Steams } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Carousel from "@/components/Carousel";
@@ -13,53 +12,27 @@ import LoadingText from "@/components/loading/LoadingText";
 
 const fanSpeedsDataTable = [
   { value: "00", name: <LoadingText /> },
-  { value: "01", name: <h4>کم</h4> },
-  { value: "02", name: <h4>متوسط</h4> },
-  { value: "03", name: <h4>زیاد</h4> },
-  { value: "04", name: <h4>خودکار</h4> },
+  { value: "slow", name: <h4>کم</h4> },
+  { value: "medium", name: <h4>متوسط</h4> },
+  { value: "fast", name: <h4>زیاد</h4> },
+  { value: "auto", name: <h4>خودکار</h4> },
 ];
-const OPTIONS = { dragFree: true, loop: true };
+// const OPTIONS = { dragFree: true, loop: true };
 
 const Thermostat = ({
   className,
-  registersList = [],
-  registerUpdateHandler = async (registerPublicId, value) => null,
+  deviceInstance,
+  registerUpdateHandler = async (callbackFn) => null,
   ...props
 }) => {
-  // const [
-  //   seasonModeRegister,
-  //   fanSpeedRegister,
-  //   setPointTempRegister,
-  //   currentTempRegister,
-  //   powerRegister,
-  // ] = registersList;
-
-  const seasonModeRegister = registersList?.find(
-    (register) => Number(register.number) === 1,
-  );
-  const fanSpeedRegister = registersList?.find(
-    (register) => Number(register.number) === 2,
-  );
-  const targetTempRegister = registersList?.find(
-    (register) => Number(register.number) === 4,
-  );
-  const currentTempRegister = registersList?.find(
-    (register) => Number(register.number) === 5,
-  );
-  const powerRegister = registersList?.find(
-    (register) => Number(register.number) === 7,
-  );
-
-  const power = powerRegister?.value === "02";
-
-  const [loading, setLoading] = useState(false);
-
-  const updateRegister = async (registerPublicId, value) => {
-    setLoading(true);
-    await registerUpdateHandler(registerPublicId, value);
-    setLoading(false);
-  };
-
+  const {
+    power,
+    seasonMode,
+    fanSpeed,
+    targetPointTemperature,
+    currentTemperature,
+  } = deviceInstance?.registers;
+  const powerValue = power?.value;
   return (
     <>
       <ScrollArea className={className}>
@@ -67,37 +40,37 @@ const Thermostat = ({
           className={"h-full flex flex-col justify-center gap-11 pb-5"}
           {...props}>
           <CurvedProgressCounter
-            currentTemperature={parseInt(currentTempRegister?.value)}
-            targetTemperature={parseInt(targetTempRegister?.value)}
-            onTargetTemperatureChange={(value) => {
-              updateRegister(targetTempRegister?.publicId, value.toString());
+            currentTemperature={Number(currentTemperature?.value)}
+            targetTemperature={Number(targetPointTemperature?.value)}
+            onTargetTemperatureChange={async (value) => {
+              await registerUpdateHandler(() => {
+                const stringVal = String(value).padStart(2, "0");
+                // targetPointTemperature?.updateValue(stringVal);
+                deviceInstance.setTargetTemp(stringVal);
+              });
             }}
-            power={power}
+            power={powerValue}
           />
 
           <div className={"p-6 flex flex-col gap-2.5"}>
             <RadioGroup
-              // defaultValue="option-one"
-              value={power && seasonModeRegister?.value}
-              onValueChange={(value) => {
-                updateRegister(seasonModeRegister?.publicId, value);
+              value={powerValue && seasonMode?.value}
+              onValueChange={async (value) => {
+                // await registerUpdateHandler(seasonMode.updateValue(value));
+                if (value === "cold") {
+                  await registerUpdateHandler(deviceInstance.coolingMode);
+                } else if (value === "hot") {
+                  await registerUpdateHandler(deviceInstance.heatingMode);
+                }
               }}
               className={"flex flex-row items-center gap-2.5"}
-              disabled={!power}>
-              <RadioGroupItem
-                value="02"
-                id="cold_02"
-                seasonType={"cold"}
-                className={""}>
+              disabled={!powerValue}>
+              <RadioGroupItem value="cold" id="cold" seasonType={"cold"}>
                 <h3>سرمایش</h3>
                 <Snow className={"h-6 w-6"} />
               </RadioGroupItem>
 
-              <RadioGroupItem
-                value="03"
-                id="hot_03"
-                seasonType={"hot"}
-                className={""}>
+              <RadioGroupItem value="hot" id="hot" seasonType={"hot"}>
                 <h3>گرمایش</h3>
                 <Steams className={"h-6 w-6"} />
               </RadioGroupItem>
@@ -105,13 +78,33 @@ const Thermostat = ({
 
             <Carousel
               slides={fanSpeedsDataTable?.map((fanSpeed) => fanSpeed.name)}
-              disabled={!power}
-              valueIndex={parseInt(fanSpeedRegister?.value)}
-              onChange={(index) => {
-                updateRegister(
-                  fanSpeedRegister?.publicId,
-                  fanSpeedsDataTable[index].value,
-                );
+              disabled={!powerValue}
+              valueIndex={
+                !!fanSpeed?.value
+                  ? fanSpeedsDataTable.findIndex(({ value }) => {
+                      return fanSpeed?.value === value;
+                    })
+                  : 0
+              }
+              onChange={async (index) => {
+                const value = fanSpeedsDataTable[index].value;
+                // await registerUpdateHandler(fanSpeed.updateValue(value));
+                switch (value) {
+                  case "slow":
+                    await registerUpdateHandler(deviceInstance.slowFanSpeed);
+                    break;
+                  case "medium":
+                    await registerUpdateHandler(deviceInstance.mediumFanSpeed);
+                    break;
+                  case "fast":
+                    await registerUpdateHandler(deviceInstance.fastFanSpeed);
+                    break;
+                  case "auto":
+                    await registerUpdateHandler(deviceInstance.autoFanSpeed);
+                    break;
+                  default:
+                    console.error("wrong thermostat fan speed value!");
+                }
               }}
               className={"border-1.5"}
             />
