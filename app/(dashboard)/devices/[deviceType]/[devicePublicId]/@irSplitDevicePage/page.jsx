@@ -2,43 +2,28 @@
 
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useDeviceData from "@/hooks/useDeviceData";
-import { setRegisterData } from "@/utils/queueHelper";
 import SplitIR from "@/components/devicePagesBody/SplitIR";
-import { useState } from "react";
+import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 
 const IrSplitDevicePage = () => {
-  const [info, deviceRegistersInfoAndData] = useDeviceData({
-    hasFeedback: false,
-  });
+  const device = useDeviceData();
 
-  const handleDeviceUpdate = (registerIndex, value) => {
-    setRegisterData(
-      deviceRegistersInfoAndData[registerIndex]?.publicId,
-      value,
-      {
-        hasFeedback: false,
-      },
-    );
-  };
-
-  const [lastHertakiPowerActionType, setLastHertakiPowerActionType] =
-    useState(false);
+  const [handleDeviceUpdate] = useRegisterUpdateToast();
+  // const handleDeviceUpdate = () => {};
 
   return (
     <>
       <DeviceHeader
-        name={info?.name}
-        description={info?.description}
+        name={device?.name}
+        description={device?.description}
         hasPowerButton={true}
         powerValue={false}
-        onPowerChange={() => {
-          setLastHertakiPowerActionType((prevState) => !prevState);
-          handleDeviceUpdate(0, lastHertakiPowerActionType ? "01" : "02");
-        }}
+        onPowerChange={handleDeviceUpdate(device?.changePower)}
       />
       <SplitIR
         className={"flex-1 h-0 w-full"}
         handleDeviceUpdate={handleDeviceUpdate}
+        deviceInstance={device}
       />
     </>
   );
