@@ -2,7 +2,6 @@ import Device from "@/classes/devices/device";
 import { Protocols } from "@/classes/protocols";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import { MusicplayerMainReg } from "@/classes/registers/modbus/musicplayerRegister";
-import { type } from "os";
 
 const createRegisters = (
   devicePublicId: string,
@@ -43,109 +42,133 @@ class MusicPlayer extends Device {
 
   // @ts-ignore
   #volumeUp = async () => {
-    await this.registers.mainRegister.updateValue("up");
+    return await this.registers.mainRegister.updateValue("up");
   };
 
   // @ts-ignore
   #volumeDown = async () => {
-    await this.registers.mainRegister.updateValue("down");
+    return await this.registers.mainRegister.updateValue("down");
   };
 
   // @ts-ignore
   #mute = async () => {
-    await this.registers.mainRegister.updateValue("mute");
+    return await this.registers.mainRegister.updateValue("mute");
   };
 
   // @ts-ignore
   #powerOn = async () => {
-    await this.registers.mainRegister.updateValue("on");
+    return await this.registers.mainRegister.updateValue("on");
   };
 
   // @ts-ignore
   #powerOff = async () => {
-    await this.registers.mainRegister.updateValue("off");
+    return await this.registers.mainRegister.updateValue("off");
+  };
+
+  // @ts-ignore
+  #togglePower = async () => {
+    if (Math.random() >= 0.5) {
+      return await this.registers.mainRegister.updateValue("on");
+    }
+    return await this.registers.mainRegister.updateValue("off");
   };
 
   // @ts-ignore
   #previousTrack = async () => {
-    await this.registers.mainRegister.updateValue("previous");
+    return await this.registers.mainRegister.updateValue("previous");
   };
 
   // @ts-ignore
   #nextTrack = async () => {
-    await this.registers.mainRegister.updateValue("next");
+    return await this.registers.mainRegister.updateValue("next");
   };
 
   // @ts-ignore
   #play = async () => {
-    await this.registers.mainRegister.updateValue("play");
+    return await this.registers.mainRegister.updateValue("play");
   };
 
   // @ts-ignore
   #pause = async () => {
-    await this.registers.mainRegister.updateValue("pause");
+    return await this.registers.mainRegister.updateValue("pause");
+  };
+
+  // @ts-ignore
+  #togglePlayPause = async () => {
+    if (Math.random() >= 0.5) {
+      return await this.registers.mainRegister.updateValue("play");
+    }
+    return await this.registers.mainRegister.updateValue("pause");
   };
 
   // @ts-ignore
   #aux = async () => {
-    await this.registers.mainRegister.updateValue("aux");
+    return await this.registers.mainRegister.updateValue("aux");
   };
 
   // @ts-ignore
   #bluetooth = async () => {
-    await this.registers.mainRegister.updateValue("bluetooth");
+    return await this.registers.mainRegister.updateValue("bluetooth");
   };
 
   // @ts-ignore
   #sd = async () => {
-    await this.registers.mainRegister.updateValue("sd");
+    return await this.registers.mainRegister.updateValue("sd");
   };
 
-  get volumeUp(): () => Promise<void> {
+  get volumeUp(): () => Promise<unknown> {
     return this.#volumeUp;
   }
 
-  get volumeDown(): () => Promise<void> {
+  get volumeDown(): () => Promise<unknown> {
     return this.#volumeDown;
   }
 
-  get mute(): () => Promise<void> {
+  get mute(): () => Promise<unknown> {
     return this.#mute;
   }
 
-  get powerOn(): () => Promise<void> {
+  get powerOn(): () => Promise<unknown> {
     return this.#powerOn;
   }
 
-  get powerOff(): () => Promise<void> {
+  get powerOff(): () => Promise<unknown> {
     return this.#powerOff;
   }
 
-  get previousTrack(): () => Promise<void> {
+  get togglePower(): () => Promise<unknown> {
+    return this.#togglePower;
+  }
+
+  get previousTrack(): () => Promise<unknown> {
     return this.#previousTrack;
   }
 
-  get nextTrack(): () => Promise<void> {
+  get nextTrack(): () => Promise<unknown> {
     return this.#nextTrack;
   }
 
-  get play(): () => Promise<void> {
+  get play(): () => Promise<unknown> {
     return this.#play;
   }
 
-  get pause(): () => Promise<void> {
+  get pause(): () => Promise<unknown> {
     return this.#pause;
   }
 
-  get aux(): () => Promise<void> {
+  get togglePlayPause(): () => Promise<unknown> {
+    return this.#togglePlayPause;
+  }
+
+  get aux(): () => Promise<unknown> {
     return this.#aux;
   }
 
-  get bluetooth(): () => Promise<void> {
+  get bluetooth(): () => Promise<unknown> {
     return this.#bluetooth;
   }
 
-  get sd(): () => Promise<void> {
+  get sd(): () => Promise<unknown> {
     return this.#sd;
   }
 }
