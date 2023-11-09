@@ -15,7 +15,7 @@ const CorePage = () => {
           statusText={{
             connected: "اتصال با core برقرار است",
             trying: "درحال اتصال",
-            error: "تلاش مجدد",
+            error: "دستگاه شما به core متصل نیست",
           }}
         />
       </div>

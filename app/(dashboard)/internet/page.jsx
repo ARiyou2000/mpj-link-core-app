@@ -13,9 +13,9 @@ const CheckInternetPage = () => {
         <ConnectionCheckPageBody
           target={"internet"}
           statusText={{
-            connected: "دستگاه به اینترنت متصل است",
+            connected: "core به اینترنت متصل است",
             trying: "درحال اتصال",
-            error: "تلاش مجدد",
+            error: "core به اینترنت متصل نیست",
           }}
         />
       </div>
