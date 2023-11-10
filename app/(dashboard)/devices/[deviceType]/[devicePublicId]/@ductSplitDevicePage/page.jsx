@@ -1,18 +1,31 @@
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
+import DuctSplitDevicePageBody from "@/components/devicePagesBody/DuctSplit";
+import useDeviceData from "@/hooks/useDeviceData";
+import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 
 const DuctSplitDevicePage = () => {
+  const device = useDeviceData();
+
+  const [handleRegistersUpdate, loading] = useRegisterUpdateToast();
+
   return (
     <>
       <DeviceHeader
-        title={""}
-        description={""}
+        name={device?.name}
+        description={device?.description}
         hasPowerButton={true}
-        powerValue={false}
-        onPowerChange={(pressed) => {
-          console.log(pressed);
+        powerValue={device.registers?.power}
+        onPowerChange={async (value) => {
+          await handleRegistersUpdate(
+            device.registers.power?.updateValue(value),
+          );
         }}
       />
-      <div className={"flex-1 h-0 w-full"}>DuctSplit</div>
+      <DuctSplitDevicePageBody
+        className={"flex-1 h-0 w-full"}
+        deviceInstance={device}
+        registerUpdateHandler={handleRegistersUpdate}
+      />
     </>
   );
 };
