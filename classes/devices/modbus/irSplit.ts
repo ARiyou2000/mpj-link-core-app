@@ -96,58 +96,58 @@ class IrSplit extends Device {
 
   // @ts-ignore
   #changePower = async () => {
-    await this.registers.power.updateValue("trigger");
+    return await this.registers.power.updateValue("trigger");
   };
   // @ts-ignore
   #increaseFanSpeed = async () => {
-    await this.registers.increaseFanSpeed.updateValue("trigger");
+    return await this.registers.increaseFanSpeed.updateValue("trigger");
   };
   // @ts-ignore
   #decreaseFanSpeed = async () => {
-    await this.registers.decreaseFanSpeed.updateValue("trigger");
+    return await this.registers.decreaseFanSpeed.updateValue("trigger");
   };
   // @ts-ignore
   #increaseTemperature = async () => {
-    await this.registers.increaseTemperature.updateValue("trigger");
+    return await this.registers.increaseTemperature.updateValue("trigger");
   };
   // @ts-ignore
   #decreaseTemperature = async () => {
-    await this.registers.decreaseTemperature.updateValue("trigger");
+    return await this.registers.decreaseTemperature.updateValue("trigger");
   };
   // @ts-ignore
   #changeMode = async () => {
-    await this.registers.mode.updateValue("trigger");
+    return await this.registers.mode.updateValue("trigger");
   };
   // @ts-ignore
   #changeMovementDirection = async () => {
-    await this.registers.movementDirection.updateValue("trigger");
+    return await this.registers.movementDirection.updateValue("trigger");
   };
 
-  get changePower(): () => Promise<void> {
+  get changePower(): () => Promise<unknown> {
     return this.#changePower;
   }
 
-  get increaseFanSpeed(): () => Promise<void> {
+  get increaseFanSpeed(): () => Promise<unknown> {
     return this.#increaseFanSpeed;
   }
 
-  get decreaseFanSpeed(): () => Promise<void> {
+  get decreaseFanSpeed(): () => Promise<unknown> {
     return this.#decreaseFanSpeed;
   }
 
-  get increaseTemperature(): () => Promise<void> {
+  get increaseTemperature(): () => Promise<unknown> {
     return this.#increaseTemperature;
   }
 
-  get decreaseTemperature(): () => Promise<void> {
+  get decreaseTemperature(): () => Promise<unknown> {
     return this.#decreaseTemperature;
   }
 
-  get changeMode(): () => Promise<void> {
+  get changeMode(): () => Promise<unknown> {
     return this.#changeMode;
   }
 
-  get changeMovementDirection(): () => Promise<void> {
+  get changeMovementDirection(): () => Promise<unknown> {
     return this.#changeMovementDirection;
   }
 }
