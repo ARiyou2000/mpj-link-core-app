@@ -12,15 +12,17 @@ const IrHoodDevicePage = () => {
 
   return (
     <>
-      <DeviceHeader
-        name={device?.name}
-        description={device?.description}
-        hasPowerButton={true}
-        powerValue={false}
-        onPowerChange={async () => {
-          await handleRegistersUpdate(device.changePower);
-        }}
-      />
+      <div className={"px-3"}>
+        <DeviceHeader
+          name={device?.name}
+          description={device?.description}
+          hasPowerButton={true}
+          powerValue={false}
+          onPowerChange={async () => {
+            await handleRegistersUpdate(device.changePower);
+          }}
+        />
+      </div>
       <IrHood
         className={"flex-1 h-0 w-full"}
         handleDeviceUpdate={handleRegistersUpdate}

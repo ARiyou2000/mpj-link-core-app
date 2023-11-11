@@ -24,8 +24,8 @@ const HomePage = () => {
           />
         </div>
 
-        <div className={"flex-1 h-0 px-4 flex flex-col gap-5 items-start"}>
-          <h3>سناریو ها</h3>
+        <div className={"flex-1 h-0 px-1 flex flex-col gap-5 items-start"}>
+          <h3 className={"px-3"}>سناریو ها</h3>
           <ScenarioForceUpdateContext.Provider value={scenarioForceUpdate}>
             <ScenariosList
               list={scenarioData?.map(

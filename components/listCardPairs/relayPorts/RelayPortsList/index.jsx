@@ -8,32 +8,33 @@ import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 const RelayPortsListComponent = ({ list = [], className, ...props }) => {
   return (
     <>
-      <ScrollArea className={cn("w-full h-full", className)}>
-        <div
-          className={
-            "h-full flex flex-row flex-wrap items-center justify-center gap-x-[4%] gap-y-7"
-          }
-          {...props}>
-          {list?.length > 0 ? (
-            list?.map((relayPortData, index) => {
-              const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
-                props = {
-                  className: "basis-[48%]",
-                  registerInstance: relayPortData,
-                };
+      {/*<ScrollArea className={cn("w-full h-full", className)}>*/}
+      <div
+        className={cn(
+          "h-full flex flex-row flex-wrap items-center justify-center gap-x-[4%] gap-y-7",
+          className,
+        )}
+        {...props}>
+        {list?.length > 0 ? (
+          list?.map((relayPortData, index) => {
+            const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
+              props = {
+                className: "basis-[48%]",
+                registerInstance: relayPortData,
+              };
 
-              if (relayPortData.portType === RelayPortType.output) {
-                return <RelayPortOutCard key={key} {...props} />;
-              } else if (relayPortData.portType === RelayPortType.input) {
-                return <RelayPortInCard key={key} {...props} />;
-              } else {
-              }
-            })
-          ) : (
-            <LoadingSpinner />
-          )}
-        </div>
-      </ScrollArea>
+            if (relayPortData.portType === RelayPortType.output) {
+              return <RelayPortOutCard key={key} {...props} />;
+            } else if (relayPortData.portType === RelayPortType.input) {
+              return <RelayPortInCard key={key} {...props} />;
+            } else {
+            }
+          })
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
+      {/*</ScrollArea>*/}
     </>
   );
 };

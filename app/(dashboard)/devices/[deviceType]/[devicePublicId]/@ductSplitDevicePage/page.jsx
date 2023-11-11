@@ -10,17 +10,19 @@ const DuctSplitDevicePage = () => {
 
   return (
     <>
-      <DeviceHeader
-        name={device?.name}
-        description={device?.description}
-        hasPowerButton={true}
-        powerValue={device.registers?.power}
-        onPowerChange={async (value) => {
-          await handleRegistersUpdate(
-            device.registers.power?.updateValue(value),
-          );
-        }}
-      />
+      <div className={"px-3"}>
+        <DeviceHeader
+          name={device?.name}
+          description={device?.description}
+          hasPowerButton={true}
+          powerValue={device.registers?.power}
+          onPowerChange={async (value) => {
+            await handleRegistersUpdate(
+              device.registers.power?.updateValue(value),
+            );
+          }}
+        />
+      </div>
       <DuctSplitDevicePageBody
         className={"flex-1 h-0 w-full"}
         deviceInstance={device}

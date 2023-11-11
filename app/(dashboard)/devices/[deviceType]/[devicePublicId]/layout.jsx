@@ -50,7 +50,7 @@ const DevicesLayout = ({
   };
 
   return (
-    <div className={"h-full px-4 flex flex-col gap-5"}>{getDevicePage()}</div>
+    <div className={"h-full px-1 flex flex-col gap-5"}>{getDevicePage()}</div>
   );
 };
 

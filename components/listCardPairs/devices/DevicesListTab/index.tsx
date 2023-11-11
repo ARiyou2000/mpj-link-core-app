@@ -67,7 +67,7 @@ const DevicesListTab = ({ list = [], className = "", ...props }: propsT) => {
 
         <div
           className={
-            "flex-1 h-0 px-4 flex flex-col items-center justify-center"
+            "flex-1 h-0 p-1 flex flex-col items-center justify-center"
           }>
           {list?.length > 0 ? (
             <React.Fragment key={"tabContent"}>

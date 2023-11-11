@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import PassCodeInput from "@/components/PassCodeInput";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const PasswordManagementPageWrapper = ({
   className = "",
@@ -20,19 +21,22 @@ const PasswordManagementPageWrapper = ({
 }) => {
   return (
     <>
-      <div
-        className={cn(
-          "h-full px-4 pt-8 pb-2 flex flex-col justify-between",
-          className,
-        )}>
-        <h3 className={"text-white text-lg"}>{header}</h3>
-        {children}
-        <PassCodeInput
-          text={passcodeText}
-          status={passcodeStatus}
-          onSubmit={onPasscodeSubmit}
-        />
-      </div>
+      <ScrollArea className={"flex-1 h-full"}>
+        <div
+          className={cn(
+            "h-full w-full px-1 pt-8 pb-2 flex flex-col justify-between",
+            className,
+          )}>
+          <h3 className={"text-white text-lg"}>{header}</h3>
+          {children}
+
+          <PassCodeInput
+            text={passcodeText}
+            status={passcodeStatus}
+            onSubmit={onPasscodeSubmit}
+          />
+        </div>
+      </ScrollArea>
     </>
   );
 };

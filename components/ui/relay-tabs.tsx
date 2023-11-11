@@ -18,7 +18,7 @@ const TabsList = React.forwardRef<
     <TabsPrimitive.List
       ref={ref}
       className={cn(
-        "inline-flex items-center justify-center gap-2.5 rounded-card border border-white bg-transparent p-1 text-slate-500 dark:bg-slate-800 dark:text-slate-400",
+        "inline-flex items-center justify-center gap-2.5 rounded-card border-gradiant border-none bg-transparent [&>*]:z-10 mx-3 p-1 text-slate-500 dark:bg-slate-800 dark:text-slate-400",
         className,
       )}
       dir={dir}

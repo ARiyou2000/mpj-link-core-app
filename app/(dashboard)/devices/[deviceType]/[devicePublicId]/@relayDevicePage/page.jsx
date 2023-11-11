@@ -10,11 +10,13 @@ const RelayDevicePage = () => {
 
   return (
     <>
-      <DeviceHeader
-        name={Device?.name}
-        description={Device?.description}
-        hasPowerButton={false}
-      />
+      <div className={"px-3"}>
+        <DeviceHeader
+          name={Device?.name}
+          description={Device?.description}
+          hasPowerButton={false}
+        />
+      </div>
       <Relay className={"flex-1 h-0 w-full"} registersList={registersList} />
     </>
   );

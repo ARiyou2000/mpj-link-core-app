@@ -20,8 +20,13 @@ const ZonePage = () => {
 
   return (
     <>
-      <div className={"h-full px-4 flex flex-col gap-5"}>
-        <ZoneHeader name={zoneInfo?.name} description={zoneInfo?.description} />
+      <div className={"h-full px-1 flex flex-col gap-5"}>
+        <div className={"px-3"}>
+          <ZoneHeader
+            name={zoneInfo?.name}
+            description={zoneInfo?.description}
+          />
+        </div>
         <div className={"flex-1 h-0 w-full"}>
           <ZoneDevicesList
             className={"pt-2"}
