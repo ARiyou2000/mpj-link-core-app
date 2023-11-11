@@ -86,12 +86,7 @@ const config: Config = {
         "1pxr": "0.0625rem",
       },
       dropShadow: {
-        active: [
-          "4px -4px 4px rgba(255, 255, 255, 0.20)",
-          "-4px -4px 4px rgba(255, 255, 255, 0.20)",
-          "-4px 4px 4px rgba(255, 255, 255, 0.20)",
-          "4px 4px 4px rgba(255, 255, 255, 0.20)",
-        ],
+        active: "0px 0px 10px rgba(244, 244, 244, 0.7)",
       },
       keyframes: {
         "accordion-down": {
