@@ -38,6 +38,65 @@ const config = {
   intervalTimeOnCallWithoutError: 200,
   intervalTimeOnCallWithError: 500,
 };
+
+const getDeviceInstatnce = (
+  info: ServerSideDeviceInfoT,
+  registersList: ServerSideRegisterInfoT[],
+) => {
+  const props = [
+    info?.publicId,
+    info?.name,
+    info?.description,
+    info?.type,
+    registersList,
+  ] as const;
+
+  let Device: Device;
+  switch (Number(info?.type)) {
+    case DevicesType.modbus_switch_1p:
+    case DevicesType.modbus_switch_2p:
+    case DevicesType.modbus_switch_3p:
+    case DevicesType.modbus_switch_4p:
+    case DevicesType.modbus_switch_6p:
+      Device = new ModbusSwitch(...props);
+      break;
+    case DevicesType.zigbee_switch_3p:
+      Device = new ZigbeeSwitch(...props);
+      break;
+    case DevicesType.modbus_relay:
+      Device = new ModbusRelay(...props);
+      break;
+    case DevicesType.zigbee_relay:
+      Device = new ZigbeeRelay(...props);
+      break;
+    case DevicesType.modbus_thermostat:
+      Device = new ModbusThermostat(...props);
+      break;
+    case DevicesType.modbus_music_player:
+      Device = new ModbusMusicPlayer(...props);
+      break;
+    case DevicesType.modbus_duct_split:
+      Device = new ModbusDuctSplit(...props);
+      break;
+    case DevicesType.ir_split:
+      Device = new IrSplit(...props);
+      break;
+    case DevicesType.ir_hood:
+      Device = new IrHood(...props);
+      break;
+    case DevicesType.modbus_curtains:
+      Device = new ZigbeeSwitch(...props);
+      break;
+    case DevicesType.zigbee_curtains:
+      Device = new ZigbeeCurtains(...props);
+      break;
+    case DevicesType.invalid:
+    default:
+      throw new Error("device type is not mapped with a class!");
+  }
+  return Device;
+};
+
 const useDeviceData = () => {
   const router = useRouter();
   const { toast } = useToast();
@@ -85,72 +144,23 @@ const useDeviceData = () => {
   const deviceObjFromStorage = deviceListFromStorage?.find((deviceInfo) => {
     return deviceInfo?.publicId === devicePId;
   });
-
-  console.log(deviceObjFromStorage);
   const deviceJsonFromStorage = JSON.stringify(deviceObjFromStorage);
+
   // const [device, setDevice] = useState<Device | null>(null);
   // useEffect(() => {
   let device: Device | undefined;
   if (deviceObjFromStorage) {
-    const props = [
-      devicePId,
-      deviceObjFromStorage?.name,
-      deviceObjFromStorage?.description,
-      deviceObjFromStorage?.type,
+    device = getDeviceInstatnce(
+      deviceObjFromStorage,
       deviceRegistersFromStorage,
-    ] as const;
-
-    let Device: Device;
-    switch (Number(deviceObjFromStorage?.type)) {
-      case DevicesType.modbus_switch_1p:
-      case DevicesType.modbus_switch_2p:
-      case DevicesType.modbus_switch_3p:
-      case DevicesType.modbus_switch_4p:
-      case DevicesType.modbus_switch_6p:
-        Device = new ModbusSwitch(...props);
-        break;
-      case DevicesType.zigbee_switch_3p:
-        Device = new ZigbeeSwitch(...props);
-        break;
-      case DevicesType.modbus_relay:
-        Device = new ModbusRelay(...props);
-        break;
-      case DevicesType.zigbee_relay:
-        Device = new ZigbeeRelay(...props);
-        break;
-      case DevicesType.modbus_thermostat:
-        Device = new ModbusThermostat(...props);
-        break;
-      case DevicesType.modbus_music_player:
-        Device = new ModbusMusicPlayer(...props);
-        break;
-      case DevicesType.modbus_duct_split:
-        Device = new ModbusDuctSplit(...props);
-        break;
-      case DevicesType.ir_split:
-        Device = new IrSplit(...props);
-        break;
-      case DevicesType.ir_hood:
-        Device = new IrHood(...props);
-        break;
-      case DevicesType.modbus_curtains:
-        Device = new ZigbeeSwitch(...props);
-        break;
-      case DevicesType.zigbee_curtains:
-        Device = new ZigbeeCurtains(...props);
-        break;
-      case DevicesType.invalid:
-      default:
-        throw new Error("device type is not mapped with a class!");
-    }
-    device = Device;
+    );
     // setDevice(Device);
   }
   // }, [deviceJsonFromStorage]);
 
   const zigbeeData = useZigbeeDeviceData(
     devicePId,
-    Protocols.zigbee === Protocols.zigbee,
+    device?.protocol === Protocols.zigbee,
   );
 
   const isPagePresent = useRef(true);
@@ -286,7 +296,7 @@ const useDeviceData = () => {
       console.warn("Exiting useDeviceData");
       resetOnPageLeave();
     };
-  }, [zigbeeData, device]);
+  }, [zigbeeData, deviceJsonFromStorage]);
 
   return deviceInstance;
 };
