@@ -8,7 +8,6 @@ import {
   DuctSplitPower,
   DuctSplitTargetPointTemperature,
 } from "@/classes/registers/modbus/ductSplitRegisters";
-import { type } from "os";
 
 type DuctSplitRegistersListType = {
   power: DuctSplitPower;
