@@ -1,9 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 
-const useStaticData = (fetcher: (signal: AbortSignal) => object[]) => {
-  const [data, setData] = useState(null);
+type useStaticDataReturnT = Promise<object[]>;
+const useStaticData = (
+  fetcher: ({ signal }: { signal: AbortSignal }) => useStaticDataReturnT,
+) => {
+  const [data, setData] = useState<
+    ServerSideDeviceInfoT[] | ServerSideRegisterInfoT[] | null
+  >(null);
   const [flag, setFlag] = useState(false);
   const forceUpdate = () => {
     setFlag((prevState) => !prevState);
