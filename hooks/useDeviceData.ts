@@ -100,6 +100,8 @@ const getDeviceInstatnce = (
 const useDeviceData = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const isPagePresent = useRef(true);
+  const isThereFetchDataError = useRef(false);
 
   const generalErrorToaster = (message?: string) => {
     toast({
@@ -150,11 +152,18 @@ const useDeviceData = () => {
   // useEffect(() => {
   let device: Device | undefined;
   if (deviceObjFromStorage) {
+    // try {
     device = getDeviceInstatnce(
       deviceObjFromStorage,
       deviceRegistersFromStorage,
     );
     // setDevice(Device);
+    // } catch (e) {
+    //   console.error(e);
+    //   isPagePresent.current = false;
+    //   isThereFetchDataError.current = true;
+    //   generalErrorToaster();
+    // }
   }
   // }, [deviceJsonFromStorage]);
 
@@ -163,8 +172,6 @@ const useDeviceData = () => {
     device?.protocol === Protocols.zigbee,
   );
 
-  const isPagePresent = useRef(true);
-  const isThereFetchDataError = useRef(false);
   useEffect(() => {
     isPagePresent.current = true;
 
