@@ -10,7 +10,10 @@ import {
 } from "@/utils/getStaticData";
 import { getDeviceData } from "@/utils/queueHelper";
 import { useToast } from "@/components/ui/use-toast";
-import { DevicesType } from "@/classes/devices/deviceInfo";
+import {
+  DevicesType,
+  ServerSideDeviceInfoT,
+} from "@/classes/devices/deviceInfo";
 import useZigbeeDeviceData from "@/hooks/useZigbeeDeviceData";
 import Device from "@/classes/devices/device";
 import ModbusSwitch from "@/classes/devices/modbus/switch";
@@ -24,6 +27,8 @@ import ZigbeeCurtains from "@/classes/devices/zigbee/curtains";
 import IrSplit from "@/classes/devices/modbus/irSplit";
 import IrHood from "@/classes/devices/modbus/irHood";
 import ModbusDuctSplit from "@/classes/devices/modbus/ductSplit";
+import useStaticData from "@/hooks/useStaticData";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -37,8 +42,18 @@ const useDeviceData = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const [deviceRegistersInfoAndData, setDeviceRegistersInfoAndData] =
-    useState<Device>();
+  const generalErrorToaster = (message?: string) => {
+    toast({
+      variant: "destructive",
+      title: message || "اطلاعات از دستگاه خوانده نشد",
+    });
+    setTimeout(() => {
+      router.back();
+      // router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
+    }, 1500);
+  };
+
+  const [deviceInstance, setDeviceInstance] = useState<Device>();
 
   // Check if there is query params not. if there is use get getZoneDeviceRegisters instead of getDeviceRegisters
   const searchParams = useSearchParams();
@@ -48,22 +63,98 @@ const useDeviceData = () => {
   const urlParams = useParams();
   const devicePId = urlParams?.devicePublicId as string;
 
-  // // // // // // // // // // // Replace manual fetching data from methods with passing the methods to useStatic Data Hook
-  // // Device registers list and info form local storage
-  // const deviceRegistersFromStorage = !!zonePublicId
-  //   ? useStaticData((signal) =>
-  //       getZoneDeviceRegisters(zonePublicId, devicePId, { signal }),
-  //     )
-  //   : useStaticData((signal) => getDeviceRegisters(devicePId, { signal }));
+  // -------------------- Device and Its Registers Info --------------------
 
-  const isPagePresent = useRef(true);
-  const isThereFetchDataError = useRef(false);
+  // Get all Devices list and info from local storage (Search only device in that zone if possible for better performance.)
+  const [deviceListFromStorage] = useStaticData(async ({ signal }) => {
+    if (!!zonePublicId) {
+      return await getZoneDevices(zonePublicId, { signal });
+    }
+    return await getDevices({ signal });
+  }) as [ServerSideDeviceInfoT[]];
+
+  // Device registers list and info form local storage
+  const [deviceRegistersFromStorage] = useStaticData(async ({ signal }) => {
+    if (!!zonePublicId) {
+      return await getZoneDeviceRegisters(zonePublicId, devicePId, { signal });
+    }
+    return await getDeviceRegisters(devicePId, { signal });
+  }) as [ServerSideRegisterInfoT[]];
+
+  // Find device info
+  const deviceObjFromStorage = deviceListFromStorage?.find((deviceInfo) => {
+    return deviceInfo?.publicId === devicePId;
+  });
+
+  console.log(deviceObjFromStorage);
+  const deviceJsonFromStorage = JSON.stringify(deviceObjFromStorage);
+  // const [device, setDevice] = useState<Device | null>(null);
+  // useEffect(() => {
+  let device: Device | undefined;
+  if (deviceObjFromStorage) {
+    const props = [
+      devicePId,
+      deviceObjFromStorage?.name,
+      deviceObjFromStorage?.description,
+      deviceObjFromStorage?.type,
+      deviceRegistersFromStorage,
+    ] as const;
+
+    let Device: Device;
+    switch (Number(deviceObjFromStorage?.type)) {
+      case DevicesType.modbus_switch_1p:
+      case DevicesType.modbus_switch_2p:
+      case DevicesType.modbus_switch_3p:
+      case DevicesType.modbus_switch_4p:
+      case DevicesType.modbus_switch_6p:
+        Device = new ModbusSwitch(...props);
+        break;
+      case DevicesType.zigbee_switch_3p:
+        Device = new ZigbeeSwitch(...props);
+        break;
+      case DevicesType.modbus_relay:
+        Device = new ModbusRelay(...props);
+        break;
+      case DevicesType.zigbee_relay:
+        Device = new ZigbeeRelay(...props);
+        break;
+      case DevicesType.modbus_thermostat:
+        Device = new ModbusThermostat(...props);
+        break;
+      case DevicesType.modbus_music_player:
+        Device = new ModbusMusicPlayer(...props);
+        break;
+      case DevicesType.modbus_duct_split:
+        Device = new ModbusDuctSplit(...props);
+        break;
+      case DevicesType.ir_split:
+        Device = new IrSplit(...props);
+        break;
+      case DevicesType.ir_hood:
+        Device = new IrHood(...props);
+        break;
+      case DevicesType.modbus_curtains:
+        Device = new ZigbeeSwitch(...props);
+        break;
+      case DevicesType.zigbee_curtains:
+        Device = new ZigbeeCurtains(...props);
+        break;
+      case DevicesType.invalid:
+      default:
+        throw new Error("device type is not mapped with a class!");
+    }
+    device = Device;
+    // setDevice(Device);
+  }
+  // }, [deviceJsonFromStorage]);
 
   const zigbeeData = useZigbeeDeviceData(
     devicePId,
     Protocols.zigbee === Protocols.zigbee,
   );
 
+  const isPagePresent = useRef(true);
+  const isThereFetchDataError = useRef(false);
   useEffect(() => {
     isPagePresent.current = true;
 
@@ -79,15 +170,7 @@ const useDeviceData = () => {
     };
     const pushBackOnError = (message?: string) => {
       resetOnPageLeave();
-
-      toast({
-        variant: "destructive",
-        title: message || "اطلاعات از دستگاه خوانده نشد",
-      });
-      setTimeout(() => {
-        router.back();
-        // router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
-      }, 1500);
+      generalErrorToaster(message);
     };
 
     const getData = async (maxTry = 10) => {
@@ -103,88 +186,11 @@ const useDeviceData = () => {
       // signal = controller.signal;
 
       try {
-        // -------------------- Device and Its Registers Info --------------------
-
-        // All Device list and info form local storage
-        // Make it read form the zone device list instead of all devices if zone is present (For better performance)
-        const deviceListFromStorage = !!zonePublicId
-          ? await getZoneDevices(zonePublicId, { signal })
-          : await getDevices({ signal });
-
-        const deviceObjFromStorage = deviceListFromStorage?.find(
-          (deviceInfo) => {
-            return deviceInfo.publicId === devicePId;
-          },
-        );
-
-        if (!deviceObjFromStorage) {
-          throw new Error(
-            `Couldn't find device by the id of ${devicePId} from localstorage!`,
-          );
-        }
-
         // -------------------- Device Registers Value --------------------
-        try {
-          // Device registers list and info form local storage
-          const deviceRegistersFromStorage = !!zonePublicId
-            ? await getZoneDeviceRegisters(zonePublicId, devicePId, { signal })
-            : await getDeviceRegisters(devicePId, { signal });
-
-          const props = [
-            devicePId,
-            deviceObjFromStorage.name,
-            deviceObjFromStorage.description,
-            deviceObjFromStorage.type,
-            deviceRegistersFromStorage,
-          ] as const;
-
-          let Device: Device;
-          switch (Number(deviceObjFromStorage.type)) {
-            case DevicesType.modbus_switch_1p:
-            case DevicesType.modbus_switch_2p:
-            case DevicesType.modbus_switch_3p:
-            case DevicesType.modbus_switch_4p:
-            case DevicesType.modbus_switch_6p:
-              Device = new ModbusSwitch(...props);
-              break;
-            case DevicesType.zigbee_switch_3p:
-              Device = new ZigbeeSwitch(...props);
-              break;
-            case DevicesType.modbus_relay:
-              Device = new ModbusRelay(...props);
-              break;
-            case DevicesType.zigbee_relay:
-              Device = new ZigbeeRelay(...props);
-              break;
-            case DevicesType.modbus_thermostat:
-              Device = new ModbusThermostat(...props);
-              break;
-            case DevicesType.modbus_music_player:
-              Device = new ModbusMusicPlayer(...props);
-              break;
-            case DevicesType.modbus_duct_split:
-              Device = new ModbusDuctSplit(...props);
-              break;
-            case DevicesType.ir_split:
-              Device = new IrSplit(...props);
-              break;
-            case DevicesType.ir_hood:
-              Device = new IrHood(...props);
-              break;
-            case DevicesType.modbus_curtains:
-              Device = new ZigbeeSwitch(...props);
-              break;
-            case DevicesType.zigbee_curtains:
-              Device = new ZigbeeCurtains(...props);
-              break;
-            case DevicesType.invalid:
-            default:
-              throw new Error("device type is not mapped with a class!");
-          }
-
+        if (device) {
           // Get device data only if it has feedback
-          if (Device.protocol === Protocols.modbus) {
-            if (Device.hasDataFeedback) {
+          if (device?.protocol === Protocols.modbus) {
+            if (device?.hasDataFeedback) {
               try {
                 // Device registers current value form server
                 const deviceRegistersValue = await getDeviceData(devicePId, {
@@ -200,10 +206,10 @@ const useDeviceData = () => {
                 const registersValueArray =
                   getRegistersValueFormString(registersStringValue);
 
-                Device.valueAssignment(registersValueArray);
+                device?.valueAssignment(registersValueArray);
 
                 // This must place here to prevent showing registers list to user on error getting data from server
-                setDeviceRegistersInfoAndData(Device);
+                setDeviceInstance(device);
               } catch (e: {
                 code?: number;
                 message: string;
@@ -233,25 +239,19 @@ const useDeviceData = () => {
               }
             } else {
               // If device doesn't have feedback set registers info
-              setDeviceRegistersInfoAndData(Device);
+              setDeviceInstance(device);
             }
-          } else if (Device.protocol === Protocols.zigbee) {
+          } else if (device?.protocol === Protocols.zigbee) {
             try {
               if (!!zigbeeData) {
                 const dataObject = JSON.parse(zigbeeData.toString());
-                Device.valueAssignment(dataObject);
-                setDeviceRegistersInfoAndData(Device);
+                device.valueAssignment(dataObject);
+                setDeviceInstance(device);
               }
             } catch (e) {
               console.error("Error parsing mqtt data: ", zigbeeData, e);
             }
           }
-        } catch (e) {
-          isThereFetchDataError.current = true;
-          console.error(
-            "Error getting device registers by device publicID from localstorage: ",
-            e,
-          );
         }
       } catch (e) {
         isThereFetchDataError.current = true;
@@ -284,12 +284,11 @@ const useDeviceData = () => {
     // const myInterval = setInterval(getData, 200);
     return () => {
       console.warn("Exiting useDeviceData");
-      console.log("zigbeeData: ", zigbeeData);
       resetOnPageLeave();
     };
-  }, [zigbeeData]);
+  }, [zigbeeData, device]);
 
-  return deviceRegistersInfoAndData;
+  return deviceInstance;
 };
 
 export default useDeviceData;
