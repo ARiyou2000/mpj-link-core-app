@@ -1,3 +1,4 @@
+"use client";
 import Card from "@/components/Card";
 import {
   CardContent,
@@ -7,7 +8,10 @@ import {
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
+
 const SwitchCard = ({ registerInstance, className, ...props }) => {
+  const [updateHandler] = useRegisterUpdateToast();
   return (
     <>
       <Card.Gradiant
@@ -31,7 +35,9 @@ const SwitchCard = ({ registerInstance, className, ...props }) => {
           className={`flex items-center justify-center h-full p-0 m-0`}>
           <Switch
             checked={registerInstance.value}
-            onCheckedChange={registerInstance.updateValue}
+            onCheckedChange={(value) =>
+              updateHandler(() => registerInstance.updateValue(value))
+            }
             // disabled={loading}
             // loading={loading}
           />
