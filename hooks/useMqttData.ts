@@ -83,7 +83,7 @@ const useMqttData = (isActive: boolean) => {
       socket.current?.disconnect();
       socket.current?.close();
     };
-  }, []);
+  }, [isActive]);
 
   return [mqttTopic, mqttMessage, isConnected];
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import useMqttData from "@/hooks/useMqttData";
 import { useEffect, useState } from "react";
 import { messageType } from "@/mqtt";
@@ -10,7 +12,7 @@ const useZigbeeDeviceData = (devicePublicId: string, isActive: boolean) => {
     if (isActive && isConnected) {
       getZigbeeDeviceStatus(devicePublicId);
     }
-  }, [devicePublicId, isConnected]);
+  }, [devicePublicId, isActive, isConnected]);
 
   const [data, setData] = useState<messageType>("");
   useEffect(() => {
@@ -25,7 +27,7 @@ const useZigbeeDeviceData = (devicePublicId: string, isActive: boolean) => {
     ) {
       setData(message);
     }
-  }, [topic, message]);
+  }, [topic, message, isConnected, isActive]);
 
   return data;
 };
