@@ -5,6 +5,7 @@ import RelayPort, {
   getRelayPortType,
   RelayPortIn,
   RelayPortOut,
+  RelayPortType,
 } from "@/classes/registers/modbus/relayRegisters";
 
 const createRegisters = (
@@ -23,7 +24,7 @@ const createRegisters = (
     ] as const;
 
     registersObject[`port${registerNumber.toString().padStart(2, "0")}`] =
-      getRelayPortType(registerNumber) === "output"
+      getRelayPortType(registerNumber) === RelayPortType.output
         ? new RelayPortOut(...params)
         : new RelayPortIn(...params);
   });

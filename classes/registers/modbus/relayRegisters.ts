@@ -1,6 +1,9 @@
 import GeneralPower from "./generalPower";
-import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 
+export enum RelayPortType {
+  input,
+  output,
+}
 export const getRelayPortType = (portNumber: number): RelayPortType => {
   if (portNumber > 0 && portNumber <= 8) {
     return RelayPortType.input;
