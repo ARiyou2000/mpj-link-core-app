@@ -1,6 +1,6 @@
 import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { SwitchPole } from "@/classes/registers/zigbee/switchRegister";
+import { SwitchPole } from "@/classes/registers/modbus/switchRegister";
 import { Protocols } from "@/classes/protocols";
 import { DevicesType } from "@/classes/devices/deviceInfo";
 
