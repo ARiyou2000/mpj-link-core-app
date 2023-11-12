@@ -9,7 +9,6 @@ import {
   Thermometer,
 } from "@/components/icons/colored";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
-import { Protocols } from "@/classes/protocols";
 
 export type ServerSideDeviceInfoT = {
   publicId: string;
