@@ -17,12 +17,8 @@ const ThermostatDevicePage = () => {
           name={device?.name}
           description={device?.description}
           hasPowerButton={true}
-          powerValue={device?.registers?.power}
-          onPowerChange={async (value) => {
-            await handleRegistersUpdate(
-              device?.registers?.power?.updateValue?.(value),
-            );
-          }}
+          powerValue={device?.registers?.power?.value}
+          onPowerChange={() => handleRegistersUpdate(device?.togglePower)}
         />
       </div>
       <Thermostat

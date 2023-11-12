@@ -9,6 +9,7 @@ import { Snow, Steams } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Carousel from "@/components/Carousel";
 import LoadingText from "@/components/loading/LoadingText";
+import LoadingSpinner from "@/components/loading/LoadingSpinner";
 
 const fanSpeedsDataTable = [
   { value: "00", name: <LoadingText /> },
@@ -25,6 +26,19 @@ const Thermostat = ({
   registerUpdateHandler = async (callbackFn) => null,
   ...props
 }) => {
+  if (
+    !deviceInstance?.registers ||
+    !(Object.values(deviceInstance?.registers).length > 0)
+  ) {
+    return (
+      <>
+        <div className={"w-full h-full flex items-center justify-center"}>
+          <LoadingSpinner />
+        </div>
+      </>
+    );
+  }
+
   const {
     power,
     seasonMode,
