@@ -29,6 +29,7 @@ import IrHood from "@/classes/devices/modbus/irHood";
 import ModbusDuctSplit from "@/classes/devices/modbus/ductSplit";
 import useStaticData from "@/hooks/useStaticData";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import useForceUpdateUI from "@/hooks/useForceUpdateUI";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -172,6 +173,8 @@ const useDeviceData = () => {
     device?.protocol === Protocols.zigbee,
   );
 
+  const forceUpdateUI = useForceUpdateUI();
+
   useEffect(() => {
     isPagePresent.current = true;
 
@@ -227,6 +230,10 @@ const useDeviceData = () => {
 
                 // This must place here to prevent showing registers list to user on error getting data from server
                 setDeviceInstance(device);
+
+                // Since device instance will not change reference we need to force update ui
+                // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call
+                forceUpdateUI();
               } catch (e: {
                 code?: number;
                 message: string;
