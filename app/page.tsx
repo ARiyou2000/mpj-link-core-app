@@ -105,7 +105,6 @@ export default function Home() {
         <UnlockSlider
           className={`flex-none ${isSliderUnlocked ? "hidden" : ""}`}
           onUnlock={async () => {
-            setIsSliderUnlocked(true);
             try {
               await autoLogin();
               router.push("/home");
@@ -113,6 +112,8 @@ export default function Home() {
               console.error(e);
               // Remove pass from local storage if there is an error (usually on auto login)
               window.localStorage.removeItem(window.btoa("MPJUserP"));
+              // Only show PassCodeInput if auto login fails.
+              setIsSliderUnlocked(true);
             }
           }}
         />
