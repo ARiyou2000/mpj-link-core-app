@@ -142,6 +142,7 @@ const useDeviceData = () => {
     }
     return await getDeviceRegisters(devicePId, { signal });
   }) as [ServerSideRegisterInfoT[]];
+  const deviceRegistersJsonFromStorage = JSON.stringify(deviceListFromStorage);
 
   // Find device info
   const deviceObjFromStorage = deviceListFromStorage?.find((deviceInfo) => {
@@ -152,7 +153,11 @@ const useDeviceData = () => {
   // const [device, setDevice] = useState<Device | null>(null);
   // useEffect(() => {
   let device: Device | undefined;
-  if (deviceObjFromStorage) {
+  if (
+    deviceObjFromStorage &&
+    deviceRegistersFromStorage &&
+    deviceRegistersFromStorage.length > 0
+  ) {
     // try {
     device = getDeviceInstatnce(
       deviceObjFromStorage,
@@ -167,6 +172,7 @@ const useDeviceData = () => {
     // }
   }
   // }, [deviceJsonFromStorage]);
+  const deviceJSON = JSON.stringify(device);
 
   const zigbeeData = useZigbeeDeviceData(
     devicePId,
@@ -207,7 +213,11 @@ const useDeviceData = () => {
 
       try {
         // -------------------- Device Registers Value --------------------
-        if (device) {
+        if (
+          device &&
+          deviceRegistersFromStorage &&
+          deviceRegistersFromStorage.length > 0
+        ) {
           // Get device data only if it has feedback
           if (device?.protocol === Protocols.modbus) {
             if (device?.hasDataFeedback) {
@@ -310,7 +320,12 @@ const useDeviceData = () => {
       console.warn("Exiting useDeviceData");
       resetOnPageLeave();
     };
-  }, [zigbeeData, deviceJsonFromStorage]);
+  }, [
+    zigbeeData,
+    deviceJsonFromStorage,
+    deviceRegistersJsonFromStorage,
+    deviceJSON,
+  ]);
 
   return deviceInstance;
 };
