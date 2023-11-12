@@ -62,37 +62,38 @@ const fetchUrl = async (url: string, init: fetchInitType = {}) => {
 
       // Actual Data fetch with given url and request description
       // @ts-ignore
-      response = await fetch(url, params);
-      // return response;
-
-      const result = await response.json();
-
+      response = (await fetch(url, params)) as Response;
       // console.log(`Response in fetchUrl for ${url}: `, response);
-      // console.log(`JSON Response in fetchUrl for ${url}: `, result);
-
-      // Following statements will run only if fetch return resolved value
-      if (response.ok && result.action) {
-        resolve(result.result);
-      } else {
-        // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
-        const errorMessage = JSON.stringify(result.message);
-        console.log(response);
-        reject(errorMessage);
-      }
-      // Following statements will run if fetch result is rejected or fetch has thrown an Error for connection issues
     } catch (e) {
-      if (response && !response.ok) {
-        if (response.status == 401) {
-          window.localStorage.removeItem(window.btoa("MPJUserT"));
+      console.error("Network error : ", e);
+      reject({
+        code: 555,
+        message:
+          "A network error is encountered or there is syntax error in result",
+      });
+    }
+
+    // Following statements will run only if fetch return resolved value
+    if (response?.ok) {
+      try {
+        const result = await response.json();
+        // console.log(`JSON Response in fetchUrl for ${url}: `, result);
+
+        // Following statements will run only if fetch return resolved value
+        if (result.action) {
+          resolve(result.result);
+        } else {
+          // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
+          const errorMessage = JSON.stringify(result.message);
+          reject(`Response action is 'false'!: ${errorMessage}`);
         }
+      } catch (e) {
+        console.error("Error parsing response data: ", e);
+        throw e;
       }
-      console.log(response);
-      console.groupCollapsed(`fetchUrl error for ${url}: `);
-      console.error("error : ", e);
-      console.groupEnd();
-      reject(
-        "A network error is encountered or there is syntax error in result",
-      );
+    } else {
+      // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
+      reject({ code: response?.status });
     }
   });
 };
