@@ -59,7 +59,7 @@ const ChangePasswordPage = () => {
     oldPassValidationError: {
       text: "لطفا رمز ورود فعلی خود را مجددا وارد کنید",
       onSubmit: checkOldPass,
-      status: "normal",
+      status: "error",
     },
     newPass: {
       text: "لطفا رمز ورود جدید خود را وارد کنید",
