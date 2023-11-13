@@ -3,8 +3,11 @@
 import UnlockSlider from "@/components/UnlockSlider";
 import { loginWithCode } from "@/utils/login";
 import { MPJLink } from "@/components/icons";
-import PassCodeInput from "@/components/PassCodeInput";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import PassCodeInput, {
+  PasscodeTextType,
+  PasscodeValidationStatusT,
+} from "@/components/PassCodeInput";
+import { useReducer, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LockPageFavoriteNavigation from "@/components/LockPageFavoriteNavigation";
 import { useRouter } from "next/navigation";
@@ -12,66 +15,76 @@ import { autoLogin } from "@/utils/login";
 import window from "@/utils/window";
 import useResizableContainer from "@/hooks/useResizableContainer";
 
-type loginStatusType =
-  | "initial"
-  | "normal"
-  | "loading"
-  | "error"
-  | "network_error"
-  | "success";
+enum LoginStatus {
+  "initial",
+  "normal",
+  "loading",
+  "error",
+  "network_error",
+  "success",
+}
+
 const statusTextInitState = "لطفا رمز ورود خود را وارد کنید";
+
+interface Action {
+  type: LoginStatus;
+}
+
+interface PasscodeDataT {
+  text: PasscodeTextType;
+  status: PasscodeValidationStatusT;
+}
+
+const passcodeDataReducer = (prevState: any, action: Action): PasscodeDataT => {
+  const { type } = action;
+
+  switch (type) {
+    case LoginStatus.initial:
+    case LoginStatus.normal:
+      return { text: statusTextInitState, status: "normal" };
+    case LoginStatus.error:
+      return {
+        text: "لطفا رمز ورود خود را مجددا وارد کنید",
+        status: "error",
+      };
+    case LoginStatus.network_error:
+      return {
+        text: "اتصال با کور برقرار نیست!",
+        status: "error",
+      };
+    case LoginStatus.loading:
+      return { text: "لطفا منتظر بمانید...", status: "loading" };
+    case LoginStatus.success:
+      return { text: "خوش آمدید", status: "success" };
+    default:
+      return { text: statusTextInitState, status: "initial" };
+    // return prevState
+  }
+};
 
 export default function Home() {
   const router = useRouter();
   const [isSliderUnlocked, setIsSliderUnlocked] = useState(false);
 
   // Passcode status & text control
-  const [passCodeData, setPassCodeData] = useState<{
-    text: ReactElement | string;
-    status: loginStatusType;
-  }>({ text: statusTextInitState, status: "initial" });
-
-  const [loginStatus, setLoginStatus] = useState<loginStatusType>("initial");
-  useEffect(() => {
-    switch (loginStatus) {
-      case "initial":
-      case "normal":
-        setPassCodeData({ text: statusTextInitState, status: loginStatus });
-        break;
-      case "error":
-        setPassCodeData({
-          text: "لطفا رمز ورود خود را مجددا وارد کنید",
-          status: loginStatus,
-        });
-        break;
-      case "network_error":
-        setPassCodeData({
-          text: "اتصال با کور برقرار نیست!",
-          status: "error",
-        });
-        break;
-      case "loading":
-        setPassCodeData({ text: "لطفا منتظر بمانید...", status: loginStatus });
-        break;
-      case "success":
-        break;
-      default:
-        setPassCodeData({ text: statusTextInitState, status: loginStatus });
-    }
-  }, [loginStatus]);
+  const initData: PasscodeDataT = {
+    text: statusTextInitState,
+    status: "initial",
+  };
+  const [passCodeData, dispatcher] = useReducer(passcodeDataReducer, initData);
 
   const onSubmitPasscode = async (passcode: string) => {
-    setLoginStatus("loading");
+    dispatcher({ type: LoginStatus.loading });
     try {
       await loginWithCode(passcode);
-      setLoginStatus("success");
+      dispatcher({ type: LoginStatus.success });
       router.push("/home");
     } catch (e: { code: number }) {
       console.error(e);
       if (e.code === 555) {
-        setLoginStatus("network_error");
+        dispatcher({ type: LoginStatus.network_error });
       } else {
-        setLoginStatus("error");
+        dispatcher({ type: LoginStatus.error });
       }
     }
   };

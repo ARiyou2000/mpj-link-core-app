@@ -1,32 +1,48 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 
 const passLengthCheckedInitState = ["empty", "empty", "empty", "empty"];
 const statusTextInitState = "لطفا رمز ورود خود را وارد کنید";
 
+export type PasscodeValidationStatusT =
+  | "initial"
+  | "normal"
+  | "success"
+  | "error"
+  | "loading";
+
+export type PasscodeTextType = ReactElement | string;
+
+export type PassCodeInputPropsT = {
+  text: PasscodeTextType;
+  disabled: boolean;
+  status: PasscodeValidationStatusT;
+  className?: string;
+  onSubmit: (passCode: string) => Promise<unknown>;
+};
 const PassCodeInput = ({
-  onSubmit = async (passcode) => null,
+  onSubmit,
   text = statusTextInitState,
   disabled = false,
   status: validationStatus = "initial",
-  className,
+  className = "",
   ...props
-}) => {
-  const inputElRef = useRef(null);
-  useEffect(() => {
-    inputElRef.current.focus();
-  }, []);
+}: PassCodeInputPropsT) => {
   const [passLengthChecked, setPassLengthChecked] = useState(
     passLengthCheckedInitState,
   );
   const [pass, setPass] = useState("");
   const [status, setStatus] = useState(validationStatus);
 
+  const inputElRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    inputElRef.current.focus();
+    inputElRef?.current?.focus();
+  }, []);
+  useEffect(() => {
+    inputElRef?.current?.focus();
     setStatus(validationStatus);
   }, [validationStatus]);
 
@@ -70,7 +86,7 @@ const PassCodeInput = ({
             "flex flex-row flex-nowrap py-9 px-[4.6rem] gap-12 items-center justify-center rounded-card bg-opacity-10 bg-white"
           }
           onClick={() => {
-            inputElRef.current.focus();
+            inputElRef?.current?.focus();
           }}
           dir={"ltr"}>
           {Array(4)
