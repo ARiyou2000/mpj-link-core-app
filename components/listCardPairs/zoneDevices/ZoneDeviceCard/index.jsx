@@ -1,10 +1,11 @@
-import Card from "@/components/Card";
 import {
+  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/custom-card";
+
 import { cn } from "@/lib/utils";
 
 const ZoneDeviceCard = ({
@@ -19,7 +20,7 @@ const ZoneDeviceCard = ({
 
   return (
     <>
-      <Card.Normal
+      <Card
         className={cn(
           "flex flex-col items-center justify-center gap-6 p-2.5",
           className,
@@ -38,7 +39,7 @@ const ZoneDeviceCard = ({
             {description}
           </CardDescription>
         </CardHeader>
-      </Card.Normal>
+      </Card>
     </>
   );
 };

@@ -1,14 +1,14 @@
 "use client";
 
-import Card from "@/components/Card";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
+  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/custom-card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -137,7 +137,7 @@ const ScenarioCard = ({
 }: ScenarioPropsT) => {
   return (
     <>
-      <Card.Normal
+      <Card
         className={cn("flex flex-row p-4 justify-between", className)}
         {...props}>
         <ActivateScenarioAlert
@@ -184,7 +184,7 @@ const ScenarioCard = ({
           )}
         </CardContent>
         {/*<CardFooter></CardFooter>*/}
-      </Card.Normal>
+      </Card>
     </>
   );
 };

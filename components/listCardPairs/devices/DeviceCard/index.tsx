@@ -1,20 +1,23 @@
-import Card from "@/components/Card";
 import {
+  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/custom-card";
 import { cn } from "@/lib/utils";
 import deviceInfo from "@/classes/devices/deviceInfo";
 
-type propsT = { deviceInfo: deviceInfo; className?: string };
+type propsT = {
+  deviceInfo: deviceInfo;
+  className?: string;
+};
 const DeviceCard = ({ deviceInfo, className = "", ...props }: propsT) => {
   const Icon = deviceInfo.icon;
 
   return (
     <>
-      <Card.Normal
+      <Card
         className={cn(
           "flex flex-row py-4 px-8 items-center justify-between",
           className,
@@ -33,7 +36,7 @@ const DeviceCard = ({ deviceInfo, className = "", ...props }: propsT) => {
           className={`basis-1/3 w-1/3 p-2.5 m-0 [&>svg]:w-full [&>svg]:h-full`}>
           <Icon />
         </CardContent>
-      </Card.Normal>
+      </Card>
     </>
   );
 };

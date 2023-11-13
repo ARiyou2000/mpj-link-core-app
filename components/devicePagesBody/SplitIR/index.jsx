@@ -1,5 +1,9 @@
-import Card from "@/components/Card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/custom-card";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,11 +20,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const SplitIRControlCard = ({ title, children, className, ...props }) => {
   return (
     <>
-      <Card.Gradiant
+      <Card
         className={cn(
           "flex flex-col gap-6 px-4 py-11 items-center justify-center flex-1",
           className,
         )}
+        variant={"gradiant"}
         {...props}>
         <CardHeader
           className={
@@ -30,7 +35,7 @@ const SplitIRControlCard = ({ title, children, className, ...props }) => {
         </CardHeader>
         <CardContent className={`p-0 m-0 w-full`}>{children}</CardContent>
         {/*<CardFooter></CardFooter>*/}
-      </Card.Gradiant>
+      </Card>
     </>
   );
 };

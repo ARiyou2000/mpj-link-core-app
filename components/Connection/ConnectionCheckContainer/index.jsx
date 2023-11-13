@@ -1,9 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Card from "@/components/Card";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { Card } from "@/components/ui/custom-card";
 
 const ConnectionCheckContainer = ({
   icon,
@@ -16,7 +15,7 @@ const ConnectionCheckContainer = ({
 }) => {
   return (
     <>
-      <Card.Normal
+      <Card
         className={cn(
           "flex flex-col items-center justify-center px-14 py-4",
           className,
@@ -36,7 +35,7 @@ const ConnectionCheckContainer = ({
             {buttonText}
           </Button>
         )}
-      </Card.Normal>
+      </Card>
     </>
   );
 };

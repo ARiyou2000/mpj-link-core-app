@@ -1,11 +1,12 @@
 "use client";
-import Card from "@/components/Card";
+
 import {
+  Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/custom-card";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
@@ -14,7 +15,7 @@ const SwitchCard = ({ registerInstance, className, ...props }) => {
   const [updateHandler] = useRegisterUpdateToast();
   return (
     <>
-      <Card.Gradiant
+      <Card
         className={cn(
           "flex flex-row px-4 py-6 items-center justify-between",
           className,
@@ -43,7 +44,7 @@ const SwitchCard = ({ registerInstance, className, ...props }) => {
           />
         </CardContent>
         {/*<CardFooter></CardFooter>*/}
-      </Card.Gradiant>
+      </Card>
     </>
   );
 };
