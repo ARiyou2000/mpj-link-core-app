@@ -19,20 +19,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import fetchUrl from "@/utils/fetchUrl";
-import getCoreIP from "@/utils/getCoreIP";
 import { ReactNode, useContext } from "react";
 import { ScenarioForceUpdateContext } from "@/contexts/forceUpdateContext";
 import { useToast } from "@/components/ui/use-toast";
 import Scenario from "@/classes/scenario";
 
+type ActivateScenarioAlertPropsT = {
+  children: ReactNode;
+  scenarioActivationHandler: () => Promise<unknown>;
+};
 const ActivateScenarioAlert = ({
   children,
-  scenarioPublicId,
-}: {
-  children: ReactNode;
-  scenarioPublicId: string;
-}) => {
+  scenarioActivationHandler,
+}: ActivateScenarioAlertPropsT) => {
   const { toast } = useToast();
 
   return (
@@ -51,9 +50,7 @@ const ActivateScenarioAlert = ({
             <AlertDialogAction
               onClick={async () => {
                 try {
-                  const result = await fetchUrl(
-                    `${getCoreIP()}/command/scenario/${scenarioPublicId}`,
-                  );
+                  await scenarioActivationHandler();
                 } catch (e) {
                   toast({
                     variant: "destructive",
@@ -72,15 +69,17 @@ const ActivateScenarioAlert = ({
   );
 };
 
+type MakeScenarioFavoriteAlertDialogPropsT = {
+  children: ReactNode;
+  isFavored: boolean;
+  toggleIsFavoredHandler: () => Promise<unknown>;
+};
 const MakeScenarioFavoriteAlertDialog = ({
   children,
-  favorite,
-  scenarioPublicId,
-}: {
-  children: ReactNode;
-  favorite: boolean;
-  scenarioPublicId: string;
-}) => {
+  isFavored,
+  toggleIsFavoredHandler,
+}: MakeScenarioFavoriteAlertDialogPropsT) => {
+  const { toast } = useToast();
   const scenarioForceUpdate = useContext(ScenarioForceUpdateContext);
 
   return (
@@ -90,7 +89,7 @@ const MakeScenarioFavoriteAlertDialog = ({
         <AlertDialogContent className={"rounded-card bg-white/40 text-white"}>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {favorite
+              {isFavored
                 ? "سناریو مورد نظر از لیست علاقه مندی ها حذف شود؟"
                 : "              سناریوی مورد نظر مورد علاقه شود؟"}
             </AlertDialogTitle>
@@ -103,15 +102,15 @@ const MakeScenarioFavoriteAlertDialog = ({
             <AlertDialogAction
               onClick={async () => {
                 try {
-                  const result = await fetchUrl(
-                    `${getCoreIP()}/scenario/${scenarioPublicId}`,
-                    {
-                      method: "PUT",
-                      body: { favorite: !favorite },
-                    },
-                  );
+                  await toggleIsFavoredHandler();
                   scenarioForceUpdate();
                 } catch (e) {
+                  toast({
+                    variant: "destructive",
+                    title: isFavored
+                      ? "حذف سناریو از لیست دلخواه‌ها با شکست مواجه شد!"
+                      : "افزودن سناریو به لیست دلخواه‌ها با شکست مواجه شد!",
+                  });
                   console.error(e);
                 }
               }}>
@@ -124,33 +123,36 @@ const MakeScenarioFavoriteAlertDialog = ({
     </>
   );
 };
+
+type ScenarioPropsT = {
+  scenarioInstance: Scenario;
+  className?: string;
+  hasFavoriteButton: boolean;
+};
 const ScenarioCard = ({
-  data,
+  scenarioInstance,
   className = "",
   hasFavoriteButton = true,
   ...props
-}: {
-  data: Scenario;
-  className?: string;
-  hasFavoriteButton: boolean;
-}) => {
+}: ScenarioPropsT) => {
   return (
     <>
       <Card.Normal
         className={cn("flex flex-row p-4 justify-between", className)}
         {...props}>
-        <ActivateScenarioAlert scenarioPublicId={data.publicId}>
+        <ActivateScenarioAlert
+          scenarioActivationHandler={scenarioInstance.apply}>
           <CardHeader className={"basis-2/3 p-4 text-right"}>
             <div
               className={"flex flex-col gap-2 justify-center text-milkwhite"}>
               <CardTitle className={"font-normal text-xs"}>
-                {data.name}
+                {scenarioInstance.name}
               </CardTitle>
               <CardDescription
                 className={
                   "font-normal text-[0.5rem] leading-[0.67875rem] text-milkwhite"
                 }>
-                {data.description}
+                {scenarioInstance.description}
               </CardDescription>
             </div>
           </CardHeader>
@@ -158,23 +160,23 @@ const ScenarioCard = ({
         <CardContent
           className={`basis-1/3 text-left p-2 relative h-[7.4375rem] w-[7.4375rem] max-w-[7.4375rem] rounded-card bg-center bg-opacity-20 bg-cover bg-no-repeat`}
           style={{
-            backgroundImage: `url(${data.image}), url(/images/musicPlayerBackground.webp)`,
+            backgroundImage: `url(${scenarioInstance.image}), url(/images/musicPlayerBackground.webp)`,
             // backgroundPosition: "center",
             // borderRadius: "",
             // background: `linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), url(${image}), lightgray 50%`,
           }}>
           {hasFavoriteButton && (
             <MakeScenarioFavoriteAlertDialog
-              scenarioPublicId={data.publicId}
-              favorite={data.favorite}>
+              isFavored={scenarioInstance.isFavored}
+              toggleIsFavoredHandler={scenarioInstance.toggleIsFavored}>
               <div
                 className={
                   "rounded-full p-1.5 inline-block bg-milkwhite hover:bg-milkwhite hover:opacity-70"
                 }>
                 <Heart
                   color={"#222222"}
-                  fill={data.favorite ? "#D04848" : "none"}
-                  stroke={data.favorite ? "#D04848" : "black"}
+                  fill={scenarioInstance.isFavored ? "#D04848" : "none"}
+                  stroke={scenarioInstance.isFavored ? "#D04848" : "black"}
                   className={"w-4 h-4"}
                 />
               </div>

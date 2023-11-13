@@ -24,7 +24,7 @@ const ScenariosList = ({
               {list?.map((scenario: Scenario, index) => {
                 return (
                   <ScenarioCard
-                    data={scenario}
+                    scenarioInstance={scenario}
                     hasFavoriteButton={hasFavoriteButton}
                     key={`scenarioCard_${index}_${scenario.publicId}`}
                   />

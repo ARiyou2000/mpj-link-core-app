@@ -1,4 +1,6 @@
 import ResponseModel from "@/classes/responseModel";
+import fetchUrl from "@/utils/fetchUrl";
+import getCoreIP from "@/utils/getCoreIP";
 
 const getScenarioImageFromName = (name: string) => {
   switch (true) {
@@ -20,23 +22,87 @@ const getScenarioImageFromName = (name: string) => {
 };
 
 class Scenario extends ResponseModel {
-  favorite: boolean = false;
+  isFavored: boolean = false;
+  isActive: boolean;
   image: string = "";
 
   constructor(
     publicId: string,
     name: string,
     description: string,
-    favorite: boolean,
-    image: string,
+    isFavored: boolean,
+    isActive: boolean,
+    image?: string,
   ) {
     super(publicId, name, description);
-    this.favorite = favorite;
+    this.isFavored = isFavored;
+    this.isActive = isActive;
     if (image) {
       this.image = image;
     } else {
       this.image = getScenarioImageFromName(name);
     }
+  }
+
+  // @ts-ignore
+  #apply = async () => {
+    try {
+      return await fetchUrl(`${getCoreIP()}/command/scenario/${this.publicId}`);
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // @ts-ignore
+  #makeNotFavored = async () => {
+    try {
+      return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
+        method: "PUT",
+        body: { favorite: false },
+      });
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // @ts-ignore
+  #makeFavored = async () => {
+    try {
+      return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
+        method: "PUT",
+        body: { favorite: true },
+      });
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // @ts-ignore
+  #toggleIsFavored = async () => {
+    try {
+      return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
+        method: "PUT",
+        body: { favorite: !this.isFavored },
+      });
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  get apply(): () => Promise<unknown> {
+    return this.#apply;
+  }
+
+  get makeNotFavored(): () => Promise<unknown> {
+    return this.#makeNotFavored;
+  }
+
+  get makeFavored(): () => Promise<unknown> {
+    return this.#makeFavored;
+  }
+
+  get toggleIsFavored(): () => Promise<unknown> {
+    return this.#toggleIsFavored;
   }
 }
 
