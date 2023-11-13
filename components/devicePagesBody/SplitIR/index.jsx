@@ -25,7 +25,7 @@ const SplitIRControlCard = ({ title, children, className, ...props }) => {
           "flex flex-col gap-6 px-4 py-11 items-center justify-center flex-1",
           className,
         )}
-        variant={"gradiant"}
+        borderVariant={"gradiant"}
         {...props}>
         <CardHeader
           className={

@@ -12,7 +12,7 @@ const RelayPortCard = ({ registerInstance, children, className, ...props }) => {
   return (
     <>
       <Card
-        variant={"gradiant"}
+        borderVariant={"gradiant"}
         className={cn(
           "flex flex-col items-center justify-between gap-2.5 pt-6 px-5 pb-11 min-h-[206px]",
           className,

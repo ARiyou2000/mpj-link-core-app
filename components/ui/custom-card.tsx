@@ -7,23 +7,27 @@ const customCardVariant = cva(
   "p-2 border-solid rounded-card text-milkwhite bg-transparent transition-all duration-200",
   {
     variants: {
-      variant: {
-        normal: "border",
-        gradiant: "border-gradiant border-none [&>*]:z-10",
+      borderVariant: {
+        normal: "border-1.5",
+        gradiant: "border-gradiant border-none",
+      },
+      hoverVariant: {
+        gradiant: "hover:border-gradiant hover:border-none",
+        noEffect: "",
       },
     },
-    defaultVariants: { variant: "normal" },
+    defaultVariants: { borderVariant: "normal", hoverVariant: "noEffect" },
   },
 );
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof customCardVariant>
->(({ className, variant, ...props }, ref) => (
+>(({ className, borderVariant, hoverVariant, ...props }, ref) => (
   <div
     ref={ref}
     className={
       // cn("border border-slate-200 bg-white text-slate-950 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50",
-      cn(customCardVariant({ variant }), className)
+      cn(customCardVariant({ borderVariant, hoverVariant }), className)
       // )
     }
     {...props}
