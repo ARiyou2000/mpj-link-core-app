@@ -1,6 +1,13 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
 import type { Config } from "tailwindcss";
 
+const pxToRemSizes = {
+  "0.5": "0.03125rem",
+  "1": "0.0625rem",
+  "1.5": "0.09375rem",
+  "4": "0.25rem",
+};
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -72,16 +79,9 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
         card: "1.5625rem",
       },
-      borderWidth: {
-        "0.5": "0.03125rem",
-        "1": "0.0625rem",
-        "1.5": "0.09375rem",
-        "4": "0.25rem",
-      },
-      ringWidth: {
-        "1": "0.0625rem",
-        "1.5": "0.09375rem",
-      },
+      borderWidth: pxToRemSizes,
+      outlineWidth: pxToRemSizes,
+      ringWidth: pxToRemSizes,
       spacing: {
         "1pxr": "0.0625rem",
       },
