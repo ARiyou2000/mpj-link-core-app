@@ -98,7 +98,11 @@ export default function Home() {
       style={styleObject}
       ref={containerRef}>
       <MPJLink
-        className={`h-[3.75rem] w-[10.75rem] mt-28 flex-none`}
+        className={`w-[10.75rem] h-[3.75rem] mt-28 flex-none transition-all duration-300 ${
+          isSliderUnlocked
+            ? "landscape:w-[7.16rem] landscape:h-[2.5rem] mt-8"
+            : "landscape:w-[16.125rem] landscape:h-[5.625rem]"
+        }`}
         onClick={() => {
           setIsSliderUnlocked(false);
         }}
