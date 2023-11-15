@@ -22,7 +22,17 @@ const config: Config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        // "mobile-portrait": { raw: "(orientation: portrait)" },
+        landscape: { raw: "(orientation: landscape)" },
+        "tablet-portrait": {
+          raw: "(orientation: portrait and min-width: 600px)",
+        },
+        "tablet-landscape": {
+          raw: "(orientation: landscape and min-width: 601px)",
+        },
+        desktop: {
+          raw: "(orientation: landscape and min-width: 1400px)",
+        },
       },
     },
     extend: {
