@@ -29,7 +29,8 @@ const SystemSettingLandingPage = ({ className }) => {
   return (
     <div className={"h-full px-1"}>
       <ScrollArea className={cn("h-full", className)}>
-        <div className={"h-full flex flex-col gap-1.5 pt-32 pb-8"}>
+        <div
+          className={"h-full flex flex-col gap-1.5 pt-32 landscape:pt-8 pb-8"}>
           <div className={settingItemsStyleClassName}>
             <div className={"flex flex-col gap-2.5 p-2.5"}>
               <h2 className={textStyleClassName}>فعالسازی رمز عبور</h2>

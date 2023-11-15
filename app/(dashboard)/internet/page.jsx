@@ -8,17 +8,15 @@ export const metadata = {
 const CheckInternetPage = () => {
   return (
     <>
-      <div className={"h-full flex flex-col px-4 pt-14"}>
-        <h3 className={"text-lg p-4"}>اتصال به اینترنت</h3>
-        <ConnectionCheckPageBody
-          target={"internet"}
-          statusText={{
-            connected: "core به اینترنت متصل است",
-            trying: "درحال اتصال",
-            error: "core به اینترنت متصل نیست",
-          }}
-        />
-      </div>
+      <ConnectionCheckPageBody
+        title={"اتصال به اینترنت"}
+        target={"internet"}
+        statusText={{
+          connected: "core به اینترنت متصل است",
+          trying: "درحال اتصال",
+          error: "core به اینترنت متصل نیست",
+        }}
+      />
     </>
   );
 };

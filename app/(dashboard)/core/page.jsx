@@ -8,17 +8,15 @@ export const metadata = {
 const CorePage = () => {
   return (
     <>
-      <div className={"h-full flex flex-col px-4 pt-14"}>
-        <h3 className={"text-lg p-4"}>اتصال به Core</h3>
-        <ConnectionCheckPageBody
-          target={"core"}
-          statusText={{
-            connected: "اتصال با core برقرار است",
-            trying: "درحال اتصال",
-            error: "دستگاه شما به core متصل نیست",
-          }}
-        />
-      </div>
+      <ConnectionCheckPageBody
+        title={"اتصال به Core"}
+        target={"core"}
+        statusText={{
+          connected: "اتصال با core برقرار است",
+          trying: "درحال اتصال",
+          error: "دستگاه شما به core متصل نیست",
+        }}
+      />
     </>
   );
 };

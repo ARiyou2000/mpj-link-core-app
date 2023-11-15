@@ -11,6 +11,7 @@ import getCoreIP from "@/utils/getCoreIP";
 import useIsFirstRender from "../../hooks/useIsFirstRender";
 
 const ConnectionCheckPageBody = ({
+  title,
   target,
   statusText = {},
   className,
@@ -70,33 +71,36 @@ const ConnectionCheckPageBody = ({
 
   return (
     <>
-      <ScrollArea className={"h-full"}>
-        <div
-          className={cn(
-            "h-full flex flex-col items-center justify-center p-12",
-            className,
-          )}
-          {...props}>
-          {status === "trying" && (
-            <Connection.trying
-              onButtonClicked={handleBack}
-              title={tryingText}
-            />
-          )}
-          {status === "connected" && (
-            <Connection.connected
-              onButtonClicked={handleBack}
-              title={connectedText}
-            />
-          )}
-          {status === "error" && (
-            <Connection.error
-              onButtonClicked={tryConnecting}
-              title={errorText}
-            />
-          )}
-        </div>
-      </ScrollArea>
+      <div className={"h-full flex flex-col px-4 pt-14 landscape:pt-2"}>
+        <h3 className={"text-lg p-4 landscape:py-0"}>{title}</h3>
+        <ScrollArea className={"h-full"}>
+          <div
+            className={cn(
+              "h-full flex flex-col items-center justify-center p-12 landscape:p-0",
+              className,
+            )}
+            {...props}>
+            {status === "trying" && (
+              <Connection.trying
+                onButtonClicked={handleBack}
+                title={tryingText}
+              />
+            )}
+            {status === "connected" && (
+              <Connection.connected
+                onButtonClicked={handleBack}
+                title={connectedText}
+              />
+            )}
+            {status === "error" && (
+              <Connection.error
+                onButtonClicked={tryConnecting}
+                title={errorText}
+              />
+            )}
+          </div>
+        </ScrollArea>
+      </div>
     </>
   );
 };

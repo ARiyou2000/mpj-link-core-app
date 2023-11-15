@@ -15,7 +15,7 @@ const settingButtonInnerStyleClassName = "flex flex-row items-center gap-4";
 const SettingPage = () => {
   return (
     <>
-      <div className={"h-full flex flex-col px-1 pt-14"}>
+      <div className={"h-full flex flex-col px-1 pt-14 landscape:pt-4"}>
         <h3 className={"text-lg p-4"}>تنظیمات</h3>
         <ScrollArea className={"flex-1 h-0 w-full"}>
           <div className={"h-full flex flex-col gap-1.5 pb-5"}>

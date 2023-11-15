@@ -14,7 +14,10 @@ const HomePage = () => {
 
   return (
     <>
-      <div className={"w-full h-full flex flex-col gap-8 pt-8"}>
+      <div
+        className={
+          "w-full h-full flex flex-col gap-8 landscape:gap-2.5 pt-8 landscape:pt-0"
+        }>
         <div className={"w-full flex flex-col items-start"}>
           <h3 className={"px-4"}>زون ها</h3>
           <ZonesList
