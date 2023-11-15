@@ -4,21 +4,23 @@ import styles from "./UnlockSlider.module.css";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
+const config = {
+  debounceOnAndroid: 50,
+  // The higher, the smoother
+  sliderMaxValue: 1000,
+  // The lower, the smoother
+  sliderValueDecrementSpeed: 60,
+  // For instance when we need center value of 0 and mines value for left side
+  sliderMinValue: 0,
+};
 const UnlockSlider = ({
   className,
   onUnlock = () => null,
   shouldResetOnUnlock = true,
   ...props
 }) => {
-  // The higher, the smoother
-  const sliderMaxValue = 1000;
-  // The lower, the smoother
-  const sliderValueDecrementSpeed = 60;
-  // For instance when we need center value of 0 and mines value for left side
-  const sliderMinValue = 0;
-
-  const sliderCurrentValue = useRef(sliderMinValue);
-  const [sliderValue, setSliderValue] = useState(sliderMinValue);
+  const sliderCurrentValue = useRef(config.sliderMinValue);
+  const [sliderValue, setSliderValue] = useState(config.sliderMinValue);
   const sliderValueChangeHandler = (e) => {
     sliderCurrentValue.current = e.target.value;
     setSliderValue(e.target.value);
@@ -31,7 +33,7 @@ const UnlockSlider = ({
   // Check if slider position == sliderMaxValue
   const CheckUnlocked = async () => {
     // check if current value is lower than max value
-    if (sliderValue < sliderMaxValue) {
+    if (sliderValue < config.sliderMaxValue - config.debounceOnAndroid) {
       // Not unlocked -> set value back to sliderMinValue
       ResetCurrVal();
     } else {
@@ -55,12 +57,12 @@ const UnlockSlider = ({
   // Reset slider and text when slider position != sliderMaxValue
   function ResetCurrVal() {
     // update input range
-    if (sliderCurrentValue.current > sliderMinValue) {
+    if (sliderCurrentValue.current > config.sliderMinValue) {
       window.requestAnimationFrame(ResetCurrVal);
     }
     // decrement value
     sliderCurrentValue.current =
-      sliderCurrentValue.current - sliderValueDecrementSpeed;
+      sliderCurrentValue.current - config.sliderValueDecrementSpeed;
     setSliderValue(sliderCurrentValue.current);
     // document.querySelector(".slide-text").style.opacity = (slider.max - currVal) / slider.max
   }
@@ -77,8 +79,8 @@ const UnlockSlider = ({
               <input
                 className={styles["slider"]}
                 type="range"
-                min={sliderMinValue}
-                max={sliderMaxValue}
+                min={config.sliderMinValue}
+                max={config.sliderMaxValue}
                 onChange={sliderValueChangeHandler}
                 onTouchEnd={CheckUnlocked}
                 onMouseUp={CheckUnlocked}
@@ -88,7 +90,8 @@ const UnlockSlider = ({
                 className={`${styles["slide-text"]} m-auto align-bottom`}
                 style={{
                   opacity:
-                    (sliderMaxValue - sliderValue / (3 / 5)) / sliderMaxValue,
+                    (config.sliderMaxValue - sliderValue / (3 / 5)) /
+                    config.sliderMaxValue,
                 }}>
                 باز کردن
               </h1>
