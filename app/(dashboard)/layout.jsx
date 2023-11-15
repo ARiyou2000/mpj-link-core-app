@@ -18,7 +18,10 @@ const MainLayout = ({ children, className, ...props }) => {
         )}
         {...props}>
         <MainLayoutHeader className={"landscape:hidden"} />
-        <div className={"flex-1 h-0 pt-3"}>{children}</div>
+        <div
+          className={"flex-1 h-0 landscape:w-0 w-full landscape:h-full  pt-3"}>
+          {children}
+        </div>
         <MainLayoutTabNavigation />
       </div>
       <Toaster />
