@@ -5,9 +5,12 @@ const SystemSettingLandingLayout = ({ children, className, ...props }) => {
   return (
     <>
       <div
-        className={cn("h-full flex flex-col justify-between", className)}
+        className={cn(
+          "h-full landscape:w-full flex flex-col landscape:flex-row justify-between",
+          className,
+        )}
         {...props}>
-        <div className={"flex-1 h-0"}>{children}</div>
+        <div className={"flex-1"}>{children}</div>
         <MainLayoutTabNavigation />
       </div>
     </>
