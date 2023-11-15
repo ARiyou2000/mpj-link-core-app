@@ -14,7 +14,7 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#1C1F20",
     display: "fullscreen",
     display_override: ["window-controls-overlay"],
-    orientation: "portrait",
+    // orientation: "portrait",
     // shortcuts: [
     //   {
     //     name: "Login",
