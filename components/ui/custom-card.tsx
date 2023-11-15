@@ -9,10 +9,10 @@ const customCardVariant = cva(
     variants: {
       borderVariant: {
         normal: "border-1.5",
-        gradiant: "border-gradiant border-none",
+        gradiant: "border-gradiant border-none [&>*]:z-10",
       },
       hoverVariant: {
-        gradiant: "hover:border-gradiant hover:border-none",
+        gradiant: "hover:border-gradiant hover:border-none [&>*]:z-10",
         noEffect: "",
       },
     },
