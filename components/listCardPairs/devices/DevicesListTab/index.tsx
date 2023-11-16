@@ -16,9 +16,11 @@ import getCategorizedDevices, {
 } from "@/utils/getCategorizedDevices";
 import Link from "next/link";
 import DeviceInfo from "@/classes/devices/deviceInfo";
+import { Grip } from "@/components/icons/dashed";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
 const deviceCardClassName = "my-6";
+const tabIconsStyleClassName = "w-6 h-6";
 
 type propsT = {
   className?: string;
@@ -48,14 +50,16 @@ const DevicesListTab = ({ list = [], className = "", ...props }: propsT) => {
           {list?.length > 0 ? (
             <React.Fragment key={"tabHeader"}>
               <TabsTrigger value={"all"} key={"tabHeader_noIndexing_all"}>
-                همه دستگاه ها
+                <span>همه دستگاه ها</span>
+                <Grip className={tabIconsStyleClassName} />
               </TabsTrigger>
               {headers?.map((header, index) => {
                 return (
                   <TabsTrigger
                     value={header.dataKey}
                     key={`tabHeader_${index}_${header.dataKey}`}>
-                    {header.title}
+                    <span>{header.title}</span>
+                    <header.icon className={tabIconsStyleClassName} />
                   </TabsTrigger>
                 );
               })}

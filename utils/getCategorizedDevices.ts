@@ -1,19 +1,40 @@
 import DeviceInfo, { deviceCategories } from "@/classes/devices/deviceInfo";
+import { ReactNode } from "react";
+import {
+  DuctSplit,
+  Music,
+  Thermometer,
+  Relay,
+  Switches,
+} from "@/components/icons/colored";
+import { Hood, Shaders } from "@/components/icons";
 
 export type DevicesCategoryHeadersT = {
   title: string;
   dataKey: deviceCategories;
+  icon: ReactNode;
 }[];
 
 const headers: DevicesCategoryHeadersT = [
-  { title: "کلید", dataKey: deviceCategories.switch },
-  { title: "رله", dataKey: deviceCategories.relay },
-  { title: "ترموستات", dataKey: deviceCategories.thermostat },
-  { title: "موزیک پلیر", dataKey: deviceCategories.music_player },
-  { title: "اسپلیت", dataKey: deviceCategories.split },
-  { title: "هود", dataKey: deviceCategories.hood },
-  { title: "پرده برقی", dataKey: deviceCategories.curtains },
+  { title: "کلید", dataKey: deviceCategories.switch, icon: Switches },
+  { title: "رله", dataKey: deviceCategories.relay, icon: Relay },
+  {
+    title: "ترموستات",
+    dataKey: deviceCategories.thermostat,
+    icon: Thermometer,
+  },
+  { title: "موزیک پلیر", dataKey: deviceCategories.music_player, icon: Music },
+  { title: "اسپلیت", dataKey: deviceCategories.split, icon: DuctSplit },
+  { title: "هود", dataKey: deviceCategories.hood, icon: Hood },
+  { title: "پرده برقی", dataKey: deviceCategories.curtains, icon: Shaders },
 ];
+
+// const headers: DevicesCategoryHeadersT = Object.keys(deviceCategoryInfo).map(
+//   (key) => {
+//     const values = deviceCategoryInfo[Number(key)];
+//     return { dataKey: key, ...values };
+//   },
+// );
 
 const getCategorizedDevices = (list: DeviceInfo[] = []) => {
   // Make them global:
