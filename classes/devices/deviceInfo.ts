@@ -62,6 +62,17 @@ export enum deviceCategories {
   curtains,
 }
 
+export const deviceCategoryInfo = {
+  [deviceCategories.switch]: { title: "کلید", icon: Switches },
+  [deviceCategories.relay]: { title: "رله", icon: Relay },
+  [deviceCategories.thermostat]: { title: "ترموستات", icon: Thermometer },
+  [deviceCategories.music_player]: { title: "موزیک پلیر", icon: Music },
+  [deviceCategories.split]: { title: "اسپلیت", icon: DuctSplit },
+  [deviceCategories.hood]: { title: "هود", icon: Hood },
+  [deviceCategories.curtains]: { title: "پرده برقی", icon: Shaders },
+  [deviceCategories.uncategorized]: { title: "غیر مجاز", icon: LoadingSpinner },
+};
+
 /**
  * Represent a Device Info class containing pure device information.
  * Omit information about device registers, etc.
@@ -92,39 +103,40 @@ class DeviceInfo extends ResponseModel {
       case DevicesType.modbus_switch_6p:
       case DevicesType.zigbee_switch_3p:
         this.#category = deviceCategories.switch;
+        this.#icon = deviceCategoryInfo[deviceCategories.switch].icon;
         this.#icon = Switches;
         break;
       case DevicesType.modbus_relay:
       case DevicesType.zigbee_relay:
         this.#category = deviceCategories.relay;
-        this.#icon = Relay;
+        this.#icon = deviceCategoryInfo[deviceCategories.relay].icon;
         break;
       case DevicesType.modbus_thermostat:
         this.#category = deviceCategories.thermostat;
-        this.#icon = Thermometer;
+        this.#icon = deviceCategoryInfo[deviceCategories.thermostat].icon;
         break;
       case DevicesType.modbus_music_player:
         this.#category = deviceCategories.music_player;
-        this.#icon = Music;
+        this.#icon = deviceCategoryInfo[deviceCategories.music_player].icon;
         break;
       case DevicesType.modbus_duct_split:
       case DevicesType.ir_split:
         this.#category = deviceCategories.split;
-        this.#icon = DuctSplit;
+        this.#icon = deviceCategoryInfo[deviceCategories.split].icon;
         break;
       case DevicesType.ir_hood:
         this.#category = deviceCategories.hood;
-        this.#icon = Hood;
+        this.#icon = deviceCategoryInfo[deviceCategories.hood].icon;
         break;
       case DevicesType.modbus_curtains:
       case DevicesType.zigbee_curtains:
         this.#category = deviceCategories.curtains;
-        this.#icon = Shaders;
+        this.#icon = deviceCategoryInfo[deviceCategories.curtains].icon;
         break;
       default:
         console.error("uncategorized device with type number of: ", type);
         this.#category = deviceCategories.uncategorized;
-        this.#icon = LoadingSpinner;
+        this.#icon = deviceCategoryInfo[deviceCategories.uncategorized].icon;
     }
   }
 
