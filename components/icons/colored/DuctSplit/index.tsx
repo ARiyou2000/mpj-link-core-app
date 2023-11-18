@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GradiantIconsPropsT } from "@/components/icons/colored";
+import { draw } from "@/components/icons";
 
 const DuctSplitGradiantDeviceIcon = ({
   className = "",
@@ -10,15 +11,18 @@ const DuctSplitGradiantDeviceIcon = ({
 }: GradiantIconsPropsT) => {
   return (
     <>
-      <svg
+      <motion.svg
         width="91"
         height="52"
         viewBox="0 0 91 52"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        initial={"hidden"}
+        animate={"visible"}
         className={className}
         {...props}>
-        <rect
+        <motion.rect
+          variants={draw}
           x="4.75"
           y="10.75"
           width="80.5"
@@ -31,7 +35,9 @@ const DuctSplitGradiantDeviceIcon = ({
           }
           strokeWidth="1.5"
         />
-        <line
+        <motion.line
+          variants={draw}
+          custom={{ delay: 0.6 }}
           x1="14.75"
           y1="34.25"
           x2="65.25"
@@ -44,7 +50,9 @@ const DuctSplitGradiantDeviceIcon = ({
           strokeWidth="1.5"
           strokeLinecap="round"
         />
-        <line
+        <motion.line
+          variants={draw}
+          custom={{ delay: 0.7 }}
           x1="68.75"
           y1="34.25"
           x2="75.25"
@@ -57,7 +65,9 @@ const DuctSplitGradiantDeviceIcon = ({
           strokeWidth="1.5"
           strokeLinecap="round"
         />
-        <line
+        <motion.line
+          variants={draw}
+          custom={{ delay: 0.8 }}
           x1="14.75"
           y1="27.25"
           x2="75.25"
@@ -70,7 +80,9 @@ const DuctSplitGradiantDeviceIcon = ({
           strokeWidth="1.5"
           strokeLinecap="round"
         />
-        <path
+        <motion.path
+          variants={draw}
+          custom={{ delay: 0.9 }}
           d="M57 20H63"
           stroke={
             strokeColor === "gradiant"
@@ -80,7 +92,9 @@ const DuctSplitGradiantDeviceIcon = ({
           strokeWidth="1.5"
           strokeLinecap="round"
         />
-        <path
+        <motion.path
+          variants={draw}
+          custom={{ delay: 0.6 }}
           d="M70 20H76"
           stroke={
             strokeColor === "gradiant"
@@ -152,7 +166,7 @@ const DuctSplitGradiantDeviceIcon = ({
             <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
-      </svg>
+      </motion.svg>
     </>
   );
 };

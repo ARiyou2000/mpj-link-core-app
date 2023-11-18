@@ -1,6 +1,7 @@
+import { IconsPropsT } from "@/components/icons";
+
 export type StrokeColorT = "gradiant" | string;
-export type GradiantIconsPropsT = {
-  className?: string;
+export type GradiantIconsPropsT = IconsPropsT & {
   strokeColor: StrokeColorT;
 };
 

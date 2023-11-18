@@ -34,7 +34,7 @@ const DeviceCard = ({ deviceInfo, className = "", ...props }: propsT) => {
         </CardHeader>
         <CardContent
           className={`basis-1/3 w-1/3 p-2.5 m-0 [&>svg]:w-full [&>svg]:h-full`}>
-          <Icon />
+          <Icon strokeColor={"gradiant"} />
         </CardContent>
       </Card>
     </>
