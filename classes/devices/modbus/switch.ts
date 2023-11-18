@@ -1,14 +1,15 @@
-import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import { SwitchPole } from "@/classes/registers/modbus/switchRegister";
-import { Protocols } from "@/classes/protocols";
 import { DevicesType } from "@/classes/devices/deviceInfo";
+import GeneralToggleDevice from "@/classes/devices/modbus/generalToggleDevice";
 
 const createRegisters = (
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
 ) => {
-  const registersObject: { [key: string]: SwitchPole } = {};
+  const registersObject: {
+    [key: string]: SwitchPole;
+  } = {};
   registersList.forEach((register) => {
     const registerNumber = Number(register.number);
     const params = [
@@ -26,7 +27,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Switch extends Device {
+class Switch extends GeneralToggleDevice {
   constructor(
     publicId: string,
     name: string,
@@ -35,7 +36,6 @@ class Switch extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
@@ -43,13 +43,6 @@ class Switch extends Device {
       createRegisters(publicId, registersInfo),
       true,
     );
-  }
-
-  valueAssignment(values: string[]) {
-    Object.keys(this.registers).forEach((registerKey) => {
-      const register = this.registers[registerKey];
-      register.stringValue = values[Number(register.indicator) - 1];
-    });
   }
 }
 

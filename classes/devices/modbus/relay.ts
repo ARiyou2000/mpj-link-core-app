@@ -1,18 +1,19 @@
-import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
 import RelayPort, {
   getRelayPortType,
   RelayPortIn,
   RelayPortOut,
   RelayPortType,
 } from "@/classes/registers/modbus/relayRegisters";
+import GeneralToggleDevice from "@/classes/devices/modbus/generalToggleDevice";
 
 const createRegisters = (
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
 ) => {
-  const registersObject: { [key: string]: RelayPort } = {};
+  const registersObject: {
+    [key: string]: RelayPort;
+  } = {};
   registersList.forEach((register) => {
     const registerNumber = Number(register.number);
     const params = [
@@ -32,7 +33,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Relay extends Device {
+class Relay extends GeneralToggleDevice {
   constructor(
     publicId: string,
     name: string,
@@ -41,7 +42,6 @@ class Relay extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
@@ -49,13 +49,6 @@ class Relay extends Device {
       createRegisters(publicId, registersInfo),
       true,
     );
-  }
-
-  valueAssignment(values: string[]) {
-    Object.keys(this.registers).forEach((registerKey) => {
-      const register = this.registers[registerKey];
-      register.stringValue = values[Number(register.indicator) - 1];
-    });
   }
 }
 

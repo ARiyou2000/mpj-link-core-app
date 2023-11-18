@@ -3,8 +3,7 @@ import RelayPort, {
   RelayPortOut,
 } from "@/classes/registers/modbus/relayRegisters";
 import { DevicesType } from "@/classes/devices/deviceInfo";
-import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
+import GeneralToggleDevice from "@/classes/devices/modbus/generalToggleDevice";
 
 const createRegisters = (
   devicePublicId: string,
@@ -35,7 +34,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Curtains extends Device {
+class Curtains extends GeneralToggleDevice {
   constructor(
     publicId: string,
     name: string,
@@ -44,7 +43,6 @@ class Curtains extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
