@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Shaders, ShadersClosed, ShadersOpened } from "@/components/icons";
+import {
+  ShadersHalfway,
+  ShadersClosed,
+  ShadersOpened,
+} from "@/components/icons";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { Curtains as CurtainsGradiantDeviceIcon } from "@/components/icons/colored";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-evenly p-8 m-0 border-0.5 rounded-card border-milkwhite";
@@ -19,7 +24,10 @@ const Curtains = ({ deviceInstance, className, ...props }) => {
           {deviceInstance ? (
             <>
               <div>
-                <Shaders className={"w-60 h-60"} />
+                <CurtainsGradiantDeviceIcon
+                  strokeColor={"gradiant"}
+                  className={"w-60 h-60"}
+                />
               </div>
               <div className={"w-full flex flex-col gap-4"}>
                 <Button
@@ -33,7 +41,7 @@ const Curtains = ({ deviceInstance, className, ...props }) => {
                 <Button
                   className={musicPlayerInputSourceButtonStyleClassName}
                   onClick={deviceInstance.pause}>
-                  <Shaders
+                  <ShadersHalfway
                     className={musicPlayerVolumeButtonIconStyleClassName}
                   />
                   <h3>توقف</h3>
