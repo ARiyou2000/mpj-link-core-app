@@ -7,7 +7,7 @@ export { default as ChevronLeft } from "./ChevronLeftDashed";
 export { default as ChevronRight } from "./ChevronRightDashed";
 export { default as Cpu } from "./CpuDashed";
 export { default as Down } from "./DownDashed";
-export { default as Grip } from "./GripDashed/inded";
+export { default as Grip } from "./GripDashed";
 export { default as Home } from "./HomeDashed";
 export { default as Info } from "./InfoDashed";
 export { default as LeftRight } from "./LeftRightDashed";
