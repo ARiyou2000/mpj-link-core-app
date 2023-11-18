@@ -30,6 +30,7 @@ import ModbusDuctSplit from "@/classes/devices/modbus/ductSplit";
 import useStaticData from "@/hooks/useStaticData";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useForceUpdateUI from "@/hooks/useForceUpdateUI";
+import ModbusCurtains from "@/classes/devices/modbus/curtains";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -86,7 +87,7 @@ const getDeviceInstatnce = (
       Device = new IrHood(...props);
       break;
     case DevicesType.modbus_curtains:
-      Device = new ZigbeeSwitch(...props);
+      Device = new ModbusCurtains(...props);
       break;
     case DevicesType.zigbee_curtains:
       Device = new ZigbeeCurtains(...props);
