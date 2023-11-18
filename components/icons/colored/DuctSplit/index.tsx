@@ -1,4 +1,13 @@
-const DuctSplit = ({ children, ...props }) => {
+"use client";
+
+import { motion } from "framer-motion";
+import { GradiantIconsPropsT } from "@/components/icons/colored";
+
+const DuctSplitGradiantDeviceIcon = ({
+  className = "",
+  strokeColor = "white",
+  ...props
+}: GradiantIconsPropsT) => {
   return (
     <>
       <svg
@@ -6,14 +15,20 @@ const DuctSplit = ({ children, ...props }) => {
         height="52"
         viewBox="0 0 91 52"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+        {...props}>
         <rect
           x="4.75"
           y="10.75"
           width="80.5"
           height="31.5"
           rx="14.25"
-          stroke="url(#paint0_linear_101_12657)"
+          stroke={
+            strokeColor === "gradiant"
+              ? "url(#url(#paint0_linear_101_12657))"
+              : strokeColor
+          }
           strokeWidth="1.5"
         />
         <line
@@ -21,7 +36,11 @@ const DuctSplit = ({ children, ...props }) => {
           y1="34.25"
           x2="65.25"
           y2="34.25"
-          stroke="url(#paint1_linear_101_12657)"
+          stroke={
+            strokeColor === "gradiant"
+              ? "url(#paint1_linear_101_12657)"
+              : strokeColor
+          }
           strokeWidth="1.5"
           strokeLinecap="round"
         />
@@ -30,7 +49,11 @@ const DuctSplit = ({ children, ...props }) => {
           y1="34.25"
           x2="75.25"
           y2="34.25"
-          stroke="url(#paint2_linear_101_12657)"
+          stroke={
+            strokeColor === "gradiant"
+              ? "url(#paint2_linear_101_12657)"
+              : strokeColor
+          }
           strokeWidth="1.5"
           strokeLinecap="round"
         />
@@ -39,19 +62,31 @@ const DuctSplit = ({ children, ...props }) => {
           y1="27.25"
           x2="75.25"
           y2="27.25"
-          stroke="url(#paint3_linear_101_12657)"
+          stroke={
+            strokeColor === "gradiant"
+              ? "url(#paint3_linear_101_12657)"
+              : strokeColor
+          }
           strokeWidth="1.5"
           strokeLinecap="round"
         />
         <path
           d="M57 20H63"
-          stroke="url(#paint4_linear_101_12657)"
+          stroke={
+            strokeColor === "gradiant"
+              ? "url(#paint4_linear_101_12657)"
+              : strokeColor
+          }
           strokeWidth="1.5"
           strokeLinecap="round"
         />
         <path
           d="M70 20H76"
-          stroke="url(#paint5_linear_101_12657)"
+          stroke={
+            strokeColor === "gradiant"
+              ? "url(#paint5_linear_101_12657)"
+              : strokeColor
+          }
           strokeWidth="1.5"
           strokeLinecap="round"
         />
@@ -122,4 +157,4 @@ const DuctSplit = ({ children, ...props }) => {
   );
 };
 
-export default DuctSplit;
+export default DuctSplitGradiantDeviceIcon;

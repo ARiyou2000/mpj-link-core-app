@@ -1,10 +1,10 @@
 import ResponseModel from "@/classes/responseModel";
 import {
+  Curtains,
   DuctSplit,
   Hood,
   Music,
   Relay,
-  Shaders,
   Switches,
   Thermometer,
 } from "@/components/icons/colored";
@@ -69,7 +69,7 @@ export const deviceCategoryInfo = {
   [deviceCategories.music_player]: { title: "موزیک پلیر", icon: Music },
   [deviceCategories.split]: { title: "اسپلیت", icon: DuctSplit },
   [deviceCategories.hood]: { title: "هود", icon: Hood },
-  [deviceCategories.curtains]: { title: "پرده برقی", icon: Shaders },
+  [deviceCategories.curtains]: { title: "پرده برقی", icon: Curtains },
   [deviceCategories.uncategorized]: { title: "غیر مجاز", icon: LoadingSpinner },
 };
 

@@ -7,7 +7,7 @@ import {
   Relay,
   Switches,
 } from "@/components/icons/colored";
-import { Hood, Shaders } from "@/components/icons";
+import { Hood, Curtains } from "@/components/icons/colored";
 
 export type DevicesCategoryHeadersT = {
   title: string;
@@ -26,7 +26,7 @@ const headers: DevicesCategoryHeadersT = [
   { title: "موزیک پلیر", dataKey: deviceCategories.music_player, icon: Music },
   { title: "اسپلیت", dataKey: deviceCategories.split, icon: DuctSplit },
   { title: "هود", dataKey: deviceCategories.hood, icon: Hood },
-  { title: "پرده برقی", dataKey: deviceCategories.curtains, icon: Shaders },
+  { title: "پرده برقی", dataKey: deviceCategories.curtains, icon: Curtains },
 ];
 
 // const headers: DevicesCategoryHeadersT = Object.keys(deviceCategoryInfo).map(
