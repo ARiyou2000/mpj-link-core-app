@@ -5,6 +5,19 @@ import { useEffect, useState } from "react";
 import { messageType } from "@/mqtt";
 import { getZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
 
+const getDeviceStatusWhileNotConnected = async (
+  message: JSON,
+  devicePublicId: string,
+) => {
+  try {
+    const dataObject = JSON.parse(message.toString());
+
+    if (!dataObject || !dataObject.linkquality) {
+      await getZigbeeDeviceStatus(devicePublicId);
+    }
+  } catch (e) {}
+};
+
 const useZigbeeDeviceData = (devicePublicId: string, isActive: boolean) => {
   const [topic, message, isConnected] = useMqttData(isActive);
 
