@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Lightbulb, Minus, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Hood } from "@/components/icons";
+import { Hood } from "@/components/icons/colored";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-center p-3 m-0 border-0.5 rounded-card border-milkwhite";
@@ -24,7 +24,7 @@ const IrHoodDevicePageBody = ({
           }
           {...props}>
           <div>
-            <Hood className={"w-40 h-44"} />
+            <Hood strokeColor={"gradiant"} className={"w-40 h-44"} />
           </div>
           <div className={"w-full flex flex-col gap-4"}>
             <Button
