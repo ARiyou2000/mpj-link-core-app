@@ -5,6 +5,7 @@ const pxToRemSizes = {
   "0.5": "0.03125rem",
   "1": "0.0625rem",
   "1.5": "0.09375rem",
+  "2": "0.125rem",
   "4": "0.25rem",
 };
 
@@ -96,7 +97,10 @@ const config: Config = {
         "1pxr": "0.0625rem",
       },
       dropShadow: {
-        active: "0px 0px 10px rgba(244, 244, 244, 0.7)",
+        active: "0 0 0.2rem rgba(244, 244, 244, 0.7)",
+      },
+      boxShadow: {
+        active: "0 0 0.3rem 0.1rem rgba(244, 244, 244, 0.27)",
       },
       keyframes: {
         "accordion-down": {

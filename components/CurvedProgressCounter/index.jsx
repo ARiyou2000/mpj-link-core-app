@@ -46,7 +46,6 @@ const validTargetTemperatureValue = (value) => {
   return value;
 };
 
-const shadowClassName = "shadow-[0px_0px_12px_0px_rgba(224,224,224,0.7)]";
 const thermostatTempButtonStyleClassName =
   "m-0 p-5 rounded-full border-1.5 disabled:cursor-not-allowed";
 const thermostatTempButtonIconStyleClassName = "h-6 w-6";
@@ -179,7 +178,7 @@ const CurvedProgressCounter = ({
             }>
             <div
               className={`flex flex-col items-center justify-center gap-1 h-[12.5rem] w-[12.5rem] rounded-full bg-[#1C1F20] ${
-                power && shadowClassName
+                power && "shadow-active"
               } text-xl transition-shadow duration-1000 ease-out`}>
               <div
                 className={`${textAnimationPropertyClassName} transition-opacity duration-500 ease-in-out`}>
