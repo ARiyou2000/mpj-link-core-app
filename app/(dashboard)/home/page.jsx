@@ -22,7 +22,8 @@ const HomePage = () => {
           <h3 className={"px-4"}>زون ها</h3>
           <ZonesList
             list={zonesData?.map(
-              ({ publicId, name }, index) => new Zone(publicId, name),
+              ({ publicId, name, description, image }, index) =>
+                new Zone(publicId, name, description || "", image || ""),
             )}
           />
         </div>
@@ -32,8 +33,8 @@ const HomePage = () => {
           <ScenarioForceUpdateContext.Provider value={scenarioForceUpdate}>
             <ScenariosList
               list={scenarioData?.map(
-                ({ publicId, name, description, favorite, image }, index) =>
-                  new Scenario(publicId, name, description, favorite, image),
+                ({ publicId, name, description, image, favorite }, index) =>
+                  new Scenario(publicId, name, description, image, favorite),
               )}
             />
           </ScenarioForceUpdateContext.Provider>

@@ -1,47 +1,32 @@
-import ResponseModel from "@/classes/responseModel";
 import fetchUrl from "@/utils/fetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
+import ResponseWithImage from "@/classes/responseWithImage";
 
-const getScenarioImageFromName = (name: string) => {
-  switch (true) {
-    case name.includes("خروج"):
-      return "";
-    case name.includes("ورود"):
-      return "";
-    case name.includes("سینما") ||
-      name.includes("تی وی") ||
-      name.includes("TV"):
-      return "";
-    case name.includes("فوتبال") || name.includes("بازی"):
-      return "";
-    case name.includes("مهمان"):
-      return "";
-    default:
-      return "";
-  }
-};
-
-class Scenario extends ResponseModel {
-  isFavored: boolean = false;
-  isActive: boolean;
-  image: string = "";
+class Scenario extends ResponseWithImage {
+  // @ts-ignore
+  #isFavored: boolean = false;
+  // @ts-ignore
+  #isActive: boolean;
 
   constructor(
     publicId: string,
     name: string,
     description: string,
+    image: string,
     isFavored: boolean,
     isActive: boolean,
-    image?: string,
   ) {
-    super(publicId, name, description);
-    this.isFavored = isFavored;
-    this.isActive = isActive;
-    if (image) {
-      this.image = image;
-    } else {
-      this.image = getScenarioImageFromName(name);
-    }
+    super(publicId, name, description, image);
+    this.#isFavored = isFavored;
+    this.#isActive = isActive;
+  }
+
+  get isFavored(): boolean {
+    return this.#isFavored;
+  }
+
+  get isActive(): boolean {
+    return this.#isActive;
   }
 
   // @ts-ignore
@@ -82,7 +67,7 @@ class Scenario extends ResponseModel {
     try {
       return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
         method: "PUT",
-        body: { favorite: !this.isFavored },
+        body: { favorite: !this.#isFavored },
       });
     } catch (e) {
       throw e;

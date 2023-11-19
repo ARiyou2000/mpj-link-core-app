@@ -1,9 +1,5 @@
-import ResponseModel from "@/classes/responseModel";
+import ResponseWithImage from "@/classes/responseWithImage";
 
-class Zone extends ResponseModel {
-  constructor(publicId: string, name: string) {
-    super(publicId, name, "");
-  }
-}
+class Zone extends ResponseWithImage {}
 
 export default Zone;
