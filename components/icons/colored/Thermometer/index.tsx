@@ -12,9 +12,9 @@ const ThermostatGradiantDeviceIcon = ({
   return (
     <>
       <motion.svg
-        width="79"
-        height="79"
-        viewBox="0 0 79 79"
+        width="56"
+        height="59"
+        viewBox="0 0 56 59"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         initial={"hidden"}
@@ -23,106 +23,106 @@ const ThermostatGradiantDeviceIcon = ({
         {...props}>
         <motion.path
           variants={draw}
-          d="M34.5048 55.0334C33.3774 56.0294 32.5797 57.3448 32.2178 58.8049C31.8558 60.265 31.9467 61.8007 32.4784 63.2079C33.0101 64.6151 33.9574 65.8272 35.1944 66.6832C36.4315 67.5391 37.8997 67.9984 39.404 68C40.9083 68.0016 42.3775 67.5454 43.6163 66.692C44.8551 65.8387 45.805 64.6285 46.3396 63.2225C46.8743 61.8164 46.9684 60.2809 46.6095 58.82C46.2506 57.3591 45.4557 56.0421 44.3304 55.0438M44.353 54.4118V30.9412C44.353 28.2122 42.1407 26 39.4118 26C36.6829 26 34.4706 28.2122 34.4706 30.9412V54.4118"
+          d="M23.307 44.8362C22.1796 45.8321 21.382 47.1475 21.02 48.6076C20.658 50.0677 20.7489 51.6034 21.2806 53.0106C21.8123 54.4178 22.7596 55.6299 23.9967 56.4859C25.2337 57.3419 26.7019 57.8011 28.2062 57.8027C29.7105 57.8043 31.1797 57.3481 32.4185 56.4948C33.6574 55.6414 34.6072 54.4313 35.1419 53.0252C35.6765 51.6191 35.7706 50.0836 35.4118 48.6227C35.0529 47.1619 34.258 45.8448 33.1326 44.8465M33.1552 44.2145V20.7439C33.1552 18.015 30.943 15.8027 28.2141 15.8027C25.4851 15.8027 23.2729 18.015 23.2729 20.7439V44.2145"
           stroke={
             strokeColor === "gradiant"
-              ? "url(#paint0_linear_101_12670)"
+              ? "url(#paint0_linear_842_31283)"
               : strokeColor
           }
-          strokeWidth="1.17028"
-          strokeLinecap="round"
+          stroke-width="1.17028"
+          stroke-linecap="round"
         />
         <motion.path
           variants={draw}
-          d="M39.4053 61.1475H39.4267"
+          d="M28.208 50.9502H28.2295"
           stroke={
             strokeColor === "gradiant"
-              ? "url(#paint1_linear_101_12670)"
+              ? "url(#paint1_linear_842_31283)"
               : strokeColor
           }
-          strokeWidth="3.90093"
-          strokeLinecap="round"
+          stroke-width="3.90093"
+          stroke-linecap="round"
         />
         <motion.path
           variants={draw}
-          d="M39.4717 61.3686V42.5791"
+          d="M28.2739 51.1713V32.3818"
           stroke={
             strokeColor === "gradiant"
-              ? "url(#paint2_linear_101_12670)"
+              ? "url(#paint2_linear_842_31283)"
               : strokeColor
           }
-          strokeWidth="1.17028"
-          strokeLinecap="round"
+          stroke-width="1.17028"
+          stroke-linecap="round"
         />
         <motion.path
           variants={draw}
-          d="M39.4707 40V35"
+          d="M28.2725 29.8027V24.8027"
           stroke={
             strokeColor === "gradiant"
-              ? "url(#paint3_linear_101_12670)"
+              ? "url(#paint3_linear_842_31283)"
               : strokeColor
           }
-          strokeWidth="1.17028"
-          strokeLinecap="round"
+          stroke-width="1.17028"
+          stroke-linecap="round"
         />
         <motion.path
           variants={draw}
-          d="M22.8568 61.0048C18.2517 57.554 14.8572 52.7338 13.1599 47.2352C11.4626 41.7365 11.5496 35.8417 13.4084 30.3956C15.2673 24.9494 18.8026 20.2316 23.5076 16.9182C28.2126 13.6047 33.8458 11.8659 39.5998 11.9508C45.3538 12.0358 50.9332 13.9401 55.5384 17.391C60.1436 20.8418 63.5381 25.662 65.2354 31.1606C66.9327 36.6592 66.8457 42.554 64.9868 48.0002C63.1279 53.4463 59.5927 58.1642 54.8876 61.4776"
+          d="M14.7358 51.8038C9.47778 48.8739 5.33785 44.2856 2.96219 38.755C0.58654 33.2245 0.108868 27.063 1.60374 21.2324C3.09862 15.4018 6.48191 10.2302 11.2255 6.52494C15.9691 2.81966 21.806 0.789212 27.825 0.750561C33.8441 0.711909 39.7066 2.66723 44.4973 6.31128C49.2881 9.95534 52.7375 15.083 54.3072 20.894C55.8768 26.7049 55.4783 32.872 53.1739 38.4326C50.8694 43.9932 46.7888 48.6343 41.5689 51.6315"
           stroke={
             strokeColor === "gradiant"
-              ? "url(#paint4_linear_101_12670)"
+              ? "url(#paint4_linear_842_31283)"
               : strokeColor
           }
-          strokeWidth="1.5"
-          strokeLinecap="round"
+          stroke-width="1.5"
+          stroke-linecap="round"
         />
         <defs>
           <linearGradient
-            id="paint0_linear_101_12670"
-            x1="48.5398"
-            y1="22.709"
-            x2="7.16439"
-            y2="43.2722"
+            id="paint0_linear_842_31283"
+            x1="37.3421"
+            y1="12.5117"
+            x2="-4.03337"
+            y2="33.0749"
             gradientUnits="userSpaceOnUse">
             <stop offset="0.0186187" stopColor="#FB9393" />
             <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
-            id="paint1_linear_101_12670"
-            x1="39.4292"
-            y1="61.0691"
-            x2="39.3546"
-            y2="61.0714"
+            id="paint1_linear_842_31283"
+            x1="28.2319"
+            y1="50.8718"
+            x2="28.1573"
+            y2="50.8741"
             gradientUnits="userSpaceOnUse">
             <stop offset="0.0186187" stopColor="#FB9393" />
             <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
-            id="paint2_linear_101_12670"
-            x1="40.5875"
-            y1="41.1068"
-            x2="37.1263"
-            y2="41.3662"
+            id="paint2_linear_842_31283"
+            x1="29.3897"
+            y1="30.9095"
+            x2="25.9285"
+            y2="31.1689"
             gradientUnits="userSpaceOnUse">
             <stop offset="0.0186187" stopColor="#FB9393" />
             <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
-            id="paint3_linear_101_12670"
-            x1="40.5865"
-            y1="34.6082"
-            x2="37.3616"
-            y2="35.5164"
+            id="paint3_linear_842_31283"
+            x1="29.3882"
+            y1="24.4109"
+            x2="26.1634"
+            y2="25.3192"
             gradientUnits="userSpaceOnUse">
             <stop offset="0.0186187" stopColor="#FB9393" />
             <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
-            id="paint4_linear_101_12670"
-            x1="33.9575"
-            y1="-7.81973"
-            x2="68.4079"
-            y2="99.6507"
+            id="paint4_linear_842_31283"
+            x1="-4.38806"
+            y1="-6.48372"
+            x2="87.6269"
+            y2="58.8613"
             gradientUnits="userSpaceOnUse">
             <stop offset="0.0186187" stopColor="#FB9393" />
             <stop offset="1" stopColor="white" />
