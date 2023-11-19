@@ -46,7 +46,7 @@ const DevicesListTab = ({ list = [], className = "", ...props }: propsT) => {
         defaultValue="all"
         className={cn("w-full flex flex-col ", className)}
         {...props}>
-        <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-2.5 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 bg-black bg-opacity-50 rounded-none">
+        <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-4 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 rounded-none">
           {list?.length > 0 ? (
             <React.Fragment key={"tabHeader"}>
               <TabsTrigger value={"all"} key={"tabHeader_noIndexing_all"}>
