@@ -77,14 +77,14 @@ const PassCodeInput = ({
       <div
         aria-disabled={disabled}
         className={cn(
-          "flex flex-col landscape:flex-row gap-8 pb-8 items-center aria-disabled:cursor-not-allowed",
+          "w-full flex flex-col landscape:flex-row gap-8 pb-8 items-center justify-center aria-disabled:cursor-not-allowed",
           className,
         )}
         {...props}>
         <div
           className={
             // "peer " +
-            "flex flex-row flex-nowrap py-9 landscape:py-6 px-[4.6rem] landscape:px-7 gap-12 landscape:gap-14 items-center justify-center rounded-card bg-opacity-10 bg-white"
+            "flex-none flex flex-row flex-nowrap py-9 landscape:py-6 px-[4.6rem] landscape:px-7 gap-12 landscape:gap-14 items-center justify-center rounded-card bg-opacity-10 bg-white"
           }
           onClick={() => {
             inputElRef?.current?.focus();
@@ -111,7 +111,10 @@ const PassCodeInput = ({
             })}
         </div>
 
-        <h4 className={"peer-data-[status=error]:text-red text-center"}>
+        <h4
+          className={
+            "peer-data-[status=error]:text-red text-center landscape:text-start"
+          }>
           {text}
         </h4>
       </div>

@@ -6,16 +6,16 @@ const iconsClassName = "h-6 w-6";
 const LockPageFavoriteNavigation = ({ className, ...props }) => {
   return (
     <>
-      <div
+      <Link
+        href={"/favorite"}
         className={cn(
-          "bg-[#383838] max-h-[4.4rem] px-6 py-2 rounded-t-xl overflow-hidden",
+          "bg-[#383838] px-6 py-2 rounded-t-xl overflow-hidden",
+          "landscape:fixed right-11 bottom-7 landscape:p-2.5 landscape:rounded-full",
           className,
         )}
         {...props}>
-        <Link href={"/favorite"}>
-          <Heart className={iconsClassName} />
-        </Link>
-      </div>
+        <Heart className={iconsClassName} />
+      </Link>
     </>
   );
 };

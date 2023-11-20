@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { autoLogin } from "@/utils/login";
 import window from "@/utils/window";
 import useResizableContainer from "@/hooks/useResizableContainer";
+import { motion } from "framer-motion";
 
 enum LoginStatus {
   "initial",
@@ -62,6 +63,12 @@ const passcodeDataReducer = (prevState: any, action: Action): PasscodeDataT => {
   }
 };
 
+const spring = {
+  type: "spring",
+  stiffness: 300,
+  damping: 20,
+};
+
 export default function Home() {
   const router = useRouter();
   const [isSliderUnlocked, setIsSliderUnlocked] = useState(false);
@@ -97,16 +104,23 @@ export default function Home() {
       }
       style={styleObject}
       ref={containerRef}>
-      <MPJLink
-        className={`w-[10.75rem] h-[3.75rem] mt-28 flex-none transition-all duration-300 ${
-          isSliderUnlocked
-            ? "landscape:w-[7.16rem] landscape:h-[2.5rem] mt-8"
-            : "landscape:w-[16.125rem] landscape:h-[5.625rem]"
-        }`}
-        onClick={() => {
-          setIsSliderUnlocked(false);
-        }}
-      />
+      <div
+        className={`w-full flex items-center px-[3.25rem] ${
+          isSliderUnlocked ? "landscape:justify-end" : "justify-center"
+        }`}>
+        <motion.div layout transition={spring}>
+          <MPJLink
+            className={`w-[10.75rem] h-[3.75rem] mt-28 landscape:mt-9 flex-none transition-all duration-300 ${
+              isSliderUnlocked
+                ? "landscape:w-[7.16rem] landscape:h-[2.5rem] mt-8"
+                : "landscape:w-[16.125rem] landscape:h-[5.625rem]"
+            }`}
+            onClick={() => {
+              setIsSliderUnlocked(false);
+            }}
+          />
+        </motion.div>
+      </div>
 
       <div
         className={`${
