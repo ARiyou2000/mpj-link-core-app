@@ -77,17 +77,19 @@ const PassCodeInput = ({
       <div
         aria-disabled={disabled}
         className={cn(
-          "flex flex-col gap-8 pb-8 items-center aria-disabled:cursor-not-allowed",
+          "flex flex-col landscape:flex-row gap-8 pb-8 items-center aria-disabled:cursor-not-allowed",
           className,
         )}
         {...props}>
         <div
           className={
-            "flex flex-row flex-nowrap py-9 px-[4.6rem] gap-12 items-center justify-center rounded-card bg-opacity-10 bg-white"
+            // "peer " +
+            "flex flex-row flex-nowrap py-9 landscape:py-6 px-[4.6rem] landscape:px-7 gap-12 landscape:gap-14 items-center justify-center rounded-card bg-opacity-10 bg-white"
           }
           onClick={() => {
             inputElRef?.current?.focus();
           }}
+          // data-status={status}
           dir={"ltr"}>
           {Array(4)
             .fill(null)
@@ -109,7 +111,9 @@ const PassCodeInput = ({
             })}
         </div>
 
-        <h4 className={"text-lg text-center will-change-contents"}>{text}</h4>
+        <h4 className={"peer-data-[status=error]:text-red text-center"}>
+          {text}
+        </h4>
       </div>
 
       <Input
