@@ -22,7 +22,6 @@
   /*html {*/
   /*  height: -webkit-fill-available;*/
   /*}*/
-
   @media (orientation: portrait) {
     html {
       font-size: 4.1vw;
@@ -78,11 +77,18 @@
     mask-composite: exclude;
   }
 
-  .mainBackgroundColor {
-    background-image: url("/images/backgroundSvg.svg"), linear-gradient(135deg, #1C1F20 0%, #020202 100%);
+  .mainBackground {
     background-repeat: no-repeat;
     background-position: top;
     background-size: contain;
+  }
+
+  .portraitMainBackground {
+    background-image: url("/images/backgroundSvg.svg"), linear-gradient(135deg, #1C1F20 0%, #020202 100%);
+  }
+
+  .landscapeMainBackground {
+    background-image: url("/images/landscapeMainBackground.svg"), linear-gradient(135deg, #1C1F20 0%, #020202 100%);
   }
 
   /* No Scrollbar */

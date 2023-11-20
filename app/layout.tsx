@@ -24,7 +24,7 @@ export default function RootLayout({
         <RegisterServiceWorker />
         <div
           className={
-            "max-w-[24.375rem] landscape:max-w-[52.75rem] h-full min-h-full mx-auto mainBackgroundColor text-white"
+            "max-w-[24.375rem] landscape:max-w-[52.75rem] h-full min-h-full mx-auto mainBackground portraitMainBackground landscape:landscapeMainBackground text-white"
           }>
           {children}
         </div>
