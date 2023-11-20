@@ -33,7 +33,9 @@ const createRegisters = (
         registersObject.power = new IrHoodPower(...params);
         break;
       case 2:
-        registersObject.light = new IrHoodLight(...params);
+        registersObject.decreaseFanSpeed = new IrHoodDecreaseFanSpeed(
+          ...params,
+        );
         break;
       case 3:
         registersObject.increaseFanSpeed = new IrHoodIncreaseFanSpeed(
@@ -41,9 +43,7 @@ const createRegisters = (
         );
         break;
       case 4:
-        registersObject.decreaseFanSpeed = new IrHoodDecreaseFanSpeed(
-          ...params,
-        );
+        registersObject.light = new IrHoodLight(...params);
         break;
       default:
         throw new Error("Wrong register number in IR hood registers list!");
