@@ -17,6 +17,7 @@ const SwitchGradiantDeviceIcon = ({
         viewBox="0 0 52 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        strokeLinecap={"square"}
         initial={"hidden"}
         animate={"visible"}
         className={className}

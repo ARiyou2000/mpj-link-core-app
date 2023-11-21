@@ -19,6 +19,7 @@ const RelayGradiantDeviceIcon = ({
         xmlns="http://www.w3.org/2000/svg"
         initial={"hidden"}
         animate={"visible"}
+        strokeLinecap={"square"}
         className={className}
         {...props}>
         <motion.line
@@ -57,6 +58,7 @@ const RelayGradiantDeviceIcon = ({
               ? "url(#paint2_linear_837_31192)"
               : strokeColor
           }
+          strokeLinecap={"butt"}
           strokeWidth="3"
         />
         <motion.circle

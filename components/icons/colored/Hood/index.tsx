@@ -28,6 +28,7 @@ const HoodGradiantDeviceIcon = ({
           x="11.52"
           width="25"
           height="23"
+          strokeLinecap={"square"}
           variants={draw}
           rx="1"
           stroke={
