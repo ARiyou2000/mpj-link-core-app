@@ -1,5 +1,3 @@
-import { StrokeColorT } from "@/components/icons/colored";
-
 export type IconsPropsT = {
   className?: string;
 };
