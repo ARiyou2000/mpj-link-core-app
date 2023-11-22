@@ -5,6 +5,7 @@ export { default as Breeze } from "./BreezeDashed";
 export { default as Check } from "./CheckDashed";
 export { default as ChevronLeft } from "./ChevronLeftDashed";
 export { default as ChevronRight } from "./ChevronRightDashed";
+export { default as Cloud } from "./CloudDashed";
 export { default as Cpu } from "./CpuDashed";
 export { default as Down } from "./DownDashed";
 export { default as Grip } from "./GripDashed";

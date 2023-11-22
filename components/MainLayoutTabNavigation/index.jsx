@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Cpu, Grip, Home, SettingAlt } from "@/components/icons/dashed";
-import { Cloud } from "@/components/icons";
+import { Cloud, Cpu, Grip, Home, SettingAlt } from "@/components/icons/dashed";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
