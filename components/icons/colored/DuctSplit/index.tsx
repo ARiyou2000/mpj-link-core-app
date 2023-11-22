@@ -28,9 +28,10 @@ const DuctSplitGradiantDeviceIcon = ({
           width="80.5"
           height="31.5"
           rx="14.25"
+          strokeLinecap={"square"}
           stroke={
             strokeColor === "gradiant"
-              ? "url(#url(#paint0_linear_101_12657))"
+              ? "url(#paint0_linear_101_12657)"
               : strokeColor
           }
           strokeWidth="1.5"
