@@ -26,7 +26,31 @@ class IrSplitMainReg extends Register {
   }
 }
 
-export class IrSplitPower extends IrSplitMainReg {}
+const powerValueMap = {
+  "01": false,
+  "02": true,
+} as const;
+
+export class IrSplitPower extends Register {
+  constructor(
+    devicePublicId: string,
+    publicId: string,
+    name: string,
+    description: string,
+    indicator: string,
+  ) {
+    super(
+      Protocols.modbus,
+      devicePublicId,
+      publicId,
+      name,
+      description,
+      indicator,
+      powerValueMap,
+      false,
+    );
+  }
+}
 
 export class IrSplitIncreaseFanSpeed extends IrSplitMainReg {}
 

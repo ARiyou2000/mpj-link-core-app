@@ -12,6 +12,7 @@ import { Bluetooth, Mute } from "@/components/icons/dashed";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useRegisterUpdateToast from "../../../hooks/useRegisterUpdateToast";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center px-1.5 py-6 m-0 border rounded-card";
@@ -20,7 +21,12 @@ const musicPlayerVolumeButtonStyleClassName =
   "mx-3 p-1.5 rounded-full border-1.5";
 const musicPlayerVolumeButtonIconStyleClassName = "h-4 w-4";
 
-const MusicPlayer = ({ deviceInstance, className, ...props }) => {
+const MusicPlayer = ({
+  deviceInstance,
+  className,
+  updateHandler = async (callbackFn) => null,
+  ...props
+}) => {
   return (
     <>
       <ScrollArea className={className}>
@@ -43,17 +49,25 @@ const MusicPlayer = ({ deviceInstance, className, ...props }) => {
 
           <div
             className={"flex flex-row justify-between items-center px-16 py-4"}>
-            <Button className={"p-0 m-0"} onClick={deviceInstance?.nextTrack}>
+            <Button
+              className={"p-0 m-0"}
+              onClick={() => {
+                updateHandler(deviceInstance?.nextTrack);
+              }}>
               <NextTrack className={"w-8 h-8"} />
             </Button>
             <Button
               className={"p-0 m-0 rounded-full"}
-              onClick={deviceInstance?.play}>
+              onClick={() => {
+                updateHandler(deviceInstance?.play);
+              }}>
               <PlayPause className={"w-14 h-14"} />
             </Button>
             <Button
               className={"p-0 m-0"}
-              onClick={deviceInstance?.previousTrack}>
+              onClick={() => {
+                updateHandler(deviceInstance?.previousTrack);
+              }}>
               <PreviousTrack className={"w-8 h-8"} />
             </Button>
           </div>
@@ -65,7 +79,9 @@ const MusicPlayer = ({ deviceInstance, className, ...props }) => {
               }>
               <Button
                 className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={deviceInstance?.aux}>
+                onClick={() => {
+                  updateHandler(deviceInstance?.aux);
+                }}>
                 <span>AUX</span>
                 <AUX
                   className={musicPlayerInputSourceButtonIconStyleClassName}
@@ -73,7 +89,9 @@ const MusicPlayer = ({ deviceInstance, className, ...props }) => {
               </Button>
               <Button
                 className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={deviceInstance?.bluetooth}>
+                onClick={() => {
+                  updateHandler(deviceInstance?.bluetooth);
+                }}>
                 <span>Bluetooth</span>
                 <Bluetooth
                   className={musicPlayerInputSourceButtonIconStyleClassName}
@@ -81,7 +99,9 @@ const MusicPlayer = ({ deviceInstance, className, ...props }) => {
               </Button>
               <Button
                 className={musicPlayerInputSourceButtonStyleClassName}
-                onClick={deviceInstance?.sd}>
+                onClick={() => {
+                  updateHandler(deviceInstance?.sd);
+                }}>
                 <span>SD Card</span>
                 <SDCard
                   className={musicPlayerInputSourceButtonIconStyleClassName}
@@ -94,7 +114,9 @@ const MusicPlayer = ({ deviceInstance, className, ...props }) => {
               }>
               <Button
                 className={musicPlayerVolumeButtonStyleClassName}
-                onClick={deviceInstance?.volumeUp}>
+                onClick={() => {
+                  updateHandler(deviceInstance?.volumeUp);
+                }}>
                 <Plus className={musicPlayerVolumeButtonIconStyleClassName} />
               </Button>
               <Button
@@ -102,12 +124,16 @@ const MusicPlayer = ({ deviceInstance, className, ...props }) => {
                   musicPlayerVolumeButtonStyleClassName,
                   "p-2 border-none",
                 )}
-                onClick={deviceInstance?.mute}>
+                onClick={() => {
+                  updateHandler(deviceInstance?.mute);
+                }}>
                 <Mute className={"w-8 h-8"} />
               </Button>
               <Button
                 className={musicPlayerVolumeButtonStyleClassName}
-                onClick={deviceInstance?.volumeDown}>
+                onClick={() => {
+                  updateHandler(deviceInstance?.volumeDown);
+                }}>
                 <Minus className={musicPlayerVolumeButtonIconStyleClassName} />
               </Button>
             </div>

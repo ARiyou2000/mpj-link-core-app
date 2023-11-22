@@ -48,7 +48,7 @@ const controlButtonStyleClassName =
 
 const SplitIR = ({
   className,
-  handleDeviceUpdate = async (callbackFn) => null,
+  updateHandler = async (callbackFn) => null,
   deviceInstance,
   ...props
 }) => {
@@ -63,7 +63,7 @@ const SplitIR = ({
             <Button
               className={controlButtonStyleClassName}
               onClick={() =>
-                handleDeviceUpdate(deviceInstance?.increaseTemperature)
+                updateHandler(deviceInstance?.increaseTemperature)
               }>
               <Plus className={primaryControlIconStyleClassNameGroup2} />
             </Button>
@@ -71,24 +71,20 @@ const SplitIR = ({
               className={"flex flex-col justify-between items-center gap-12"}>
               <Button
                 className={cn(controlButtonStyleClassName, "")}
-                onClick={() =>
-                  handleDeviceUpdate(deviceInstance?.increaseFanSpeed)
-                }>
+                onClick={() => updateHandler(deviceInstance?.increaseFanSpeed)}>
                 <Up className={primaryControlIconStyleClassNameGroup1} />
               </Button>
 
               <Button
                 className={cn(controlButtonStyleClassName, "")}
-                onClick={() =>
-                  handleDeviceUpdate(deviceInstance?.decreaseFanSpeed)
-                }>
+                onClick={() => updateHandler(deviceInstance?.decreaseFanSpeed)}>
                 <Down className={primaryControlIconStyleClassNameGroup1} />
               </Button>
             </div>
             <Button
               className={controlButtonStyleClassName}
               onClick={() =>
-                handleDeviceUpdate(deviceInstance?.decreaseTemperature)
+                updateHandler(deviceInstance?.decreaseTemperature)
               }>
               <Minus className={primaryControlIconStyleClassNameGroup2} />
             </Button>
@@ -100,14 +96,14 @@ const SplitIR = ({
                 <Button
                   className={controlButtonStyleClassName}
                   onClick={() =>
-                    handleDeviceUpdate(deviceInstance?.changeMovementDirection)
+                    updateHandler(deviceInstance?.changeMovementDirection)
                   }>
                   <LeftRight className={secondaryControlIconStyleClassName} />
                 </Button>
                 <Button
                   className={controlButtonStyleClassName}
                   onClick={() =>
-                    handleDeviceUpdate(deviceInstance?.changeMovementDirection)
+                    updateHandler(deviceInstance?.changeMovementDirection)
                   }>
                   <UpDown className={secondaryControlIconStyleClassName} />
                 </Button>
@@ -118,9 +114,7 @@ const SplitIR = ({
               <div className={"flex items-center justify-center"}>
                 <Button
                   className={controlButtonStyleClassName}
-                  onClick={() =>
-                    handleDeviceUpdate(deviceInstance?.changeMode)
-                  }>
+                  onClick={() => updateHandler(deviceInstance?.changeMode)}>
                   <Breeze className={secondaryControlIconStyleClassName} />
                 </Button>
               </div>

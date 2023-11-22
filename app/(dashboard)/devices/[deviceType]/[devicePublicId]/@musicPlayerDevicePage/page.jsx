@@ -3,23 +3,13 @@
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useDeviceData from "@/hooks/useDeviceData";
 import MusicPlayer from "@/components/devicePagesBody/MusicPlayer";
-import { useState } from "react";
-import useRegisterUpdateToast from "../../../../../../hooks/useRegisterUpdateToast";
+import useHertakiUpdate from "@/hooks/useHertakiUpdate";
+import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 
 const MusicPlayerDevicePage = () => {
   const device = useDeviceData();
-
-  const [hertakiUpdateFlag, setHertakiUpdateFlag] = useState(false);
   const [registerUpdateHandler] = useRegisterUpdateToast();
-
-  const handelHertakiUpdate = async (fistAction, secoundAction) => {
-    setHertakiUpdateFlag((prevState) => !prevState);
-    if (hertakiUpdateFlag) {
-      await registerUpdateHandler(fistAction);
-    } else {
-      await registerUpdateHandler(secoundAction);
-    }
-  };
+  const handelHertakiUpdate = useHertakiUpdate();
 
   return (
     <>
@@ -37,7 +27,7 @@ const MusicPlayerDevicePage = () => {
       <MusicPlayer
         className={"flex-1 h-0 w-full"}
         deviceInstance={device}
-        updateHandler={handelHertakiUpdate}
+        updateHandler={registerUpdateHandler}
       />
     </>
   );

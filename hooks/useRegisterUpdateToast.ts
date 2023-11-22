@@ -14,10 +14,10 @@ const useRegisterUpdateToast = () => {
     try {
       const result = await callbackFn();
     } catch (e) {
-      toast({
-        variant: "destructive",
-        title: "شما دسترسی تغییر این گزینه را ندارید",
-      });
+      // toast({
+      //   variant: "destructive",
+      //   title: "شما دسترسی تغییر این گزینه را ندارید",
+      // });
       console.error(e);
     }
     // setLoading((prevState) => false);

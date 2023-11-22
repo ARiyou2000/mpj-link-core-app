@@ -40,22 +40,22 @@ const createRegisters = (
         registersObject.power = new IrSplitPower(...params);
         break;
       case 2:
-        registersObject.increaseFanSpeed = new IrSplitIncreaseFanSpeed(
-          ...params,
-        );
-        break;
-      case 3:
-        registersObject.decreaseFanSpeed = new IrSplitDecreaseFanSpeed(
-          ...params,
-        );
-        break;
-      case 4:
         registersObject.increaseTemperature = new IrSplitIncreaseTemperature(
           ...params,
         );
         break;
-      case 5:
+      case 3:
         registersObject.decreaseTemperature = new IrSplitDecreaseTemperature(
+          ...params,
+        );
+        break;
+      case 4:
+        registersObject.increaseFanSpeed = new IrSplitIncreaseFanSpeed(
+          ...params,
+        );
+        break;
+      case 5:
+        registersObject.decreaseFanSpeed = new IrSplitDecreaseFanSpeed(
           ...params,
         );
         break;
@@ -95,8 +95,19 @@ class IrSplit extends Device {
   }
 
   // @ts-ignore
-  #changePower = async () => {
-    return await this.registers.power.updateValue("trigger");
+  #powerOn = async () => {
+    return await this.registers.power.updateValue(true);
+  };
+  // @ts-ignore
+  #powerOff = async () => {
+    return await this.registers.power.updateValue(false);
+  };
+  // @ts-ignore
+  #togglePower = async () => {
+    if (Math.random() >= 0.5) {
+      return await this.registers.mainRegister.updateValue(true);
+    }
+    return await this.registers.mainRegister.updateValue(false);
   };
   // @ts-ignore
   #increaseFanSpeed = async () => {
@@ -123,8 +134,16 @@ class IrSplit extends Device {
     return await this.registers.movementDirection.updateValue("trigger");
   };
 
-  get changePower(): () => Promise<unknown> {
-    return this.#changePower;
+  get powerOn(): () => Promise<unknown> {
+    return this.#powerOn;
+  }
+
+  get powerOff(): () => Promise<unknown> {
+    return this.#powerOff;
+  }
+
+  get togglePower(): () => Promise<unknown> {
+    return this.#togglePower;
   }
 
   get increaseFanSpeed(): () => Promise<unknown> {
