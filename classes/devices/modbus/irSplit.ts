@@ -40,12 +40,12 @@ const createRegisters = (
         registersObject.power = new IrSplitPower(...params);
         break;
       case 2:
-        registersObject.increaseTemperature = new IrSplitIncreaseTemperature(
+        registersObject.decreaseTemperature = new IrSplitDecreaseTemperature(
           ...params,
         );
         break;
       case 3:
-        registersObject.decreaseTemperature = new IrSplitDecreaseTemperature(
+        registersObject.increaseTemperature = new IrSplitIncreaseTemperature(
           ...params,
         );
         break;
