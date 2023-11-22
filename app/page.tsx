@@ -105,7 +105,7 @@ export default function Home() {
       style={styleObject}
       ref={containerRef}>
       <div
-        className={`w-full flex items-center px-[3.25rem] ${
+        className={`w-full flex items-center px-[3.25rem] justify-center ${
           isSliderUnlocked ? "landscape:justify-end" : "justify-center"
         }`}>
         <motion.div layout transition={spring}>
