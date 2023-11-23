@@ -40,11 +40,12 @@ const SplitIRControlCard = ({ title, children, className, ...props }) => {
   );
 };
 
-const primaryControlIconStyleClassNameGroup1 = "h-[5.1rem] w-[5.1rem]";
-const primaryControlIconStyleClassNameGroup2 = "h-[4.375rem] w-[4.375rem]";
+const primaryControlIconStyleClassNameGroup = "h-[5.1rem] w-[5.1rem]";
 const secondaryControlIconStyleClassName = "h-12 w-12";
 const controlButtonStyleClassName =
   "p-0 m-0 bg-transparent rounded-full h-full";
+const primaryControlButtonWrapperStyleClassName =
+  "p-2.5 flex content-center bg-[#090A0A]";
 
 const SplitIR = ({
   className,
@@ -58,36 +59,52 @@ const SplitIR = ({
         <div className={"h-full pb-5 flex flex-col justify-center"} {...props}>
           <div
             className={
-              "px-7 py-[4.5rem] flex flex-row items-center justify-between"
+              "py-[4.5rem] flex flex-row items-center justify-center drop-shadow-[0.5rem_0.375rem_0.875rem_#000]"
             }>
-            <Button
-              className={controlButtonStyleClassName}
-              onClick={() =>
-                updateHandler(deviceInstance?.increaseTemperature)
-              }>
-              <Plus className={primaryControlIconStyleClassNameGroup2} />
-            </Button>
             <div
-              className={"flex flex-col justify-between items-center gap-12"}>
+              className={cn(
+                primaryControlButtonWrapperStyleClassName,
+                "rounded-r-full pl-0",
+              )}>
+              <Button
+                className={controlButtonStyleClassName}
+                onClick={() =>
+                  updateHandler(deviceInstance?.increaseTemperature)
+                }>
+                <Plus className={primaryControlIconStyleClassNameGroup} />
+              </Button>
+            </div>
+            <div
+              className={cn(
+                primaryControlButtonWrapperStyleClassName,
+                "flex flex-col justify-between items-center gap-[5.1rem]",
+                "rounded-full",
+              )}>
               <Button
                 className={cn(controlButtonStyleClassName, "")}
                 onClick={() => updateHandler(deviceInstance?.increaseFanSpeed)}>
-                <Up className={primaryControlIconStyleClassNameGroup1} />
+                <Up className={primaryControlIconStyleClassNameGroup} />
               </Button>
 
               <Button
                 className={cn(controlButtonStyleClassName, "")}
                 onClick={() => updateHandler(deviceInstance?.decreaseFanSpeed)}>
-                <Down className={primaryControlIconStyleClassNameGroup1} />
+                <Down className={primaryControlIconStyleClassNameGroup} />
               </Button>
             </div>
-            <Button
-              className={controlButtonStyleClassName}
-              onClick={() =>
-                updateHandler(deviceInstance?.decreaseTemperature)
-              }>
-              <Minus className={primaryControlIconStyleClassNameGroup2} />
-            </Button>
+            <div
+              className={cn(
+                primaryControlButtonWrapperStyleClassName,
+                "rounded-l-full pr-0",
+              )}>
+              <Button
+                className={controlButtonStyleClassName}
+                onClick={() =>
+                  updateHandler(deviceInstance?.decreaseTemperature)
+                }>
+                <Minus className={primaryControlIconStyleClassNameGroup} />
+              </Button>
+            </div>
           </div>
 
           <div className={"flex flex-row gap-6"}>
