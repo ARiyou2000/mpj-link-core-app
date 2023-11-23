@@ -33,7 +33,7 @@ const ScenariosList = ({
             </div>
           ) : (
             <h3 className={"w-full h-full flex items-center justify-center"}>
-              موردی یافت نشد
+              Empty List
             </h3>
           )
         ) : (

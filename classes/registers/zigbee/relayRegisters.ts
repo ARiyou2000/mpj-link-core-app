@@ -9,7 +9,7 @@ export const getRelayPortType = (portNumber: string): RelayPortType => {
   return RelayPortType.output;
 };
 
-class RelayPort extends generalPower {
+export class RelayPort extends generalPower {
   // @ts-ignore
   #portType: RelayPortType;
 

@@ -3,7 +3,14 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import Zone from "@/classes/zone";
 import { cn } from "@/lib/utils";
 
-const ZonesList = ({ list = [], className = "", ...props }) => {
+const ZonesList = ({
+  list,
+  className = "",
+  ...props
+}: {
+  list: Zone[];
+  className?: string;
+}) => {
   return (
     <>
       <div
@@ -14,15 +21,19 @@ const ZonesList = ({ list = [], className = "", ...props }) => {
           className,
         )}
         {...props}>
-        {list?.length > 0 ? (
-          list?.map((zone: Zone, index) => {
-            return (
-              <ZoneCard
-                data={zone}
-                key={`zoneCard_${index}_${zone.publicId}`}
-              />
-            );
-          })
+        {!!list ? (
+          list?.length > 0 ? (
+            list?.map((zone, index) => {
+              return (
+                <ZoneCard
+                  data={zone}
+                  key={`zoneCard_${index}_${zone.publicId}`}
+                />
+              );
+            })
+          ) : (
+            "Empty List"
+          )
         ) : (
           <LoadingSpinner />
         )}
