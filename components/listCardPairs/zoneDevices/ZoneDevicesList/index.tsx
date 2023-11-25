@@ -41,7 +41,7 @@ const ZoneDevicesList = ({
                     href={`/devices/${zoneDevice.category}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
                     className={`${
                       list?.length < 4
-                        ? "max-h-[50%] flex-1"
+                        ? "max-h-[50%] landscape:max-h-full flex-1"
                         : `basis-[calc(100%/2-(1.5rem*1/2))] min-h-[16.5rem] ${
                             list?.length === 4
                               ? "h-[calc(100%/2-(1.5rem*1/2))]"
@@ -49,12 +49,8 @@ const ZoneDevicesList = ({
                           }`
                     }`}>
                     <ZoneDeviceCard
-                      {...zoneDevice}
                       key={`scenarioCard_${index}_${zoneDevice.publicId}`}
-                      name={zoneDevice.name}
-                      description={zoneDevice.description}
-                      publicId={zoneDevice.publicId}
-                      icon={zoneDevice.icon}
+                      deviceInfo={zoneDevice}
                       className={"w-full h-full"}
                     />
                   </Link>

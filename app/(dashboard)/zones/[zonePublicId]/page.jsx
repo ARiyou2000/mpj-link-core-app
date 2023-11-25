@@ -30,12 +30,10 @@ const ZonePage = () => {
         <div className={"flex-1 h-0 w-full"}>
           <ZoneDevicesList
             className={"pt-2"}
-            list={
-              zoneData?.map(
-                ({ publicId, name, description, type }) =>
-                  new DeviceInfo(publicId, name, description, type),
-              ) || []
-            }
+            list={zoneData?.map(
+              ({ publicId, name, description, type }) =>
+                new DeviceInfo(publicId, name, description, type),
+            )}
           />
         </div>
       </div>
