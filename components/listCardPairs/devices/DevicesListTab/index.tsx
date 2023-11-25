@@ -47,7 +47,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
         <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-4 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 rounded-none">
           {list?.length > 0 ? (
             <React.Fragment key={"tabHeader"}>
-              {headers?.map((header, index) => {
+              {headers?.map((header) => {
                 const Icon = header.icon;
                 return (
                   <TabsTrigger
@@ -70,27 +70,25 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
           }>
           {list?.length > 0 ? (
             <React.Fragment key={"tabContent"}>
-              {headers?.map((header, tabContentIndex) => {
+              {headers?.map((header) => {
                 return (
                   <TabsContent
                     value={header.dataKey}
                     className={tabContentAndScrollStyleClassName}
-                    key={`tabContent_${tabContentIndex}_${header.dataKey}`}>
+                    key={`tabContent_${header.dataKey}`}>
                     <ScrollArea className={tabContentAndScrollStyleClassName}>
-                      {categorizedDeviceList[header.dataKey]?.map(
-                        (device, deviceIndex) => {
-                          return (
-                            <Link
-                              key={`tabContent_${tabContentIndex}_${header.dataKey}_${deviceIndex}_device_${device.publicId}`}
-                              href={`/devices/${device.type}/${device.publicId}`}>
-                              <DeviceCard
-                                className={deviceCardClassName}
-                                deviceInfo={device}
-                              />
-                            </Link>
-                          );
-                        },
-                      )}
+                      {categorizedDeviceList[header.dataKey]?.map((device) => {
+                        return (
+                          <Link
+                            key={`tabContent_${header.dataKey}_device_${device.publicId}`}
+                            href={`/devices/${device.type}/${device.publicId}`}>
+                            <DeviceCard
+                              className={deviceCardClassName}
+                              deviceInfo={device}
+                            />
+                          </Link>
+                        );
+                      })}
                     </ScrollArea>
                   </TabsContent>
                 );
