@@ -29,7 +29,7 @@ const SettingDashedAlt = ({ className, ...props }: IconsPropsT) => {
         <motion.path
           variants={draw}
           d="M12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12C15 11.59 14.92 11.19 14.76 10.83"
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
         />
       </motion.svg>
     </>

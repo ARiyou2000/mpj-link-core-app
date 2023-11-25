@@ -19,6 +19,7 @@ const ThermostatGradiantDeviceIcon = ({
         xmlns="http://www.w3.org/2000/svg"
         initial={"hidden"}
         animate={"visible"}
+        strokeLinecap="round"
         className={className}
         {...props}>
         <motion.path
@@ -29,8 +30,7 @@ const ThermostatGradiantDeviceIcon = ({
               ? "url(#paint0_linear_842_31283)"
               : strokeColor
           }
-          stroke-width="1.17028"
-          stroke-linecap="round"
+          strokeWidth="1.17028"
         />
         <motion.path
           variants={draw}
@@ -40,8 +40,7 @@ const ThermostatGradiantDeviceIcon = ({
               ? "url(#paint1_linear_842_31283)"
               : strokeColor
           }
-          stroke-width="3.90093"
-          stroke-linecap="round"
+          strokeWidth="3.90093"
         />
         <motion.path
           variants={draw}
@@ -51,8 +50,7 @@ const ThermostatGradiantDeviceIcon = ({
               ? "url(#paint2_linear_842_31283)"
               : strokeColor
           }
-          stroke-width="1.17028"
-          stroke-linecap="round"
+          strokeWidth="1.17028"
         />
         <motion.path
           variants={draw}
@@ -62,8 +60,7 @@ const ThermostatGradiantDeviceIcon = ({
               ? "url(#paint3_linear_842_31283)"
               : strokeColor
           }
-          stroke-width="1.17028"
-          stroke-linecap="round"
+          strokeWidth="1.17028"
         />
         <motion.path
           variants={draw}
@@ -73,8 +70,7 @@ const ThermostatGradiantDeviceIcon = ({
               ? "url(#paint4_linear_842_31283)"
               : strokeColor
           }
-          stroke-width="1.5"
-          stroke-linecap="round"
+          strokeWidth="1.5"
         />
         <defs>
           <linearGradient

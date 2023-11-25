@@ -2,7 +2,7 @@ import { IconsPropsT } from "@/components/icons";
 
 export type StrokeColorT = "gradiant" | string;
 export type GradiantIconsPropsT = IconsPropsT & {
-  strokeColor: StrokeColorT;
+  strokeColor?: StrokeColorT;
 };
 
 export { default as DuctSplit } from "./DuctSplit";

@@ -31,7 +31,7 @@ const SwitchGradiantDeviceIcon = ({
               : strokeColor
           }
           strokeWidth="1.5"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <motion.path
           d="M22 27H40.25C46.1871 27 51 31.8129 51 37.75V37.75C51 43.6871 46.1871 48.5 40.25 48.5H11.75C5.81294 48.5 1 43.6871 1 37.75V37.75C1 31.8129 5.81294 27 11.75 27H15.5"
@@ -42,7 +42,7 @@ const SwitchGradiantDeviceIcon = ({
               : strokeColor
           }
           strokeWidth="1.5"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <motion.circle
           cx="12.5"
