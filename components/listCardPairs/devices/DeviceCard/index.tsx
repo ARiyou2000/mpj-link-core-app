@@ -6,10 +6,10 @@ import {
   CardTitle,
 } from "@/components/ui/custom-card";
 import { cn } from "@/lib/utils";
-import deviceInfo from "@/classes/devices/deviceInfo";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 type propsT = {
-  deviceInfo: deviceInfo;
+  deviceInfo: DeviceInfo;
   className?: string;
 };
 const DeviceCard = ({ deviceInfo, className = "", ...props }: propsT) => {

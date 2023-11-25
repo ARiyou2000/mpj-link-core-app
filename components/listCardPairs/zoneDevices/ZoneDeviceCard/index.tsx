@@ -7,9 +7,10 @@ import {
 } from "@/components/ui/custom-card";
 
 import { cn } from "@/lib/utils";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 type propsT = {
-  deviceInfo: deviceInfo;
+  deviceInfo: DeviceInfo;
   className?: string;
 };
 const ZoneDeviceCard = ({ deviceInfo, className = "", ...props }: propsT) => {
