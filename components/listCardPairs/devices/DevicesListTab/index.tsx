@@ -72,7 +72,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                     <ScrollArea className={tabContentAndScrollStyleClassName}>
                       <div
                         className={
-                          "h-full w-full flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-[2%] pb-1"
+                          "h-full w-full flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-[2%] pb-8"
                         }>
                         {categorizedDeviceList[header.dataKey]?.map(
                           (device) => {
