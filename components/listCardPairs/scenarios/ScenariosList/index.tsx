@@ -20,13 +20,17 @@ const ScenariosList = ({
       <ScrollArea className={cn("flex-1 w-full", className)} {...props}>
         {list ? (
           list?.length > 0 ? (
-            <div className={"h-full flex flex-col gap-6 pb-6"}>
+            <div
+              className={
+                "h-full flex flex-row flex-wrap gap-y-6 gap-x-[4%] pb-6"
+              }>
               {list?.map((scenario: Scenario, index) => {
                 return (
                   <ScenarioCard
                     scenarioInstance={scenario}
                     hasFavoriteButton={hasFavoriteButton}
                     key={`scenarioCard_${index}_${scenario.publicId}`}
+                    className={"w-full landscape:w-[48%]"}
                   />
                 );
               })}
