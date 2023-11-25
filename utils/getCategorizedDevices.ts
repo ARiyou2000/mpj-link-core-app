@@ -1,21 +1,24 @@
 import DeviceInfo, { deviceCategories } from "@/classes/devices/deviceInfo";
-import { ReactNode } from "react";
+import { FunctionComponent } from "react";
 import {
   DuctSplit,
   Music,
   Thermometer,
   Relay,
   Switches,
+  GradiantIconsPropsT,
 } from "@/components/icons/colored";
 import { Hood, Curtains } from "@/components/icons/colored";
+import { Grip } from "@/components/icons/dashed";
 
 export type DevicesCategoryHeadersT = {
   title: string;
   dataKey: deviceCategories;
-  icon: ReactNode;
+  icon: FunctionComponent<GradiantIconsPropsT>;
 }[];
 
 const headers: DevicesCategoryHeadersT = [
+  { title: "همه دستگاه ها", dataKey: "all", icon: Grip },
   { title: "کلید", dataKey: deviceCategories.switch, icon: Switches },
   { title: "رله", dataKey: deviceCategories.relay, icon: Relay },
   {
@@ -42,6 +45,9 @@ const getCategorizedDevices = (list: DeviceInfo[] = []) => {
   const categorizedDeviceList: {
     [key: string]: DeviceInfo[];
   } = {};
+
+  // Copy all devices to default category
+  categorizedDeviceList["all"] = [...list];
 
   // Create an empty list of devices for each category
   list.forEach((device) => {

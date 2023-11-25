@@ -7,11 +7,10 @@ import DeviceInfo from "@/classes/devices/deviceInfo";
 
 const DevicesListPage = () => {
   const [data] = useStaticData(getDevices);
-  const deviceList =
-    data?.map(
-      ({ publicId, name, description, type }) =>
-        new DeviceInfo(publicId, name, description, type),
-    ) || [];
+  const deviceList = data?.map(
+    ({ publicId, name, description, type }) =>
+      new DeviceInfo(publicId, name, description, type),
+  );
 
   return (
     <>
