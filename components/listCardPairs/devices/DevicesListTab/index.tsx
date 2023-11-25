@@ -10,17 +10,13 @@ import DeviceCard from "../DeviceCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import React, { useEffect, useState } from "react";
-import getCategorizedDevices, {
-  DevicesCategoryHeadersT,
-} from "@/utils/getCategorizedDevices";
+import React from "react";
+import getCategorizedDevices from "@/utils/getCategorizedDevices";
 import Link from "next/link";
-import DeviceInfo, { deviceCategories } from "@/classes/devices/deviceInfo";
-import { Grip } from "@/components/icons/dashed";
-import { Switches } from "@/components/icons/colored";
+import DeviceInfo from "@/classes/devices/deviceInfo";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
-const deviceCardClassName = "my-6";
+const deviceCardClassName = "";
 const tabIconsStyleClassName = "w-6 h-6";
 
 type propsT = {
@@ -42,7 +38,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
     <>
       <Tabs
         defaultValue="all"
-        className={cn("w-full flex flex-col ", className)}
+        className={cn("w-full flex flex-col gap-4", className)}
         {...props}>
         <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-4 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 rounded-none">
           {list?.length > 0 ? (
@@ -64,10 +60,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
           )}
         </TabsList>
 
-        <div
-          className={
-            "flex-1 h-0 p-1 flex flex-col items-center justify-center"
-          }>
+        <div className={"flex-1 h-0 px-1 flex flex-col gap-5 items-start"}>
           {list?.length > 0 ? (
             <React.Fragment key={"tabContent"}>
               {headers?.map((header) => {
@@ -77,18 +70,26 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                     className={tabContentAndScrollStyleClassName}
                     key={`tabContent_${header.dataKey}`}>
                     <ScrollArea className={tabContentAndScrollStyleClassName}>
-                      {categorizedDeviceList[header.dataKey]?.map((device) => {
-                        return (
-                          <Link
-                            key={`tabContent_${header.dataKey}_device_${device.publicId}`}
-                            href={`/devices/${device.type}/${device.publicId}`}>
-                            <DeviceCard
-                              className={deviceCardClassName}
-                              deviceInfo={device}
-                            />
-                          </Link>
-                        );
-                      })}
+                      <div
+                        className={
+                          "h-full w-full flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-[2%] pb-1"
+                        }>
+                        {categorizedDeviceList[header.dataKey]?.map(
+                          (device) => {
+                            return (
+                              <Link
+                                key={`tabContent_${header.dataKey}_device_${device.publicId}`}
+                                href={`/devices/${device.type}/${device.publicId}`}
+                                className={"w-full landscape:w-[49%]"}>
+                                <DeviceCard
+                                  className={deviceCardClassName}
+                                  deviceInfo={device}
+                                />
+                              </Link>
+                            );
+                          },
+                        )}
+                      </div>
                     </ScrollArea>
                   </TabsContent>
                 );
