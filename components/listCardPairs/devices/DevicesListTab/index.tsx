@@ -10,10 +10,11 @@ import DeviceCard from "../DeviceCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import React from "react";
+import React, { useCallback } from "react";
 import getCategorizedDevices from "@/utils/getCategorizedDevices";
 import Link from "next/link";
 import DeviceInfo from "@/classes/devices/deviceInfo";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
 const deviceCardClassName = "";
@@ -23,7 +24,22 @@ type propsT = {
   className?: string;
   list: DeviceInfo[];
 };
+
 const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams()!;
+  const router = useRouter();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
+
   if (!list) {
     return (
       <div className={"flex w-full h-full items-center justify-center"}>
@@ -34,10 +50,15 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
 
   const [headers, categorizedDeviceList] = getCategorizedDevices(list);
 
+  const filterValue = searchParams?.get("filter");
+
   return (
     <>
       <Tabs
-        defaultValue="all"
+        value={filterValue || "all"}
+        onValueChange={(value) => {
+          router.push(pathname + "?" + createQueryString("filter", value));
+        }}
         className={cn("w-full flex flex-col gap-4", className)}
         {...props}>
         <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-4 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 rounded-none">
@@ -47,7 +68,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                 const Icon = header.icon;
                 return (
                   <TabsTrigger
-                    value={header.dataKey}
+                    value={header.dataKey.toString()}
                     key={`tabHeader_${header.dataKey}`}>
                     <span>{header.title}</span>
                     <Icon className={tabIconsStyleClassName} />
@@ -66,7 +87,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
               {headers?.map((header) => {
                 return (
                   <TabsContent
-                    value={header.dataKey}
+                    value={header.dataKey.toString()}
                     className={tabContentAndScrollStyleClassName}
                     key={`tabContent_${header.dataKey}`}>
                     <ScrollArea className={tabContentAndScrollStyleClassName}>
