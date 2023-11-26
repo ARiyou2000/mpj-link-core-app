@@ -1,10 +1,9 @@
 "use client";
 
-import { useToast } from "@/components/ui/use-toast";
+// import { toast } from "sonner";
 import { useState } from "react";
 
 const useRegisterUpdateToast = () => {
-  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
   const handleRegistersUpdate = async (
@@ -14,10 +13,7 @@ const useRegisterUpdateToast = () => {
     try {
       const result = await callbackFn();
     } catch (e) {
-      // toast({
-      //   variant: "destructive",
-      //   title: "شما دسترسی تغییر این گزینه را ندارید",
-      // });
+      // toast.error({"شما دسترسی تغییر این گزینه را ندارید"});
       console.error(e);
     }
     // setLoading((prevState) => false);

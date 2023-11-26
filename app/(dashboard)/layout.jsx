@@ -1,22 +1,19 @@
-import { cn } from "@/lib/utils";
 import MainLayoutHeader from "@/components/MainLayoutHeader";
 import MainLayoutTabNavigation from "@/components/MainLayoutTabNavigation";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 export const metadata = {
   title: "Dashboard - MPJ Link App",
   description: "Control dashboard",
 };
 
-const MainLayout = ({ children, className, ...props }) => {
+const MainLayout = ({ children }) => {
   return (
     <>
       <div
-        className={cn(
-          "h-full w-full flex flex-col landscape:flex-row justify-between",
-          className,
-        )}
-        {...props}>
+        className={
+          "h-full w-full flex flex-col landscape:flex-row justify-between"
+        }>
         <MainLayoutHeader className={"landscape:hidden"} />
         <div
           className={"flex-1 h-0 landscape:w-0 w-full landscape:h-full pt-3"}>
@@ -24,7 +21,7 @@ const MainLayout = ({ children, className, ...props }) => {
         </div>
         <MainLayoutTabNavigation />
       </div>
-      <Toaster />
+      <Toaster richColors toastOptions={{ className: "font-sans" }} />
     </>
   );
 };

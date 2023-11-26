@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ReactNode, useContext } from "react";
 import { ScenarioForceUpdateContext } from "@/contexts/forceUpdateContext";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import Scenario from "@/classes/scenario";
 
 type ActivateScenarioAlertPropsT = {
@@ -32,8 +32,6 @@ const ActivateScenarioAlert = ({
   children,
   scenarioActivationHandler,
 }: ActivateScenarioAlertPropsT) => {
-  const { toast } = useToast();
-
   return (
     <>
       <AlertDialog className={"w-full"}>
@@ -52,10 +50,7 @@ const ActivateScenarioAlert = ({
                 try {
                   await scenarioActivationHandler();
                 } catch (e) {
-                  toast({
-                    variant: "destructive",
-                    title: "اعمال سناریو با شکست مواجه شد",
-                  });
+                  toast.error("اعمال سناریو با شکست مواجه شد");
                   console.error(e);
                 }
               }}>
@@ -79,7 +74,6 @@ const MakeScenarioFavoriteAlertDialog = ({
   isFavored,
   toggleIsFavoredHandler,
 }: MakeScenarioFavoriteAlertDialogPropsT) => {
-  const { toast } = useToast();
   const scenarioForceUpdate = useContext(ScenarioForceUpdateContext);
 
   return (
@@ -105,12 +99,11 @@ const MakeScenarioFavoriteAlertDialog = ({
                   await toggleIsFavoredHandler();
                   scenarioForceUpdate();
                 } catch (e) {
-                  toast({
-                    variant: "destructive",
-                    title: isFavored
+                  toast.error(
+                    isFavored
                       ? "حذف سناریو از لیست دلخواه‌ها با شکست مواجه شد!"
                       : "افزودن سناریو به لیست دلخواه‌ها با شکست مواجه شد!",
-                  });
+                  );
                   console.error(e);
                 }
               }}>

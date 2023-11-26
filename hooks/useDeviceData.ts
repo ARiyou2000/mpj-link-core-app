@@ -9,7 +9,8 @@ import {
   getZoneDevices,
 } from "@/utils/getStaticData";
 import { getDeviceData } from "@/utils/queueHelper";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
+
 import {
   DevicesType,
   ServerSideDeviceInfoT,
@@ -101,15 +102,11 @@ const getDeviceInstatnce = (
 
 const useDeviceData = () => {
   const router = useRouter();
-  const { toast } = useToast();
   const isPagePresent = useRef(true);
   const isThereFetchDataError = useRef(false);
 
   const generalErrorToaster = (message?: string) => {
-    toast({
-      variant: "destructive",
-      title: message || "اطلاعات از دستگاه خوانده نشد",
-    });
+    toast.error(message || "اطلاعات از دستگاه خوانده نشد");
     setTimeout(() => {
       router.back();
       // router.push(!!zonePublicId ? `/zones/${zonePublicId}` : "/devices");
