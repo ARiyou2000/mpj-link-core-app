@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 
-import { acts, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -32,13 +32,13 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        `${seasonTypeStyleClassName} [&>svg]:stroke-current [&>svg]:fill-current transition-colors duration-1000 rounded-2xl flex-1 p-6 flex flex-row items-center justify-center gap-1 border-1.5 border-milkwhite text-white ring-offset-white focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:border-slate-50 dark:text-slate-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300`,
+        `${seasonTypeStyleClassName} [&>svg]:stroke-current [&>svg]:fill-current transition-colors duration-1000 rounded-2xl flex-1 p-6 flex flex-row items-center justify-center gap-1 border-1.5 border-milkwhite text-white ring-offset-white focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
         className,
       )}
       {...props}>
       {children}
       {/*<RadioGroupPrimitive.Indicator className="flex items-center justify-center">*/}
-      {/*  /!*<Circle className="h-2.5 w-2.5 fill-current text-current" />*!/*/}
+      {/*  <Circle className="h-2.5 w-2.5 fill-current text-current" />*/}
       {/*</RadioGroupPrimitive.Indicator>*/}
     </RadioGroupPrimitive.Item>
   );

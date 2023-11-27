@@ -13,7 +13,9 @@ const Switch = React.forwardRef<
 >(({ className, loading, ...props }, ref) => (
   <SwitchPrimitives.Root
     className={cn(
-      "peer overflow-hidden inline-flex h-[1.625rem] w-[3.3125rem] shrink-0 cursor-pointer items-center rounded-full border border-milkwhite transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-200 disabled:cursor-not-allowed disabled:opacity-50 bg-transparent dark:focus-visible:ring-slate-300 dark:focus-visible:ring-offset-slate-950",
+      "peer overflow-hidden inline-flex h-[1.625rem] w-[3.3125rem] shrink-0 cursor-pointer items-center rounded-full border border-milkwhite transition-colors " +
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
+        "disabled:cursor-not-allowed disabled:opacity-50 bg-transparent ",
       className,
     )}
     {...props}
@@ -26,8 +28,7 @@ const Switch = React.forwardRef<
           "data-[state=checked]:translate-x-8 rtl:data-[state=checked]:-translate-x-8 data-[state=unchecked]:translate-x-1 rtl:data-[state=unchecked]:-translate-x-1 " +
           "relative data-[loading=true]:after:absolute data-[loading=true]:after:m-auto data-[loading=true]:after:inset-[0.05rem] data-[loading=true]:after:rounded-full data-[loading=true]:after:border " +
           // "data-[loading=true]:[border-style:solid_solid_dotted_dotted] data-[loading=true]:animate-rotateBack data-[loading=true]:duration-2000 data-[loading=true]:origin-center " +
-          "data-[loading=true]:after:[border-style:solid_solid_dotted_solid] data-[loading=true]:after:border-[#FF3D00] data-[loading=true]:after:animate-rotate data-[loading=true]:after:duration-1000 data-[loading=true]:after:origin-center " +
-          "dark:bg-transparent",
+          "data-[loading=true]:after:[border-style:solid_solid_dotted_solid] data-[loading=true]:after:border-[#FF3D00] data-[loading=true]:after:animate-rotate data-[loading=true]:after:duration-1000 data-[loading=true]:after:origin-center ",
       )}
     />
   </SwitchPrimitives.Root>
