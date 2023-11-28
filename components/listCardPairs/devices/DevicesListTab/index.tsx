@@ -9,7 +9,7 @@ import {
 import DeviceCard from "../DeviceCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import React, { useCallback } from "react";
 import getCategorizedDevices from "@/utils/getCategorizedDevices";
 import Link from "next/link";
@@ -61,25 +61,28 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
         }}
         className={cn("w-full flex flex-col gap-4", className)}
         {...props}>
-        <TabsList className="w-full max-w-full flex flex-row flex-nowrap gap-x-4 overflow-y-auto m-x-auto items-center justify-start no-scrollbar py-4 rounded-none">
-          {list?.length > 0 ? (
-            <React.Fragment key={"tabHeader"}>
-              {headers?.map((header) => {
-                const Icon = header.icon;
-                return (
-                  <TabsTrigger
-                    value={header.dataKey.toString()}
-                    key={`tabHeader_${header.dataKey}`}>
-                    <span>{header.title}</span>
-                    <Icon className={tabIconsStyleClassName} />
-                  </TabsTrigger>
-                );
-              })}
-            </React.Fragment>
-          ) : (
-            "Empty list"
-          )}
-        </TabsList>
+        <ScrollArea variant={"horizontal"}>
+          <TabsList className="px-4 w-full max-w-full flex flex-row flex-nowrap gap-x-4 m-x-auto items-center justify-start rounded-none">
+            {list?.length > 0 ? (
+              <React.Fragment key={"tabHeader"}>
+                {headers?.map((header) => {
+                  const Icon = header.icon;
+                  return (
+                    <TabsTrigger
+                      value={header.dataKey.toString()}
+                      key={`tabHeader_${header.dataKey}`}>
+                      <span>{header.title}</span>
+                      <Icon className={tabIconsStyleClassName} />
+                    </TabsTrigger>
+                  );
+                })}
+              </React.Fragment>
+            ) : (
+              "Empty list"
+            )}
+          </TabsList>
+          <ScrollBar orientation={"horizontal"} />
+        </ScrollArea>
 
         <div className={"flex-1 h-0 px-1 flex flex-col gap-5 items-start"}>
           {list?.length > 0 ? (
