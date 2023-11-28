@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 
 const passLengthCheckedInitState = ["empty", "empty", "empty", "empty"];
 const statusTextInitState = "لطفا رمز ورود خود را وارد کنید";
@@ -119,7 +119,7 @@ const PassCodeInput = ({
         </h4>
       </div>
 
-      <Input
+      <input
         type={"number"}
         disabled={disabled}
         // min={0}

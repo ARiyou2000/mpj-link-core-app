@@ -6,15 +6,18 @@ import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const scrollAreaViewportVariants = cva("h-full w-full rounded-[inherit]", {
-  variants: {
-    variant: {
-      horizontal: "py-3",
-      vertical: "px-3",
+const scrollAreaViewportVariants = cva(
+  "h-full w-full rounded-[inherit] [&>div]:w-full [&>div]:h-full [&>div]:min-h-full ",
+  {
+    variants: {
+      variant: {
+        horizontal: "py-3",
+        vertical: "px-3",
+      },
     },
+    defaultVariants: { variant: "vertical" },
   },
-  defaultVariants: { variant: "vertical" },
-});
+);
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
