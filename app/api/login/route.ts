@@ -6,11 +6,16 @@ export const POST = async (request: NextRequest) => {
   console.log("---------------catched---------------");
   const body = await request.json();
 
-  const base64data = Buffer.from(`user:${body?.passcode}`).toString("base64");
+  try {
+    const base64data = Buffer.from(`user:${body?.passcode}`).toString("base64");
 
-  const data = await serverSideFetchUrl(`${coreAdress}/login`, {
-    headers: { Authorization: `Basic ${base64data}` },
-  });
-  console.log("data", data);
-  return new NextResponse(JSON.stringify(data));
+    const data = await serverSideFetchUrl(`${coreAdress}/login`, {
+      headers: { Authorization: `Basic ${base64data}` },
+    });
+
+    return NextResponse.json({ data }, { status: 202 });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json(e);
+  }
 };
