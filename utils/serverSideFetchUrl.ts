@@ -59,15 +59,12 @@ const fetchUrl = async (url: string, init: FetchInitT = {}) => {
       // console.log(`Request params for ${url}: \n`, params);
 
       // Actual Data fetch with given url and request description
-      // @ts-ignore
-      console.log("+++++++++++++++++++++++++++++++++++");
-      console.log(url, params);
       response = (await fetch(url, params)) as Response;
       // console.log(`Response in fetchUrl for ${url}: `, response);
     } catch (e) {
       console.error("Network error : ", e);
       reject({
-        code: 555,
+        status: 555,
         message:
           "A network error is encountered or there is syntax error in result",
       });
@@ -79,21 +76,14 @@ const fetchUrl = async (url: string, init: FetchInitT = {}) => {
         const result = await response.json();
         // console.log(`JSON Response in fetchUrl for ${url}: `, result);
 
-        // Following statements will run only if fetch return resolved value
-        if (result.action) {
-          resolve(result.result);
-        } else {
-          // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
-          const errorMessage = JSON.stringify(result.message);
-          reject(`Response action is 'false'!: ${errorMessage}`);
-        }
+        result.action ? resolve(result.result) : reject(result);
       } catch (e) {
         console.error("Error parsing response data: ", e);
-        throw e;
+        throw { status: 570, error: e, message: e };
       }
     } else {
       // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
-      reject({ code: response?.status });
+      reject(response);
     }
   });
 };
