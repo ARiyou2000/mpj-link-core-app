@@ -1,6 +1,7 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { coreAdress } from "@/utils/getCoreAddress";
+import { cookies } from "next/headers";
 
 export const authOptions: AuthOptions = {
   pages: { signIn: "/" },
@@ -36,6 +37,12 @@ export const authOptions: AuthOptions = {
 
         try {
           if (authResponse.ok) {
+            const authorizationHeader = authResponse.headers.get(
+              "Authorization",
+            ) as string;
+            console.log("authorizationHeader: ", authorizationHeader);
+            cookies().set({ name: "jwt-token", value: authorizationHeader });
+
             const result = await authResponse.json();
 
             const user = {
