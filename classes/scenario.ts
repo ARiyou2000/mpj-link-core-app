@@ -1,6 +1,13 @@
-import fetchUrl from "@/utils/fetchUrl";
+import fetchUrl from "@/utils/clientSideFetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
-import ResponseWithImage from "@/classes/responseWithImage";
+import ResponseWithImage, {
+  ServerSideResponseWithImageT,
+} from "@/classes/responseWithImage";
+
+export type ServerSideScenarioT = ServerSideResponseWithImageT & {
+  favorite: boolean;
+  active: boolean;
+};
 
 class Scenario extends ResponseWithImage {
   // @ts-ignore

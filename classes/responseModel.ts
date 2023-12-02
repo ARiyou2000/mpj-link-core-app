@@ -1,3 +1,9 @@
+export type ServerSideResponceModelT = {
+  publicId: string;
+  name: string;
+  description: string;
+};
+
 class ResponseModel {
   // @ts-ignore
   #publicId: string;

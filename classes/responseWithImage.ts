@@ -1,4 +1,10 @@
-import ResponseModel from "@/classes/responseModel";
+import ResponseModel, {
+  ServerSideResponceModelT,
+} from "@/classes/responseModel";
+
+export type ServerSideResponseWithImageT = ServerSideResponceModelT & {
+  image: string;
+};
 
 class ResponseWithImage extends ResponseModel {
   // @ts-ignore

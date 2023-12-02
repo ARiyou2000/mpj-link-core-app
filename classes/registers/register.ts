@@ -2,7 +2,6 @@ import ResponseModel from "@/classes/responseModel";
 import { Protocols } from "@/classes/protocols";
 import { setRegisterData } from "@/utils/queueHelper";
 import { setZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
-import e from "cors";
 
 export type generalValueType = number | boolean | string;
 export type objectType = { [key: string]: generalValueType };
