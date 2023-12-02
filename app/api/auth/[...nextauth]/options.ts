@@ -15,8 +15,11 @@ export const authOptions: AuthOptions = {
         const base64data = Buffer.from(
           `user:${credentials?.passcode}`,
         ).toString("base64");
+
+        let authResponse;
+
         try {
-          const authResponse = await fetch(`${coreAdress}/login`, {
+          authResponse = await fetch(`${coreAdress}/login`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Basic ${base64data}`,
@@ -26,20 +29,28 @@ export const authOptions: AuthOptions = {
           //   method: "POST",
           //   body: JSON.stringify({ passcode: credentials?.passcode  }),
           // });
+        } catch (e) {
+          console.error(e);
+          throw new Error(JSON.stringify({ status: -113 }));
+        }
 
-          if (!authResponse.ok) {
+        try {
+          if (authResponse.ok) {
+            const result = await authResponse.json();
+
+            const user = {
+              name: "admin",
+              id: "adminPublicId",
+              email: "admin@mpjlink.ir",
+              image: "",
+            };
+            return user;
+          } else {
             console.log("NOT OK");
             return null;
           }
-
-          const result = await authResponse.json();
-
-          const user = { name: "admin", publicId: "admin" };
-          console.log(user);
-
-          return user;
         } catch (e) {
-          console.error(e);
+          console.error("Error parsing JSON data: ", e);
           return null;
         }
       },

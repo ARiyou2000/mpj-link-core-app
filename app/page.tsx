@@ -1,7 +1,7 @@
 "use client";
 
 import UnlockSlider from "@/components/UnlockSlider";
-import { loginWithCode } from "@/utils/login";
+import { signIn } from "next-auth/react";
 import { MPJLink } from "@/components/icons";
 import PassCodeInput, {
   PasscodeTextType,
@@ -83,16 +83,31 @@ export default function Home() {
   const onSubmitPasscode = async (passcode: string) => {
     dispatcher({ type: LoginStatus.loading });
     try {
-      await loginWithCode(passcode);
-      dispatcher({ type: LoginStatus.success });
-      router.push("/home");
-    } catch (e: { code: number }) {
-      console.error(e);
-      if (e.code === 555) {
-        dispatcher({ type: LoginStatus.network_error });
+      // await loginWithCode(passcode);
+      const res = await signIn("credentials", { passcode, redirect: false });
+      console.log("res", res.error);
+
+      if (res?.error) {
+        console.log(res.error);
+        try {
+          const error = JSON.parse(res.error);
+
+          if (error.status === -113) {
+            dispatcher({ type: LoginStatus.network_error });
+          } else {
+            dispatcher({ type: LoginStatus.error });
+          }
+        } catch (e) {
+          console.error("Error parsing JSON data: ", e);
+          dispatcher({ type: LoginStatus.error });
+        }
       } else {
-        dispatcher({ type: LoginStatus.error });
+        dispatcher({ type: LoginStatus.success });
+        router.push("/home");
       }
+    } catch (e) {
+      console.error("Login Error: ", e);
+      dispatcher({ type: LoginStatus.error });
     }
   };
   const [containerRef, size, styleObject] = useResizableContainer();
