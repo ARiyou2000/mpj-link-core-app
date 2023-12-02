@@ -1,6 +1,6 @@
 import ZoneCard from "../ZoneCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
-import Zone from "@/classes/zone";
+import Zone, { ServerSideZoneT } from "@/classes/zone";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -9,7 +9,7 @@ const ZonesList = ({
   className = "",
   ...props
 }: {
-  list: Zone[];
+  list: ServerSideZoneT[];
   className?: string;
 }) => {
   return (
@@ -25,7 +25,15 @@ const ZonesList = ({
           {...props}>
           {!!list ? (
             list?.length > 0 ? (
-              list?.map((zone, index) => {
+              list?.map((zoneData, index) => {
+                const { publicId, name, description, image } = zoneData;
+                const zone = new Zone(
+                  publicId,
+                  name,
+                  description || "",
+                  image || "",
+                );
+
                 return (
                   <ZoneCard
                     data={zone}
