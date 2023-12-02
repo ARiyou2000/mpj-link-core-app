@@ -1,15 +1,91 @@
-import window from "@/utils/window";
-import serverSideFetchUrl, { FetchInitT } from "@/utils/serverSideFetchUrl";
-
-const clientSideFetchUrl = async (url: string, init: FetchInitT = {}) => {
-  // attach JWT to headers Here
-  const userAuth = window.localStorage.getItem(window.btoa("MPJUserT"));
-
-  if (userAuth) {
-    init.headers = { ...init.headers, Authorization: userAuth };
-  }
-
-  return serverSideFetchUrl(url, init);
+export type FetchInitT = {
+  method?: string;
+  headers?: object;
+  next?: object;
+  body?: object | string;
+  signal?: AbortSignal | null;
 };
 
-export default clientSideFetchUrl;
+export type FetchHeadersT = {
+  "Content-Type": string;
+  Authorization?: string | null;
+};
+
+const basicHeaders = {
+  "Content-Type": "application/json",
+};
+
+// const nextGlobalFetchPrams = { revalidate: 1 };
+
+const fetchUrl = async (url: string, init: FetchInitT = {}) => {
+  const { method = "GET", headers: customHeaders = {}, next = {}, body } = init;
+
+  return new Promise(async (resolve, reject) => {
+    let response;
+    try {
+      const headers: FetchHeadersT = {
+        ...basicHeaders,
+        ...customHeaders,
+      };
+
+      const params = {
+        ...init,
+        method,
+        headers,
+        next: {
+          // ...nextGlobalFetchPrams,
+          ...next,
+        },
+      };
+
+      // Replace init object body with string body
+      if (method !== "GET") {
+        if (typeof body === "string") {
+          params.body = body;
+        } else {
+          params.body = JSON.stringify(body);
+        }
+      } else {
+        delete params.body;
+      }
+
+      // // attach JWT to headers Here
+      // const userAuth = window.localStorage.getItem(window.btoa("MPJUserT"));
+      //
+      // if (userAuth) {
+      //   params.headers.Authorization = userAuth;
+      // }
+
+      // console.log(`Request params for ${url}: \n`, params);
+
+      // Actual Data fetch with given url and request description
+      response = (await fetch(url, params)) as Response;
+      // console.log(`Response in fetchUrl for ${url}: `, response);
+    } catch (e) {
+      console.error("Network error : ", e);
+      reject({
+        status: 555,
+        message:
+          "A network error is encountered or there is syntax error in result",
+      });
+    }
+
+    // Following statements will run only if fetch return resolved value
+    if (response?.ok) {
+      try {
+        const result = await response.json();
+        // console.log(`JSON Response in fetchUrl for ${url}: `, result);
+
+        result.action ? resolve(result.result) : reject(result);
+      } catch (e) {
+        console.error("Error parsing response data: ", e);
+        throw { status: 570, error: e, message: e };
+      }
+    } else {
+      // HTTP Response such as 404 and 500 are considered Resolved fetch data (since it will get something as answer)
+      reject(response);
+    }
+  });
+};
+
+export default fetchUrl;

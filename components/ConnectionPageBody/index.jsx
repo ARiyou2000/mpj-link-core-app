@@ -6,7 +6,7 @@ import Connection from "@/components/Connection";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import fetchUrl from "@/utils/fetchUrl";
+import fetchUrl from "@/utils/clientSideFetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
 import useIsFirstRender from "../../hooks/useIsFirstRender";
 

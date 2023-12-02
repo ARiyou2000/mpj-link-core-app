@@ -1,4 +1,4 @@
-import fetchUrl from "./fetchUrl";
+import fetchUrl from "./clientSideFetchUrl";
 import getCoreIP from "@/utils/getCoreIP";
 
 const updatePassword = async (
