@@ -13,11 +13,11 @@ import { Grip } from "@/components/icons/dashed";
 
 export type DevicesCategoryHeadersT = {
   title: string;
-  dataKey: deviceCategories;
+  dataKey: deviceCategories | "all";
   icon: FunctionComponent<GradiantIconsPropsT>;
-}[];
+};
 
-const headers: DevicesCategoryHeadersT = [
+const headers: DevicesCategoryHeadersT[] = [
   { title: "همه دستگاه ها", dataKey: "all", icon: Grip },
   { title: "کلید", dataKey: deviceCategories.switch, icon: Switches },
   { title: "رله", dataKey: deviceCategories.relay, icon: Relay },
@@ -30,7 +30,7 @@ const headers: DevicesCategoryHeadersT = [
   { title: "اسپلیت", dataKey: deviceCategories.split, icon: DuctSplit },
   { title: "هود", dataKey: deviceCategories.hood, icon: Hood },
   { title: "پرده برقی", dataKey: deviceCategories.curtains, icon: Curtains },
-] as const;
+];
 
 // const headers: DevicesCategoryHeadersT = Object.keys(deviceCategoryInfo).map(
 //   (key) => {
@@ -68,6 +68,6 @@ const getCategorizedDevices = (list: DeviceInfo[] = []) => {
   });
 
   // Headers and categorized devices
-  return [filteredHeaders, categorizedDeviceList];
+  return [filteredHeaders, categorizedDeviceList] as const;
 };
 export default getCategorizedDevices;
