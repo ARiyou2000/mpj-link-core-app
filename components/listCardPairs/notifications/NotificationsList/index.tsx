@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Notification from "../Notification";
-import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import NotificationClass from "@/classes/Notification";
+import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
 
 type PropsT = {
   list: null | NotificationClass[];
@@ -14,22 +14,15 @@ const NotificationsList = ({ list, className, ...props }: PropsT) => {
       <div
         className={cn("flex flex-col flex-nowrap gap-2 w-full", className)}
         {...props}>
-        {list ? (
-          list?.length > 0 ? (
-            list?.map((notification, index) => {
-              return (
-                <Notification
-                  key={`notification_${notification.publicId}_${index}`}
-                  data={notification}
-                />
-              );
-            })
-          ) : (
-            "Empty List"
-          )
-        ) : (
-          <LoadingSpinner />
-        )}
+        {GeneralListStatus({ list }) ||
+          list?.map((notification, index) => {
+            return (
+              <Notification
+                key={`notification_${notification.publicId}_${index}`}
+                data={notification}
+              />
+            );
+          })}
       </div>
     </>
   );

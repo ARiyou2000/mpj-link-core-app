@@ -6,7 +6,7 @@ import useDeviceData from "@/hooks/useDeviceData";
 
 const RelayDevicePage = () => {
   const Device = useDeviceData();
-  const registersList = (Device && Object.values(Device?.registers)) || [];
+  const registersList = Device && Object.values(Device?.registers);
 
   return (
     <>

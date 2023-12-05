@@ -1,11 +1,11 @@
 import RelayPortOutCard from "../RelayPortOutCard";
 import RelayPortInCard from "../RelayPortInCard";
-import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 import { RelayPort as ModbusRelayPort } from "@/classes/registers/modbus/relayRegisters";
 import { RelayPort as ZigbeeRelayPort } from "@/classes/registers/zigbee/relayRegisters";
+import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
 
 type PropsT = {
   list: null | ModbusRelayPort[] | ZigbeeRelayPort[];
@@ -22,28 +22,21 @@ const RelayPortsListComponent = ({ list, className, ...props }: PropsT) => {
           className,
         )}
         {...props}>
-        {list ? (
-          list?.length > 0 ? (
-            list?.map((relayPortData, index) => {
-              const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
-                props = {
-                  className: "basis-[48%]",
-                  registerInstance: relayPortData,
-                };
+        {GeneralListStatus({ list }) ||
+          list?.map((relayPortData, index) => {
+            const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
+              props = {
+                className: "basis-[48%]",
+                registerInstance: relayPortData,
+              };
 
-              if (relayPortData.portType === RelayPortType.output) {
-                return <RelayPortOutCard key={key} {...props} />;
-              } else if (relayPortData.portType === RelayPortType.input) {
-                return <RelayPortInCard key={key} {...props} />;
-              } else {
-              }
-            })
-          ) : (
-            "Empty List"
-          )
-        ) : (
-          <LoadingSpinner />
-        )}
+            if (relayPortData.portType === RelayPortType.output) {
+              return <RelayPortOutCard key={key} {...props} />;
+            } else if (relayPortData.portType === RelayPortType.input) {
+              return <RelayPortInCard key={key} {...props} />;
+            } else {
+            }
+          })}
       </div>
       {/*</ScrollArea>*/}
     </>

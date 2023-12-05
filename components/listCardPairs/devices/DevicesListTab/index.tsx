@@ -17,6 +17,7 @@ import DeviceInfo, {
   ServerSideDeviceInfoT,
 } from "@/classes/devices/deviceInfo";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
 const deviceCardClassName = "";
@@ -42,14 +43,6 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
     [searchParams],
   );
 
-  if (!list) {
-    return (
-      <div className={"flex w-full h-full items-center justify-center"}>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   const [headers, categorizedDeviceList] = getCategorizedDevices(
     list.map(({ publicId, name, description, type }) => {
       return new DeviceInfo(publicId, name, description, type);
@@ -69,7 +62,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
         {...props}>
         <ScrollArea variant={"horizontal"}>
           <TabsList className="px-4 w-full max-w-full flex flex-row flex-nowrap gap-x-4 m-x-auto items-center justify-start rounded-none">
-            {list?.length > 0 ? (
+            {GeneralListStatus({ list }) || (
               <React.Fragment key={"tabHeader"}>
                 {headers?.map((header) => {
                   const Icon = header.icon;
@@ -83,15 +76,13 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                   );
                 })}
               </React.Fragment>
-            ) : (
-              "Empty list"
             )}
           </TabsList>
           <ScrollBar orientation={"horizontal"} />
         </ScrollArea>
 
         <div className={"flex-1 h-0 px-1 flex flex-col gap-5 items-start"}>
-          {list?.length > 0 ? (
+          {GeneralListStatus({ list }) || (
             <React.Fragment key={"tabContent"}>
               {headers?.map((header) => {
                 return (
@@ -125,8 +116,6 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                 );
               })}
             </React.Fragment>
-          ) : (
-            "Empty list"
           )}
         </div>
       </Tabs>

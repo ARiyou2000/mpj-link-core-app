@@ -6,7 +6,7 @@ import Switch from "@/components/devicePagesBody/Switch";
 
 const SwitchDevicePage = () => {
   const Device = useDeviceData();
-  const registersList = (Device && Object.values(Device?.registers)) || [];
+  const registersList = Device && Object.values(Device?.registers);
 
   return (
     <>

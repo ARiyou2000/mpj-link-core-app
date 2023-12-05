@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Device from "@/classes/devices/device";
+import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
 
 const ZoneDevicesList = ({
   list,
@@ -32,36 +33,29 @@ const ZoneDevicesList = ({
             className,
           )}
           {...props}>
-          {list ? (
-            list?.length > 0 ? (
-              list?.map((zoneDevice, index) => {
-                return (
-                  <Link
-                    key={`zone_${zonePublicId}_device_${zoneDevice.publicId}`}
-                    href={`/devices/${zoneDevice.category}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
-                    className={`${
-                      list?.length < 4
-                        ? "max-h-[50%] landscape:max-h-full flex-1"
-                        : `basis-[calc(100%/2-(1.5rem*1/2))] min-h-[16.5rem] ${
-                            list?.length === 4
-                              ? "h-[calc(100%/2-(1.5rem*1/2))]"
-                              : "h-[16.5rem]"
-                          }`
-                    }`}>
-                    <ZoneDeviceCard
-                      key={`scenarioCard_${index}_${zoneDevice.publicId}`}
-                      deviceInfo={zoneDevice}
-                      className={"w-full h-full"}
-                    />
-                  </Link>
-                );
-              })
-            ) : (
-              "Empty list"
-            )
-          ) : (
-            <LoadingSpinner />
-          )}
+          {GeneralListStatus({ list }) ||
+            list?.map((zoneDevice, index) => {
+              return (
+                <Link
+                  key={`zone_${zonePublicId}_device_${zoneDevice.publicId}`}
+                  href={`/devices/${zoneDevice.category}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
+                  className={`${
+                    list?.length < 4
+                      ? "max-h-[50%] landscape:max-h-full flex-1"
+                      : `basis-[calc(100%/2-(1.5rem*1/2))] min-h-[16.5rem] ${
+                          list?.length === 4
+                            ? "h-[calc(100%/2-(1.5rem*1/2))]"
+                            : "h-[16.5rem]"
+                        }`
+                  }`}>
+                  <ZoneDeviceCard
+                    key={`scenarioCard_${index}_${zoneDevice.publicId}`}
+                    deviceInfo={zoneDevice}
+                    className={"w-full h-full"}
+                  />
+                </Link>
+              );
+            })}
         </div>
       </ScrollArea>
     </>
