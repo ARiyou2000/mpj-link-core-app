@@ -1,16 +1,8 @@
-"use client";
-
 import DevicesListTab from "@/components/listCardPairs/devices/DevicesListTab";
-import { getDevices } from "@/utils/getStaticData";
-import useStaticData from "@/hooks/useStaticData";
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import authorizedFetch from "@/utils/authorizedFetch";
 
-const DevicesListPage = () => {
-  const [data] = useStaticData(getDevices);
-  const deviceList = data?.map(
-    ({ publicId, name, description, type }) =>
-      new DeviceInfo(publicId, name, description, type),
-  );
+const DevicesListPage = async () => {
+  const deviceList = await authorizedFetch("device");
 
   return (
     <>
