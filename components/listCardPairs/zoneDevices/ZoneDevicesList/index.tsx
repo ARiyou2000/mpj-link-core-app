@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Device from "@/classes/devices/device";
-import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
+import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 const ZoneDevicesList = ({
   list,
@@ -33,7 +33,7 @@ const ZoneDevicesList = ({
             className,
           )}
           {...props}>
-          {GeneralListStatus({ list }) ||
+          {generalListStatus({ list }) ||
             list?.map((zoneDevice, index) => {
               return (
                 <Link

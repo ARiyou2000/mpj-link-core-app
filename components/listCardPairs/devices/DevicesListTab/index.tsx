@@ -17,7 +17,7 @@ import DeviceInfo, {
   ServerSideDeviceInfoT,
 } from "@/classes/devices/deviceInfo";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
+import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
 const deviceCardClassName = "";
@@ -62,7 +62,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
         {...props}>
         <ScrollArea variant={"horizontal"}>
           <TabsList className="px-4 w-full max-w-full flex flex-row flex-nowrap gap-x-4 m-x-auto items-center justify-start rounded-none">
-            {GeneralListStatus({ list }) || (
+            {generalListStatus({ list }) || (
               <React.Fragment key={"tabHeader"}>
                 {headers?.map((header) => {
                   const Icon = header.icon;
@@ -82,7 +82,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
         </ScrollArea>
 
         <div className={"flex-1 h-0 px-1 flex flex-col gap-5 items-start"}>
-          {GeneralListStatus({ list }) || (
+          {generalListStatus({ list }) || (
             <React.Fragment key={"tabContent"}>
               {headers?.map((header) => {
                 return (

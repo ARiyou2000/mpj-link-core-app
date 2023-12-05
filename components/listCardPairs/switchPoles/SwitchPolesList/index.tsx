@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { SwitchPole as ModbusSwitchPole } from "@/classes/registers/modbus/switchRegister";
 import { SwitchPole as ZigbeeSwitchPole } from "@/classes/registers/zigbee/switchRegister";
-import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
+import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type PropsT = {
   list: null | ModbusSwitchPole[] | ZigbeeSwitchPole[];
@@ -19,7 +19,7 @@ const SwitchPolesList = ({ list, className, ...props }: PropsT) => {
             "w-full h-full flex flex-col items-center justify-center gap-6 pb-5"
           }
           {...props}>
-          {GeneralListStatus({ list }) ||
+          {generalListStatus({ list }) ||
             list?.map((switchPoleData, index) => {
               return (
                 <SwitchCard

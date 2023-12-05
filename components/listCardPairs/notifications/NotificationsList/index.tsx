@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Notification from "../Notification";
 import NotificationClass from "@/classes/Notification";
-import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
+import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type PropsT = {
   list: null | NotificationClass[];
@@ -14,7 +14,7 @@ const NotificationsList = ({ list, className, ...props }: PropsT) => {
       <div
         className={cn("flex flex-col flex-nowrap gap-2 w-full", className)}
         {...props}>
-        {GeneralListStatus({ list }) ||
+        {generalListStatus({ list }) ||
           list?.map((notification, index) => {
             return (
               <Notification

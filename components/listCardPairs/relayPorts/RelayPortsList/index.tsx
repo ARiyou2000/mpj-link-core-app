@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 import { RelayPort as ModbusRelayPort } from "@/classes/registers/modbus/relayRegisters";
 import { RelayPort as ZigbeeRelayPort } from "@/classes/registers/zigbee/relayRegisters";
-import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
+import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type PropsT = {
   list: null | ModbusRelayPort[] | ZigbeeRelayPort[];
@@ -22,7 +22,7 @@ const RelayPortsListComponent = ({ list, className, ...props }: PropsT) => {
           className,
         )}
         {...props}>
-        {GeneralListStatus({ list }) ||
+        {generalListStatus({ list }) ||
           list?.map((relayPortData, index) => {
             const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
               props = {

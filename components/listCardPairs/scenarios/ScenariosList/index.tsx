@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import Scenario, { ServerSideScenarioT } from "@/classes/scenario";
-import GeneralListStatus from "@/components/listCardPairs/GeneralListStatus";
+import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type propsType = {
   list: null | ServerSideScenarioT[];
@@ -21,7 +21,7 @@ const ScenariosList = ({
   return (
     <>
       <ScrollArea className={cn("flex-1 w-full", className)} {...props}>
-        {GeneralListStatus({ list }) || (
+        {generalListStatus({ list }) || (
           <div
             className={
               "h-full flex flex-row flex-wrap gap-y-6 gap-x-[4%] pb-6"
