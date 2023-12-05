@@ -1,15 +1,13 @@
-"use client";
-
-import { useEffect } from "react";
-import window from "@/utils/window";
+import { cookies } from "next/headers";
+import { storageConfig } from "@/storage.config";
 
 const usePreventUnregisterUser = () => {
-  useEffect(() => {
-    const AuthToken = window.localStorage.getItem(window.btoa("MPJUserT"));
-    if (!AuthToken) {
-      throw new Error("User is unregistered!");
-    }
-  }, []);
+  const cookiesStore = cookies();
+  const authToken = cookiesStore.get(storageConfig.server.user.token.decoded);
+
+  if (!authToken) {
+    throw new Error("User is unregistered!");
+  }
 };
 
 export default usePreventUnregisterUser;

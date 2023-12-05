@@ -1,5 +1,3 @@
-"use client";
-
 import usePreventUnregisterUser from "@/hooks/usePreventUnregisterUser";
 
 const PasswordManagementTemplate = ({ children }) => {
