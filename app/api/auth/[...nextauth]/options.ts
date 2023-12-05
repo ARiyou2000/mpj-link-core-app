@@ -2,6 +2,7 @@ import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { coreAdress } from "@/utils/getCoreAddress";
 import { cookies } from "next/headers";
+import { storageConfig } from "@/storage.config";
 
 export const authOptions: AuthOptions = {
   pages: { signIn: "/" },
@@ -41,7 +42,10 @@ export const authOptions: AuthOptions = {
               "Authorization",
             ) as string;
             console.log("authorizationHeader: ", authorizationHeader);
-            cookies().set({ name: "jwt-token", value: authorizationHeader });
+            cookies().set({
+              name: storageConfig.server.user.token.decoded,
+              value: authorizationHeader,
+            });
 
             const result = await authResponse.json();
 

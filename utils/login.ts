@@ -1,6 +1,7 @@
 "use client";
 
 import window from "@/utils/window";
+import { storageConfig } from "@/storage.config";
 
 export const loginWithCode = async (passcode: string) => {
   try {
@@ -10,7 +11,7 @@ export const loginWithCode = async (passcode: string) => {
     });
 
     window.localStorage.setItem(
-      window.btoa("MPJUserT"),
+      storageConfig.client.user.token.encoded,
       window.sessionStorage.getItem("next-auth.session-token") as string,
     );
   } catch (e) {
@@ -19,7 +20,9 @@ export const loginWithCode = async (passcode: string) => {
 };
 
 export const autoLogin = () => {
-  const passCode = window.localStorage.getItem(window.btoa("MPJUserP"));
+  const passCode = window.localStorage.getItem(
+    storageConfig.client.user.password.encoded,
+  );
   if (passCode) {
     return loginWithCode(passCode);
   } else {

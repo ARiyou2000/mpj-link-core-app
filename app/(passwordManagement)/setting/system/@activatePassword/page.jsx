@@ -6,6 +6,7 @@ import { SystemSettingPageToShowContext } from "../layout";
 import updatePassword from "@/utils/updatePassword";
 import window from "@/utils/window";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
+import { storageConfig } from "@/storage.config";
 
 const DeactivatePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -16,12 +17,14 @@ const DeactivatePasswordPage = () => {
     if (newPasswordHolder.current === passcode) {
       try {
         const oldPasscode = window.localStorage.getItem(
-          window.btoa("MPJUserP"),
+          storageConfig.client.user.password.encoded,
         );
         // send password to server
         await updatePassword(undefined, oldPasscode, passcode);
         // then remove passcode from localstorage
-        window.localStorage.removeItem(window.btoa("MPJUserP"));
+        window.localStorage.removeItem(
+          storageConfig.client.user.password.encoded,
+        );
         // Show message
         console.info("passcode activated");
         // Move to landing page

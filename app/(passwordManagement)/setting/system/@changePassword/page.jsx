@@ -6,6 +6,7 @@ import window from "@/utils/window";
 import updatePassword from "@/utils/updatePassword";
 import { loginWithCode } from "@/utils/login";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
+import { storageConfig } from "@/storage.config";
 
 const ChangePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -34,9 +35,16 @@ const ChangePasswordPage = () => {
         await updatePassword(undefined, oldPasscode, passcode);
 
         // Check whether using password or password less login:
-        if (!!window.localStorage.getItem(window.btoa("MPJUserP"))) {
+        if (
+          !!window.localStorage.getItem(
+            storageConfig.client.user.password.encoded,
+          )
+        ) {
           // then save passcode to localstorage
-          window.localStorage.setItem(window.btoa("MPJUserP"), passcode);
+          window.localStorage.setItem(
+            storageConfig.client.user.password.encoded,
+            passcode,
+          );
         }
         // Show message
         console.info("passcode changed");

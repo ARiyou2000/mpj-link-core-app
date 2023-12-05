@@ -5,6 +5,7 @@ import { SystemSettingPageToShowContext } from "../layout";
 import { loginWithCode } from "@/utils/login";
 import window from "@/utils/window";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
+import { storageConfig } from "@/storage.config";
 
 const DeactivatePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -14,7 +15,10 @@ const DeactivatePasswordPage = () => {
       // check if passcode is valid
       await loginWithCode(passcode);
       // then save passcode to localstorage
-      window.localStorage.setItem(window.btoa("MPJUserP"), passcode);
+      window.localStorage.setItem(
+        storageConfig.client.user.password.encoded,
+        passcode,
+      );
       // Show message
       console.info("passcode deactivated");
       // Move to landing page

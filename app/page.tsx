@@ -15,6 +15,7 @@ import { autoLogin } from "@/utils/login";
 import window from "@/utils/window";
 import useResizableContainer from "@/hooks/useResizableContainer";
 import { motion } from "framer-motion";
+import { storageConfig } from "@/storage.config";
 
 enum LoginStatus {
   "initial",
@@ -157,7 +158,9 @@ export default function Home() {
             } catch (e) {
               console.error(e);
               // Remove pass from local storage if there is an error (usually on auto login)
-              window.localStorage.removeItem(window.btoa("MPJUserP"));
+              window.localStorage.removeItem(
+                storageConfig.client.user.password.encoded,
+              );
               // Only show PassCodeInput if auto login fails.
               setIsSliderUnlocked(true);
             }

@@ -9,6 +9,7 @@ import { SystemSettingPageToShowContext } from "../layout";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FactoryReset from "@/components/FactoryReset";
+import { storageConfig } from "@/storage.config";
 
 const settingItemsStyleClassName =
   "px-4 py-6 flex flex-row items-center gap-11 justify-between bg-white/5 rounded-xl text-milkwhite transition-colors duration-500";
@@ -21,7 +22,7 @@ const SystemSettingLandingPage = ({ className }) => {
   const [isUsingAutoPasscode, setIsUsingAutoPasscode] = useState(false);
   useEffect(() => {
     const userPassInfoFromLocalStorage = window.localStorage.getItem(
-      window.btoa("MPJUserP"),
+      storageConfig.client.user.password.encoded,
     );
     setIsUsingAutoPasscode(!userPassInfoFromLocalStorage);
   }, []);
