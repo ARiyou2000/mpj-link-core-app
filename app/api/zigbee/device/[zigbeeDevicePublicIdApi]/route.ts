@@ -8,7 +8,6 @@ export const POST = async (
   { params: { zigbeeDevicePublicIdApi } }: paramsType,
 ) => {
   const body = await request.json();
-  console.log("Publish to MQTT: ", body);
 
   if (zigbeeDevicePublicIdApi && body) {
     await mqttPublish({
@@ -17,15 +16,13 @@ export const POST = async (
     });
   }
 
-  return new NextResponse(JSON.stringify({}));
+  return NextResponse.json({});
 };
 
 export const GET = async (
   request: NextRequest,
   { params: { zigbeeDevicePublicIdApi } }: paramsType,
 ) => {
-  console.log("getRequestCalled");
-
   if (zigbeeDevicePublicIdApi) {
     await mqttPublish({
       topic: `${connectionConfig.mqtt.mainTopic}/${zigbeeDevicePublicIdApi}/get`,
@@ -33,5 +30,5 @@ export const GET = async (
     });
   }
 
-  return new NextResponse(JSON.stringify({}));
+  return NextResponse.json({});
 };
