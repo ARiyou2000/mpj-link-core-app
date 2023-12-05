@@ -12,7 +12,6 @@ import { Bluetooth, Mute } from "@/components/icons/dashed";
 import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import useRegisterUpdateToast from "../../../hooks/useRegisterUpdateToast";
 
 const musicPlayerInputSourceButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center px-1.5 py-6 m-0 border rounded-card";
