@@ -64,7 +64,7 @@ const fetchUrl = async (url: string, init: FetchInitT = {}) => {
     } catch (e) {
       console.error("Network error : ", e);
       reject({
-        status: 555,
+        status: -113,
         message:
           "A network error is encountered or there is syntax error in result",
       });

@@ -6,9 +6,8 @@ import Connection from "@/components/Connection";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import fetchUrl from "@/utils/clientSideFetchUrl";
-import getCoreIP from "@/utils/getCoreIP";
-import useIsFirstRender from "../../hooks/useIsFirstRender";
+import fetchUrl from "@/utils/fetchUrl";
+import useIsFirstRender from "@/hooks/useIsFirstRender";
 
 const ConnectionCheckPageBody = ({
   title,
@@ -30,24 +29,11 @@ const ConnectionCheckPageBody = ({
 
   const tryConnecting = async () => {
     setStatus("trying");
-    let targetUrl;
-    switch (target) {
-      case "core":
-        targetUrl = "";
-        break;
-      case "internet":
-        targetUrl = "internet";
-        break;
-      default:
-        targetUrl = "";
-    }
     try {
-      const result = await fetchUrl(
-        `${getCoreIP()}/check${targetUrl ? "/" + targetUrl : ""}`,
-        {
-          signal: controller.signal,
-        },
-      );
+      const result = await fetchUrl(`/api/connection/${target}`, {
+        signal: controller.signal,
+      });
+      console.log(result);
       setStatus("connected");
     } catch (e) {
       setStatus("error");
