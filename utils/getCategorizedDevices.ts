@@ -1,14 +1,9 @@
-import DeviceInfo, { deviceCategories } from "@/classes/devices/deviceInfo";
+import DeviceInfo, {
+  deviceCategories,
+  deviceCategoryInfo,
+} from "@/classes/devices/deviceInfo";
 import { FunctionComponent } from "react";
-import {
-  DuctSplit,
-  Music,
-  Thermometer,
-  Relay,
-  Switches,
-  GradiantIconsPropsT,
-} from "@/components/icons/colored";
-import { Hood, Curtains } from "@/components/icons/colored";
+import { GradiantIconsPropsT } from "@/components/icons/colored";
 import { Grip } from "@/components/icons/dashed";
 
 export type DevicesCategoryHeadersT = {
@@ -17,54 +12,55 @@ export type DevicesCategoryHeadersT = {
   icon: FunctionComponent<GradiantIconsPropsT>;
 };
 
+type DeviceHeaderDataKeyT = DevicesCategoryHeadersT["dataKey"];
+
+// const headers_static: DevicesCategoryHeadersT[] = [
+//   { title: "همه دستگاه ها", dataKey: "all", icon: Grip },
+//   { title: "کلید", dataKey: deviceCategories.switch, icon: Switches },
+//   { title: "رله", dataKey: deviceCategories.relay, icon: Relay },
+//   {
+//     title: "ترموستات",
+//     dataKey: deviceCategories.thermostat,
+//     icon: Thermometer,
+//   },
+//   { title: "موزیک پلیر", dataKey: deviceCategories.music_player, icon: Music },
+//   { title: "اسپلیت", dataKey: deviceCategories.split, icon: DuctSplit },
+//   { title: "هود", dataKey: deviceCategories.hood, icon: Hood },
+//   { title: "پرده برقی", dataKey: deviceCategories.curtains, icon: Curtains },
+// ] as const;
+
 const headers: DevicesCategoryHeadersT[] = [
   { title: "همه دستگاه ها", dataKey: "all", icon: Grip },
-  { title: "کلید", dataKey: deviceCategories.switch, icon: Switches },
-  { title: "رله", dataKey: deviceCategories.relay, icon: Relay },
-  {
-    title: "ترموستات",
-    dataKey: deviceCategories.thermostat,
-    icon: Thermometer,
-  },
-  { title: "موزیک پلیر", dataKey: deviceCategories.music_player, icon: Music },
-  { title: "اسپلیت", dataKey: deviceCategories.split, icon: DuctSplit },
-  { title: "هود", dataKey: deviceCategories.hood, icon: Hood },
-  { title: "پرده برقی", dataKey: deviceCategories.curtains, icon: Curtains },
+  ...Object.entries(deviceCategoryInfo).map(([key, { title, icon }], index) => {
+    return { dataKey: Number(key), title, icon };
+  }),
 ];
 
-// const headers: DevicesCategoryHeadersT = Object.keys(deviceCategoryInfo).map(
-//   (key) => {
-//     const values = deviceCategoryInfo[Number(key)];
-//     return { dataKey: key, ...values };
-//   },
-// );
-
 const getCategorizedDevices = (list: DeviceInfo[] = []) => {
-  // Make them global:
   // Create a hashmap
   const categorizedDeviceList: {
-    [key: string]: DeviceInfo[];
-  } = {};
+    [key in DeviceHeaderDataKeyT]?: DeviceInfo[];
+  } = { all: [...list] };
 
-  // Copy all devices to default category
-  categorizedDeviceList["all"] = [...list];
+  // For each given device (from server) do:
+  list.forEach((device) => {
+    // Create an empty list for each device category if it didn't exist
+    if (!categorizedDeviceList[device.category]) {
+      categorizedDeviceList[device.category] = [];
+    }
 
-  // Create an empty list of devices for each category
-  list.forEach((device) => {
-    // Create an empty list for each device category
-    categorizedDeviceList[device.category] = [];
-  });
-  // Add each device to its category.
-  list.forEach((device) => {
-    // Push each device to its own category
-    categorizedDeviceList[device.category].push(device);
+    // Push each device to its own category if the category has initialized
+    if (
+      !!categorizedDeviceList[device.category] &&
+      Array.isArray(categorizedDeviceList[device.category])
+    ) {
+      categorizedDeviceList[device.category]?.push(device);
+    }
   });
 
   const filteredHeaders = headers.filter((header) => {
-    return (
-      categorizedDeviceList[header.dataKey] &&
-      categorizedDeviceList[header.dataKey].length > 0
-    );
+    return !!categorizedDeviceList[header.dataKey];
+    // categorizedDeviceList[header.dataKey]?.length > 0
   });
 
   // Headers and categorized devices

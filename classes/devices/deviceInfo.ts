@@ -104,7 +104,6 @@ class DeviceInfo extends ResponseModel {
       case DevicesType.zigbee_switch_3p:
         this.#category = deviceCategories.switch;
         this.#icon = deviceCategoryInfo[deviceCategories.switch].icon;
-        this.#icon = Switches;
         break;
       case DevicesType.modbus_relay:
       case DevicesType.zigbee_relay:

@@ -13,7 +13,9 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import React, { useCallback } from "react";
 import getCategorizedDevices from "@/utils/getCategorizedDevices";
 import Link from "next/link";
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import DeviceInfo, {
+  ServerSideDeviceInfoT,
+} from "@/classes/devices/deviceInfo";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const tabContentAndScrollStyleClassName = "h-full w-full";
@@ -22,7 +24,7 @@ const tabIconsStyleClassName = "w-6 h-6";
 
 type propsT = {
   className?: string;
-  list: DeviceInfo[];
+  list: ServerSideDeviceInfoT[];
 };
 
 const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
@@ -48,7 +50,11 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
     );
   }
 
-  const [headers, categorizedDeviceList] = getCategorizedDevices(list);
+  const [headers, categorizedDeviceList] = getCategorizedDevices(
+    list.map(({ publicId, name, description, type }) => {
+      return new DeviceInfo(publicId, name, description, type);
+    }),
+  );
 
   const filterValue = searchParams?.get("filter");
 
