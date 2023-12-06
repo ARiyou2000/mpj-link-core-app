@@ -41,7 +41,6 @@ export const authOptions: AuthOptions = {
             const authorizationHeader = authResponse.headers.get(
               "Authorization",
             ) as string;
-            console.log("authorizationHeader: ", authorizationHeader);
             cookies().set({
               name: storageConfig.server.user.token.decoded,
               value: authorizationHeader,

@@ -1,21 +1,22 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import ZoneDeviceCard from "../ZoneDeviceCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import Device from "@/classes/devices/device";
 import generalListStatus from "@/components/listCardPairs/generalListStatus";
+import DeviceInfo, {
+  ServerSideDeviceInfoT,
+} from "@/classes/devices/deviceInfo";
 
 const ZoneDevicesList = ({
   list,
   className,
   ...props
 }: {
-  list: Device[];
   className?: string;
+  list: ServerSideDeviceInfoT[];
 }) => {
   const params = useParams();
   const zonePublicId = params?.zonePublicId;
@@ -34,7 +35,13 @@ const ZoneDevicesList = ({
           )}
           {...props}>
           {generalListStatus({ list }) ||
-            list?.map((zoneDevice, index) => {
+            list?.map(({ publicId, name, description, type }, index) => {
+              const zoneDevice = new DeviceInfo(
+                publicId,
+                name,
+                description,
+                type,
+              );
               return (
                 <Link
                   key={`zone_${zonePublicId}_device_${zoneDevice.publicId}`}
@@ -49,7 +56,7 @@ const ZoneDevicesList = ({
                         }`
                   }`}>
                   <ZoneDeviceCard
-                    key={`scenarioCard_${index}_${zoneDevice.publicId}`}
+                    key={`scenarioCard_${zoneDevice.publicId}`}
                     deviceInfo={zoneDevice}
                     className={"w-full h-full"}
                   />

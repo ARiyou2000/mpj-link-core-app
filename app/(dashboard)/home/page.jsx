@@ -2,9 +2,16 @@ import ZonesList from "@/components/listCardPairs/zones/ZonesList";
 import ScenariosList from "@/components/listCardPairs/scenarios/ScenariosList";
 import authorizedFetch from "@/utils/authorizedFetch";
 
+export const metadata = {
+  title: "Home - MPJ Link App",
+  description: "Check Zones and Scenarios",
+};
+
 const HomePage = async () => {
-  const zonesData = await authorizedFetch("zone");
-  const scenarioData = await authorizedFetch("scenario");
+  const [zonesData, scenarioData] = await Promise.all([
+    authorizedFetch("zone"),
+    await authorizedFetch("scenario"),
+  ]);
 
   return (
     <>

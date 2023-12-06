@@ -1,22 +1,18 @@
-"use client";
-
 import ZoneDevicesList from "@/components/listCardPairs/zoneDevices/ZoneDevicesList";
-import { useParams } from "next/navigation";
-import useStaticData from "@/hooks/useStaticData";
-import { getZoneDevices, getZones } from "@/utils/getStaticData";
 import ZoneHeader from "@/components/deviceAndZoneHeader/ZoneHeader";
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import authorizedFetch from "@/utils/authorizedFetch";
 
-const ZonePage = () => {
-  const params = useParams();
+const ZonePage = async ({ params }) => {
   const { zonePublicId } = params;
-  const [zones] = useStaticData(getZones);
+
+  const [zones, zoneDevices] = await Promise.all([
+    authorizedFetch("zone"),
+    authorizedFetch(`zone/${zonePublicId}`),
+  ]);
+
   const zoneInfo = zones?.find((zoneInfo) => {
     return zoneInfo.publicId === zonePublicId;
   });
-  const [zoneData] = useStaticData((options) =>
-    getZoneDevices(zonePublicId, options),
-  );
 
   return (
     <>
@@ -28,13 +24,7 @@ const ZonePage = () => {
           />
         </div>
         <div className={"flex-1 h-0 w-full"}>
-          <ZoneDevicesList
-            className={"pt-2"}
-            list={zoneData?.map(
-              ({ publicId, name, description, type }) =>
-                new DeviceInfo(publicId, name, description, type),
-            )}
-          />
+          <ZoneDevicesList className={"pt-2"} list={zoneDevices} />
         </div>
       </div>
     </>
