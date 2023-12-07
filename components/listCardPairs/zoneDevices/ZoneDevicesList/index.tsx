@@ -35,7 +35,7 @@ const ZoneDevicesList = ({
           )}
           {...props}>
           {generalListStatus({ list }) ||
-            list?.map(({ publicId, name, description, type }, index) => {
+            list.map(({ publicId, name, description, type }) => {
               const zoneDevice = new DeviceInfo(
                 publicId,
                 name,
@@ -45,7 +45,7 @@ const ZoneDevicesList = ({
               return (
                 <Link
                   key={`zone_${zonePublicId}_device_${zoneDevice.publicId}`}
-                  href={`/devices/${zoneDevice.category}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
+                  href={`/devices/${zoneDevice.type}/${zoneDevice.publicId}?zpid=${zonePublicId}`}
                   className={`${
                     list?.length < 4
                       ? "max-h-[50%] landscape:max-h-full flex-1"
