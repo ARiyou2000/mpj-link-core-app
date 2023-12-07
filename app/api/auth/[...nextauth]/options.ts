@@ -5,7 +5,10 @@ import { cookies } from "next/headers";
 import { storageConfig } from "@/storage.config";
 
 export const authOptions: AuthOptions = {
-  pages: { signIn: "/" },
+  pages: {
+    signIn: "/",
+    // error: "/auth_error",
+  },
   providers: [
     CredentialsProvider({
       name: "Credectials",
