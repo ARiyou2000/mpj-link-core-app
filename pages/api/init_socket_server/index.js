@@ -1,7 +1,8 @@
 import { Server } from "socket.io";
 import connectionConfig from "@/connection.config";
+import registerOnSocketConnection from "@/helpers/onSocketConnection";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   // console.log("res.socket", res.socket.server.io)
   if (res.socket.server.io) {
     console.log("<-----\t\t\t! ! ! Server already started! ! ! !\t\t\t----->");
@@ -15,9 +16,9 @@ export default function handler(req, res) {
   });
   res.socket.server.io = io;
 
-  // io.on("connect", (socket) => {
-  //   // onSocketConnection(io, socket);
-  // });
+  io.on("connection", async (socket) => {
+    await registerOnSocketConnection(io, socket);
+  });
 
   console.log(
     "<------------------ Socket server started successfully! ------------------>",

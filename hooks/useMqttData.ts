@@ -44,7 +44,8 @@ const useMqttData = (isActive: boolean) => {
     // We call this just to make sure we turn on the websocket server
     await initSocket();
 
-    socket.current = io(undefined, {
+    socket.current = io({
+      transports: ["websocket"],
       path: connectionConfig.socket.key,
     });
 

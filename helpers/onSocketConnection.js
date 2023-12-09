@@ -2,8 +2,10 @@ import mqttSubscribe from "@/mqtt/subscribe";
 
 const AVAILABILITY_FEATURE_TOPIC_ENDING = "/availability";
 
-const registerOnSocketConnection = (io, socket) => {
-  mqttSubscribe(({ topic, message }) => {
+const registerOnSocketConnection = async (io, socket) => {
+  console.log(`socket ${socket.id} connected`);
+
+  await mqttSubscribe(({ topic, message }) => {
     try {
       if (topic.endsWith(AVAILABILITY_FEATURE_TOPIC_ENDING)) {
         // this.processAvailabilityMessage(data);
@@ -25,11 +27,11 @@ const registerOnSocketConnection = (io, socket) => {
   // socket.on("connect");
 
   socket.on("close", (reason) => {
-    console.error("Socket Closed: ", reason);
+    console.log(`socket ${socket.id} 'closed' due to ${reason}`);
   });
 
   socket.on("disconnect", (reason) => {
-    console.log("<--------- socket disconnected --------->");
+    console.log(`socket ${socket.id} 'disconnected' due to ${reason}`);
   });
 };
 
