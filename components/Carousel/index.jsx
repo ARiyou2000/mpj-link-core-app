@@ -154,10 +154,10 @@ const Carousel = ({
           className={
             "flex-1 flex flex-row overflow-hidden pointer-events-auto"
           }>
-          {slides?.map((slide, index) => (
+          {slides?.map((slide) => (
             <div
               className={`min-w-full text-center transition-all`}
-              key={`slide_${index}_${slide.value}`}
+              key={`slide_${slide.value}`}
               style={{
                 transform: isValidSliderCurrentValue(currentValueIndex)
                   ? `translateX(${currentValueIndex * 100}%)`

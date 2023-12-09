@@ -23,6 +23,9 @@ export type PassCodeInputPropsT = {
   className?: string;
   onSubmit: (passCode: string) => Promise<unknown>;
 };
+
+const inputDataArray = [0, 1, 2, 3];
+
 const PassCodeInput = ({
   onSubmit,
   text = statusTextInitState,
@@ -91,24 +94,22 @@ const PassCodeInput = ({
           }}
           // data-status={status}
           dir={"ltr"}>
-          {Array(4)
-            .fill(null)
-            .map((_, index) => {
-              return (
-                <div
-                  key={`inputCounter_${index}`}
-                  data-state={passLengthChecked[index]}
-                  data-status={status}
-                  className={
-                    "pointer-events-none block h-4 w-4 rounded-full bg-transparent ring-1 ring-milkwhite transition-all " +
-                    "data-[state=fill]:ring-0 data-[state=fill]:bg-gradient-to-tr from-white from-[-6.7%] to-[#FB9393] to-[135.15%] " +
-                    "data-[status=error]:ring-red data-[status=error]:animate-pulse data-[status=error]:duration-1500 " +
-                    "data-[status=loading]:animate-pulse data-[status=loading]:duration-1500 " +
-                    "dark:bg-transparent"
-                  }
-                />
-              );
-            })}
+          {inputDataArray.map((digitNumber) => {
+            return (
+              <div
+                key={`inputCounter_${digitNumber}`}
+                data-state={passLengthChecked[digitNumber]}
+                data-status={status}
+                className={
+                  "pointer-events-none block h-4 w-4 rounded-full bg-transparent ring-1 ring-milkwhite transition-all " +
+                  "data-[state=fill]:ring-0 data-[state=fill]:bg-gradient-to-tr from-white from-[-6.7%] to-[#FB9393] to-[135.15%] " +
+                  "data-[status=error]:ring-red data-[status=error]:animate-pulse data-[status=error]:duration-1500 " +
+                  "data-[status=loading]:animate-pulse data-[status=loading]:duration-1500 " +
+                  "dark:bg-transparent"
+                }
+              />
+            );
+          })}
         </div>
 
         <h4

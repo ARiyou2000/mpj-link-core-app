@@ -25,7 +25,7 @@ const ZonesList = ({
           {...props}>
           {!!list ? (
             list?.length > 0 ? (
-              list?.map((zoneData, index) => {
+              list?.map((zoneData) => {
                 const { publicId, name, description, image } = zoneData;
                 const zone = new Zone(
                   publicId,
@@ -35,10 +35,7 @@ const ZonesList = ({
                 );
 
                 return (
-                  <ZoneCard
-                    data={zone}
-                    key={`zoneCard_${index}_${zone.publicId}`}
-                  />
+                  <ZoneCard data={zone} key={`zoneCard_${zone.publicId}`} />
                 );
               })
             ) : (

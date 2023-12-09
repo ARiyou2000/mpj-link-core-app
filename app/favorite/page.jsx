@@ -14,7 +14,7 @@ const FavoritePage = () => {
         <GeneralHeader title={"سناریو های مورد علاقه"} />
         <ScenariosList
           list={scenarioData?.map(
-            ({ publicId, name, description, image, favorite }, index) =>
+            ({ publicId, name, description, image, favorite }) =>
               new Scenario(publicId, name, description, image, favorite),
           )}
           hasFavoriteButton={false}

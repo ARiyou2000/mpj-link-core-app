@@ -31,7 +31,7 @@ type DeviceHeaderDataKeyT = DevicesCategoryHeadersT["dataKey"];
 
 const headers: DevicesCategoryHeadersT[] = [
   { title: "همه دستگاه ها", dataKey: "all", icon: Grip },
-  ...Object.entries(deviceCategoryInfo).map(([key, { title, icon }], index) => {
+  ...Object.entries(deviceCategoryInfo).map(([key, { title, icon }]) => {
     return { dataKey: Number(key), title, icon };
   }),
 ];

@@ -15,10 +15,10 @@ const NotificationsList = ({ list, className, ...props }: PropsT) => {
         className={cn("flex flex-col flex-nowrap gap-2 w-full", className)}
         {...props}>
         {generalListStatus({ list }) ||
-          list?.map((notification, index) => {
+          list?.map((notification) => {
             return (
               <Notification
-                key={`notification_${notification.publicId}_${index}`}
+                key={`notification_${notification.publicId}`}
                 data={notification}
               />
             );

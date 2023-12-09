@@ -23,8 +23,8 @@ const RelayPortsListComponent = ({ list, className, ...props }: PropsT) => {
         )}
         {...props}>
         {generalListStatus({ list }) ||
-          list?.map((relayPortData, index) => {
-            const key = `relayPort_${relayPortData.portType}_${index}_${relayPortData.publicId}`,
+          list?.map((relayPortData) => {
+            const key = `relayPort_${relayPortData.portType}_${relayPortData.publicId}`,
               props = {
                 className: "basis-[48%]",
                 registerInstance: relayPortData,

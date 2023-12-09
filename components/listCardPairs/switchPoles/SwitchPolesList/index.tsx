@@ -20,10 +20,10 @@ const SwitchPolesList = ({ list, className, ...props }: PropsT) => {
           }
           {...props}>
           {generalListStatus({ list }) ||
-            list?.map((switchPoleData, index) => {
+            list?.map((switchPoleData) => {
               return (
                 <SwitchCard
-                  key={`switchPole_${index}_${switchPoleData.publicId}`}
+                  key={`switchPole_${switchPoleData.publicId}`}
                   className={"w-full"}
                   registerInstance={switchPoleData}
                 />
