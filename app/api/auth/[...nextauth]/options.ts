@@ -1,6 +1,6 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { coreAdress } from "@/utils/getCoreAddress";
+import { coreAddress } from "@/utils/getCoreAddress";
 import { cookies } from "next/headers";
 import { storageConfig } from "@/storage.config";
 
@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
         let authResponse;
 
         try {
-          authResponse = await fetch(`${coreAdress}/login`, {
+          authResponse = await fetch(`${coreAddress}/login`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Basic ${base64data}`,

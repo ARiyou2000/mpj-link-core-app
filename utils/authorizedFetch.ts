@@ -1,7 +1,7 @@
 "use server";
 
 import fetchUrl, { FetchInitT } from "@/utils/fetchUrl";
-import { coreAdress } from "@/utils/getCoreAddress";
+import { coreAddress } from "@/utils/getCoreAddress";
 import { cookies } from "next/headers";
 import { storageConfig } from "@/storage.config";
 
@@ -12,7 +12,7 @@ const authorizedFetch = async (url: string, init: FetchInitT = {}) => {
   const jwtToken = cookieStore.get(storageConfig.server.user.token.decoded)
     ?.value;
 
-  return await fetchUrl(`${coreAdress}/${url}`, {
+  return await fetchUrl(`${coreAddress}/${url}`, {
     ...init,
     headers: {
       ...headers,

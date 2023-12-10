@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fetchUrl from "@/utils/fetchUrl";
-import { coreAdress } from "@/utils/getCoreAddress";
+import { coreAddress } from "@/utils/getCoreAddress";
 
 export const POST = async (request: NextRequest) => {
   console.log("---------------catched---------------");
@@ -9,7 +9,7 @@ export const POST = async (request: NextRequest) => {
   try {
     const base64data = Buffer.from(`user:${body?.passcode}`).toString("base64");
 
-    const data = await fetchUrl(`${coreAdress}/login`, {
+    const data = await fetchUrl(`${coreAddress}/login`, {
       headers: { Authorization: `Basic ${base64data}` },
     });
 

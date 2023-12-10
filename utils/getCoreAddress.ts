@@ -3,5 +3,5 @@ const getCoreAddress = (): string => {
   return `http://${ipString}:3456/mlcore/v3`;
 };
 
-export const coreAdress = getCoreAddress();
+export const coreAddress = getCoreAddress();
 export default getCoreAddress;
