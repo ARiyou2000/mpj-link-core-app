@@ -1,21 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
-import fetchUrl from "@/utils/fetchUrl";
 import { coreAddress } from "@/utils/getCoreAddress";
+import { cookies } from "next/headers";
+import { storageConfig } from "@/storage.config";
 
 export const POST = async (request: NextRequest) => {
-  console.log("---------------catched---------------");
   const body = await request.json();
+
+  let authResponse;
 
   try {
     const base64data = Buffer.from(`user:${body?.passcode}`).toString("base64");
 
-    const data = await fetchUrl(`${coreAddress}/login`, {
-      headers: { Authorization: `Basic ${base64data}` },
-    });
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("Authorization", `Basic ${base64data}`);
 
-    return NextResponse.json({ data }, { status: 202 });
+    authResponse = await fetch(`${coreAddress}/login`, {
+      headers,
+    });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json(e);
+    console.error("Network error while fetching data:", e);
+    return NextResponse.error();
+  }
+
+  try {
+    if (authResponse.ok) {
+      const authorizationHeader = authResponse.headers.get(
+        "Authorization",
+      ) as string;
+      cookies().set({
+        name: storageConfig.server.user.token.decoded,
+        value: authorizationHeader,
+      });
+
+      const result = await authResponse.json();
+
+      return NextResponse.json({ result });
+    } else {
+      return NextResponse.json({}, { status: authResponse.status });
+    }
+  } catch (e) {
+    console.error("Error parsing JSON data: ", e);
+    return NextResponse.error();
   }
 };

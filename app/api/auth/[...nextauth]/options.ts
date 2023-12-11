@@ -1,8 +1,5 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { coreAddress } from "@/utils/getCoreAddress";
-import { cookies } from "next/headers";
-import { storageConfig } from "@/storage.config";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -17,38 +14,23 @@ export const authOptions: AuthOptions = {
         passcode: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const base64data = Buffer.from(
-          `user:${credentials?.passcode}`,
-        ).toString("base64");
-
         let authResponse;
 
         try {
-          authResponse = await fetch(`${coreAddress}/login`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Basic ${base64data}`,
+          authResponse = await fetch(
+            `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/login`,
+            {
+              method: "POST",
+              body: JSON.stringify({ passcode: credentials?.passcode }),
             },
-          });
-          // await fetch("/api/login", {
-          //   method: "POST",
-          //   body: JSON.stringify({ passcode: credentials?.passcode  }),
-          // });
+          );
         } catch (e) {
-          console.error(e);
+          console.error("Error while getting auth data:", e);
           throw new Error(JSON.stringify({ status: -113 }));
         }
 
         try {
           if (authResponse.ok) {
-            const authorizationHeader = authResponse.headers.get(
-              "Authorization",
-            ) as string;
-            cookies().set({
-              name: storageConfig.server.user.token.decoded,
-              value: authorizationHeader,
-            });
-
             const result = await authResponse.json();
 
             const user = {
