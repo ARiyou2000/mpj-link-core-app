@@ -11,9 +11,10 @@ const PasswordManagementLayout = ({ children }) => {
         className={"h-full w-full flex flex-col justify-between duration-200"}
         style={styleObject}
         ref={containerRef}>
-        <MainLayoutHeader className={"landscape:hidden"} />
         <div
-          className={"flex-1 w-full h-0 landscape:h-full pt-3 landscape:pt-0"}>
+          className={
+            "flex-1 w-full h-0 landscape:h-full flex flex-col gap-3 landscape:gap-0"
+          }>
           {children}
         </div>
       </div>

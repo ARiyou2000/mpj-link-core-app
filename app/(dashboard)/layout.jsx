@@ -14,10 +14,12 @@ const MainLayout = ({ children }) => {
         className={
           "h-full w-full flex flex-col landscape:flex-row justify-between"
         }>
-        <MainLayoutHeader className={"landscape:hidden"} />
         <div
-          className={"flex-1 h-0 landscape:w-0 w-full landscape:h-full pt-3"}>
-          {children}
+          className={
+            "flex-1 h-0 w-full landscape:h-full landscape:w-0 flex flex-col"
+          }>
+          <MainLayoutHeader />
+          <div className={"flex-1 h-0 w-full pt-3"}>{children}</div>
         </div>
         <MainLayoutTabNavigation />
       </div>

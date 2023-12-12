@@ -7,6 +7,7 @@ import updatePassword from "@/utils/updatePassword";
 import { loginWithCode } from "@/utils/login";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 import { storageConfig } from "@/storage.config";
+import MainLayoutHeader from "../../../../../components/MainLayoutHeader";
 
 const ChangePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -93,6 +94,11 @@ const ChangePasswordPage = () => {
 
   return (
     <>
+      <MainLayoutHeader
+        onBackClicked={() => {
+          setSystemSettingPageToShow?.("SystemSettingLandingPage");
+        }}
+      />
       <PasswordManagementPageWrapper
         header={"تغییر رمز عبور"}
         passcodeText={passcodeData.text}

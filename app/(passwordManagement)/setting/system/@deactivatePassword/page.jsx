@@ -6,6 +6,7 @@ import { loginWithCode } from "@/utils/login";
 import window from "@/utils/window";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 import { storageConfig } from "@/storage.config";
+import MainLayoutHeader from "../../../../../components/MainLayoutHeader";
 
 const DeactivatePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -46,6 +47,11 @@ const DeactivatePasswordPage = () => {
 
   return (
     <>
+      <MainLayoutHeader
+        onBackClicked={() => {
+          setSystemSettingPageToShow?.("SystemSettingLandingPage");
+        }}
+      />
       <PasswordManagementPageWrapper
         header={"غیر فعال سازی رمز عبور"}
         passcodeText={passcodeData.text}

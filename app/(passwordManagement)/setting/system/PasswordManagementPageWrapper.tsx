@@ -21,7 +21,7 @@ const PasswordManagementPageWrapper = ({
 }) => {
   return (
     <>
-      <ScrollArea className={"flex-1 h-full"}>
+      <ScrollArea className={"flex-1 h-0"}>
         <div
           className={cn(
             "h-full w-full px-1 pt-8 pb-2 flex flex-col justify-between",

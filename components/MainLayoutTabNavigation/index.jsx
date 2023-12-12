@@ -71,9 +71,11 @@ const MainLayoutTabNavigation = () => {
   return (
     <div className="bg-[#383838] w-full landscape:h-full landscape:w-auto px-6 landscape:py-6 landscape:pl-4 landscape:pr-5 rounded-t-xl landscape:rounded-r-xl landscape:rounded-tl-none overflow-hidden">
       <ul className="flex flex-row landscape:flex-col landscape:h-full justify-evenly items-center relative">
-        <MPJLink
-          className={"absolute top-4 flex-1 hidden landscape:block w-10 h-5"}
-        />
+        <Link
+          href={"/home"}
+          className={"absolute top-4 flex-1 hidden landscape:block"}>
+          <MPJLink className={"w-10 h-5"} />
+        </Link>
         <div className={"flex-1 hidden landscape:block"} />
         <div className={"flex-1 hidden landscape:block"} />
         {NavBarItems.map((menuItem) => (
