@@ -2,7 +2,9 @@ import DevicesListTab from "@/components/listCardPairs/devices/DevicesListTab";
 import authorizedFetch from "@/utils/authorizedFetch";
 
 const DevicesListPage = async () => {
-  const deviceList = await authorizedFetch("device");
+  const deviceList = await authorizedFetch(
+    `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices`,
+  );
 
   return (
     <>

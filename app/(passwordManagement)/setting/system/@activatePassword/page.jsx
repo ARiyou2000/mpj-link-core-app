@@ -7,7 +7,7 @@ import updatePassword from "@/utils/updatePassword";
 import window from "@/utils/window";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 import { storageConfig } from "@/storage.config";
-import MainLayoutHeader from "../../../../../components/MainLayoutHeader";
+import MainLayoutHeader from "@/components/MainLayoutHeader";
 
 const DeactivatePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);

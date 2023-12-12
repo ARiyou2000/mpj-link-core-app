@@ -1,5 +1,7 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { cookies } from "next/headers";
+import { storageConfig } from "@/storage.config";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -31,6 +33,15 @@ export const authOptions: AuthOptions = {
 
         try {
           if (authResponse.ok) {
+            const authorizationHeader = authResponse.headers.get(
+              "Authorization",
+            ) as string;
+
+            cookies().set({
+              name: storageConfig.server.user.token.decoded,
+              value: authorizationHeader,
+            });
+
             const result = await authResponse.json();
 
             const user = {

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import MainLayoutTabNavigation from "@/components/MainLayoutTabNavigation";
-import MainLayoutHeader from "../../../../../components/MainLayoutHeader";
+import MainLayoutHeader from "@/components/MainLayoutHeader";
 
 const SystemSettingLandingLayout = ({ children, className, ...props }) => {
   return (

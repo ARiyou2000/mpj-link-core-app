@@ -1,9 +1,6 @@
-export type FetchInitT = {
-  method?: string;
-  headers?: object;
+export type FetchInitT = RequestInit & {
   next?: object;
   body?: object | string;
-  signal?: AbortSignal | null;
 };
 
 export type FetchHeadersT = {
@@ -17,29 +14,34 @@ const basicHeaders = {
 
 // const nextGlobalFetchPrams = { revalidate: 1 };
 
-const fetchUrl = async (url: string, init: FetchInitT = {}) => {
-  const { method = "GET", headers: customHeaders = {}, next = {}, body } = init;
+const fetchUrl = async (url: URL | string, init: FetchInitT = {}) => {
+  const {
+    method = "GET",
+    headers: customHeaders,
+    next = {},
+    body,
+    ...otherInit
+  } = init;
 
   return new Promise(async (resolve, reject) => {
     let response;
-    try {
-      const headers: FetchHeadersT = {
-        ...basicHeaders,
-        ...customHeaders,
-      };
 
+    const headers = new Headers(customHeaders);
+    headers.set("Content-Type", "application/json");
+
+    try {
       const params = {
-        ...init,
         method,
         headers,
         next: {
           // ...nextGlobalFetchPrams,
           ...next,
         },
+        ...otherInit,
       };
 
       // Replace init object body with string body
-      if (method !== "GET") {
+      if (init?.method !== "GET") {
         if (typeof body === "string") {
           params.body = body;
         } else {
@@ -48,13 +50,6 @@ const fetchUrl = async (url: string, init: FetchInitT = {}) => {
       } else {
         delete params.body;
       }
-
-      // // attach JWT to headers Here
-      // const userAuth = window.localStorage.getItem(window.btoa("MPJUserT"));
-      //
-      // if (userAuth) {
-      //   params.headers.Authorization = userAuth;
-      // }
 
       // console.log(`Request params for ${url}: \n`, params);
 
@@ -74,7 +69,7 @@ const fetchUrl = async (url: string, init: FetchInitT = {}) => {
     if (response?.ok) {
       try {
         const result = await response.json();
-        // console.log(`JSON Response in fetchUrl for ${url}: `, result);
+        // console.log(`Actual result in fetchUrl for ${url}: `, result);
 
         result.action ? resolve(result.result) : reject(result);
       } catch (e) {

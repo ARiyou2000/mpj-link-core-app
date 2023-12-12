@@ -1,20 +1,18 @@
 "use server";
 
 import fetchUrl, { FetchInitT } from "@/utils/fetchUrl";
-import { coreAddress } from "@/utils/getCoreAddress";
 import getJWT from "@/utils/getJWT";
 
 const authorizedFetch = async (url: string, init: FetchInitT = {}) => {
-  const { headers = {} } = init;
-
   const jwtToken = getJWT();
+  const headers = new Headers(init?.headers);
 
-  return await fetchUrl(`${coreAddress}/${url}`, {
+  if (jwtToken) {
+    headers.set("Authorization", jwtToken);
+  }
+  return await fetchUrl(url, {
     ...init,
-    headers: {
-      ...headers,
-      Authorization: jwtToken,
-    },
+    headers,
   });
 };
 

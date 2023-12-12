@@ -7,7 +7,7 @@ import updatePassword from "@/utils/updatePassword";
 import { loginWithCode } from "@/utils/login";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 import { storageConfig } from "@/storage.config";
-import MainLayoutHeader from "../../../../../components/MainLayoutHeader";
+import MainLayoutHeader from "@/components/MainLayoutHeader";
 
 const ChangePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);

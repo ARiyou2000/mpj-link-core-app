@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { coreAddress } from "@/utils/getCoreAddress";
 import { cookies } from "next/headers";
 import { storageConfig } from "@/storage.config";
+import ApiResponse from "@/app/api/apiResponse";
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
@@ -15,7 +15,7 @@ export const POST = async (request: NextRequest) => {
     headers.set("Content-Type", "application/json");
     headers.set("Authorization", `Basic ${base64data}`);
 
-    authResponse = await fetch(`${coreAddress}/login`, {
+    authResponse = await fetch(`${process.env.NEXT_CORE_ABSOLUTE_URL}/login`, {
       headers,
     });
   } catch (e) {
@@ -28,14 +28,18 @@ export const POST = async (request: NextRequest) => {
       const authorizationHeader = authResponse.headers.get(
         "Authorization",
       ) as string;
-      cookies().set({
-        name: storageConfig.server.user.token.decoded,
-        value: authorizationHeader,
-      });
 
       const result = await authResponse.json();
 
-      return NextResponse.json({ result });
+      const response = NextResponse.json(new ApiResponse(true, result), {
+        headers: { Authorization: authorizationHeader },
+      });
+      // response.cookies.set({
+      //   name: storageConfig.server.user.token.decoded,
+      //   value: authorizationHeader,
+      // });
+
+      return response;
     } else {
       return NextResponse.json({}, { status: authResponse.status });
     }
