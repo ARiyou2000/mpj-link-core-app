@@ -1,11 +1,12 @@
 "use client";
 
-import fetchUrl, { FetchInitT } from "@/utils/fetchUrl";
+import fetchUrl, { FetchInitT, FetchUrlT } from "@/utils/fetchUrl";
 import { storageConfig } from "@/storage.config";
 import clientCookies from "@/utils/clientCookies";
+import FetchUrl from "@/utils/fetchUrl";
 
 const clientSideAuthorizedFetch = async (
-  url: string,
+  url: FetchUrlT,
   init: FetchInitT = {},
 ) => {
   // attach JWT to headers Here

@@ -1,9 +1,9 @@
 "use server";
 
-import fetchUrl, { FetchInitT } from "@/utils/fetchUrl";
+import fetchUrl, { FetchInitT, FetchUrlT } from "@/utils/fetchUrl";
 import getJWT from "@/utils/getJWT";
 
-const authorizedFetch = async (url: string, init: FetchInitT = {}) => {
+const authorizedFetch = async (url: FetchUrlT, init: FetchInitT = {}) => {
   const jwtToken = getJWT();
   const headers = new Headers(init?.headers);
 

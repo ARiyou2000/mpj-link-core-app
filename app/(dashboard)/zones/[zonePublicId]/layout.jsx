@@ -15,7 +15,7 @@ const ZonePageLayout = async ({ children, params }) => {
   const { zonePublicId } = params;
 
   const zoneInfo = await authorizedFetch(
-    `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/zone/${zonePublicId}`,
+    `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/zones/${zonePublicId}`,
   );
 
   return (

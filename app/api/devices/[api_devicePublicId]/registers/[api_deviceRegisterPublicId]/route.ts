@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fetchUrl from "@/utils/fetchUrl";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import ApiResponse from "@/app/api/apiResponse";
+import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 
 type paramsType = {
   params: { api_devicePublicId: string; api_deviceRegisterPublicId: string };
@@ -11,10 +12,21 @@ export const GET = async (
   request: NextRequest,
   { params: { api_devicePublicId, api_deviceRegisterPublicId } }: paramsType,
 ) => {
+  const searchParams = request.nextUrl.searchParams;
+  const zonePublicId = searchParams.get("zpid");
+
   try {
-    const list = (await fetchUrl(
-      `${process.env.NEXT_CORE_ABSOLUTE_URL}/device/${api_devicePublicId}`,
-    )) as ServerSideRegisterInfoT[];
+    const url = new URL(
+      zonePublicId
+        ? `zone/${zonePublicId}/device/${api_devicePublicId}`
+        : `device/${api_devicePublicId}`,
+      `${process.env.NEXT_CORE_ABSOLUTE_URL}/`,
+    );
+
+    const list = (await fetchUrl(url, {
+      headers: getAuthorizationHeaders(request.headers),
+    })) as ServerSideRegisterInfoT[];
+
     const result = list?.find((item) => {
       return item.publicId === api_deviceRegisterPublicId;
     });

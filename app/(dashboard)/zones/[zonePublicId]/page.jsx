@@ -4,10 +4,9 @@ import authorizedFetch from "@/utils/authorizedFetch";
 const ZonePage = async ({ params }) => {
   const { zonePublicId } = params;
 
-  const url = new URL("api/devices", `${process.env.NEXT_SELF_ABSOLUTE_URL}/`);
+  const url = new URL(`${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices`);
   url.searchParams.set("zpid", zonePublicId);
 
-  // `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices?zpid=${zonePublicId}`
   const zoneDevices = await authorizedFetch(url);
 
   return (

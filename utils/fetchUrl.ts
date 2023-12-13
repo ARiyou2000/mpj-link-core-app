@@ -1,3 +1,5 @@
+export type FetchUrlT = URL | string;
+
 export type FetchInitT = RequestInit & {
   next?: object;
   body?: object | string;
@@ -14,7 +16,7 @@ const basicHeaders = {
 
 // const nextGlobalFetchPrams = { revalidate: 1 };
 
-const fetchUrl = async (url: URL | string, init: FetchInitT = {}) => {
+const fetchUrl = async (url: FetchUrlT, init: FetchInitT = {}) => {
   const {
     method = "GET",
     headers: customHeaders,
