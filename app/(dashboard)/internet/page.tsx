@@ -12,9 +12,9 @@ const CheckInternetPage = () => {
         title={"اتصال به اینترنت"}
         target={"internet"}
         statusText={{
-          connected: "core به اینترنت متصل است",
+          success: "core به اینترنت متصل است",
           trying: "درحال اتصال",
-          error: "core به اینترنت متصل نیست",
+          failed: "core به اینترنت متصل نیست",
         }}
       />
     </>

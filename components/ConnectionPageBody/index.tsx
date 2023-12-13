@@ -2,41 +2,62 @@
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Connection from "@/components/Connection";
-
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import fetchUrl from "@/utils/fetchUrl";
 import useIsFirstRender from "@/hooks/useIsFirstRender";
+import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
+
+enum ConnectionStatus {
+  trying,
+  success,
+  failed,
+}
+
+type StatusTextT = {
+  trying: string;
+  success: string;
+  failed: string;
+};
+type PropsT = {
+  title: string;
+  target: "internet" | "core";
+  statusText: StatusTextT;
+  className?: string;
+};
 
 const ConnectionCheckPageBody = ({
   title,
   target,
-  statusText = {},
+  statusText,
   className,
   ...props
-}) => {
+}: PropsT) => {
   const {
-    connected: connectedText = "دستگاه متصل است",
     trying: tryingText = "درحال اتصال",
-    error: errorText = "تلاش مجدد",
+    success: connectedText = "دستگاه متصل است",
+    failed: errorText = "تلاش مجدد",
   } = statusText;
 
   const isFirstRender = useIsFirstRender();
   const router = useRouter();
-  const [status, setStatus] = useState("trying");
+  const [status, setStatus] = useState<ConnectionStatus>(
+    ConnectionStatus.trying,
+  );
   const controller = new AbortController();
 
   const tryConnecting = async () => {
-    setStatus("trying");
+    setStatus(ConnectionStatus.trying);
     try {
-      const result = await fetchUrl(`/api/connection/${target}`, {
-        signal: controller.signal,
-      });
-      console.log(result);
-      setStatus("connected");
+      const result = await clientSideAuthorizedFetch(
+        `/api/connection/${target}`,
+        {
+          //   signal: controller.signal,
+        },
+      );
+      setStatus(ConnectionStatus.success);
     } catch (e) {
-      setStatus("error");
+      setStatus(ConnectionStatus.failed);
       console.error(e);
     }
   };
@@ -66,19 +87,19 @@ const ConnectionCheckPageBody = ({
               className,
             )}
             {...props}>
-            {status === "trying" && (
+            {status === ConnectionStatus.trying && (
               <Connection.trying
                 onButtonClicked={handleBack}
                 title={tryingText}
               />
             )}
-            {status === "connected" && (
+            {status === ConnectionStatus.success && (
               <Connection.connected
                 onButtonClicked={handleBack}
                 title={connectedText}
               />
             )}
-            {status === "error" && (
+            {status === ConnectionStatus.failed && (
               <Connection.error
                 onButtonClicked={tryConnecting}
                 title={errorText}

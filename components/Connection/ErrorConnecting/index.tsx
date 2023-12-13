@@ -1,12 +1,18 @@
 import ConnectionCheckContainer from "../ConnectionCheckContainer";
 import { Error } from "@/components/icons";
 
+type PropsT = {
+  title: string;
+  className?: string;
+  onButtonClicked: () => void;
+};
+
 const ErrorConnecting = ({
   title = "عدم اتصال",
   className,
   onButtonClicked,
   ...props
-}) => {
+}: PropsT) => {
   return (
     <>
       <ConnectionCheckContainer

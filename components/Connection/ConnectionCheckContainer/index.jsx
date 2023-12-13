@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/custom-card";
+import { Card, CardTitle } from "@/components/ui/custom-card";
 
 const ConnectionCheckContainer = ({
   icon,
@@ -25,7 +25,9 @@ const ConnectionCheckContainer = ({
           <div className={"[&>svg]:w-[6.25rem] [&>svg]:h-[6.25rem] p-2"}>
             {icon}
           </div>
-          <h2 className={"text-milkwhite text-base text-center"}>{title}</h2>
+          <CardTitle className={"text-milkwhite text-base text-center"}>
+            {title}
+          </CardTitle>
         </div>
         {buttonText && (
           <Button

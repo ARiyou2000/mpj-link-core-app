@@ -10,8 +10,8 @@ export const storageConfig = {
   client: {
     user: {
       token: {
-        decoded: "MPJUserT",
-        encoded: Buffer.from("MPJUserT").toString("base64"),
+        decoded: "jwt-token",
+        encoded: Buffer.from("jwt-token").toString("base64"),
       },
       password: {
         decoded: "MPJUserP",

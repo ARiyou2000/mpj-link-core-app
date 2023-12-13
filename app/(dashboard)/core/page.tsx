@@ -12,9 +12,9 @@ const CorePage = () => {
         title={"اتصال به Core"}
         target={"core"}
         statusText={{
-          connected: "اتصال با core برقرار است",
+          success: "اتصال با core برقرار است",
           trying: "درحال اتصال",
-          error: "دستگاه شما به core متصل نیست",
+          failed: "دستگاه شما به core متصل نیست",
         }}
       />
     </>

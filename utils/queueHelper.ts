@@ -1,4 +1,4 @@
-import fetchUrl from "@/utils/clientSideFetchUrl";
+import fetchUrl from "@/utils/clientSideAuthorizedFetch";
 import getCoreIP from "@/utils/getCoreIP";
 
 const config = {

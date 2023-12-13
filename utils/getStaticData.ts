@@ -1,7 +1,7 @@
 "use client";
 
 import window from "@/utils/window";
-import fetchUrl from "@/utils/clientSideFetchUrl";
+import fetchUrl from "@/utils/clientSideAuthorizedFetch";
 import getCoreIP from "@/utils/getCoreIP";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import Scenario from "@/classes/scenario";
