@@ -20,6 +20,7 @@ const SwitchCard = ({ registerInstance, className, ...props }) => {
           "flex flex-row px-4 py-6 items-center justify-between",
           className,
         )}
+        borderVariant={"gradiant"}
         {...props}>
         <CardHeader
           className={
