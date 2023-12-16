@@ -1,20 +1,11 @@
-import fetchUrl from "@/utils/clientSideAuthorizedFetch";
-import getCoreIP from "@/utils/getCoreIP";
+"use server";
+
+import fetchUrl from "@/utils/fetchUrl";
 
 const config = {
   retryNullQueryInterval: 200,
   maxTryForNullQuery: 20,
 };
-
-interface getDataRequest {
-  customUrl: string;
-  entityType: string;
-  entityId: string;
-}
-
-interface entityDataRequest extends getDataRequest {
-  value: string;
-}
 
 type commandResultType = {
   actionPublicId: string;
@@ -23,7 +14,7 @@ type queryResultType = {
   value: string | null;
 };
 
-type getDataOptionsType = {
+export type getDataOptionsType = RequestInit & {
   signal: AbortSignal;
 };
 
@@ -42,20 +33,22 @@ const registerNewRequest = async (
   customUrl?: string,
 ) => {
   try {
-    const { signal } = options;
-    const coreIP = getCoreIP();
     const result = value
       ? ((await fetchUrl(
-          `${customUrl || coreIP}/command/${entityType}/${entityId}`,
+          `${
+            customUrl || process.env.NEXT_CORE_ABSOLUTE_URL
+          }/command/${entityType}/${entityId}`,
           {
             method: "PUT",
             body: { value },
-            signal,
+            ...options,
           },
         )) as commandResultType)
       : ((await fetchUrl(
-          `${customUrl || coreIP}/command/${entityType}/${entityId}`,
-          { signal },
+          `${
+            customUrl || process.env.NEXT_CORE_ABSOLUTE_URL
+          }/command/${entityType}/${entityId}`,
+          options,
         )) as commandResultType);
 
     return result.actionPublicId;
@@ -92,9 +85,8 @@ export const getRequestedData = async (
   customUrl?: string,
 ) => {
   try {
-    const coreIP = getCoreIP();
     const result = await fetchUrl(
-      `${customUrl || coreIP}/query/${requestId}`,
+      `${customUrl || process.env.NEXT_CORE_ABSOLUTE_URL}/query/${requestId}`,
       options,
     );
     return result;
@@ -111,7 +103,7 @@ export const getEntityData = async (
   options: getEntityDataOptionsType,
   customUrl?: string,
 ) => {
-  const { hasFeedback = true, signal } = options;
+  const { hasFeedback = true } = options;
   let reqId: string;
 
   // Command can omit the original signal. you can replace it with mockController signal
@@ -122,15 +114,10 @@ export const getEntityData = async (
           entityType,
           entityId,
           value,
-          { signal },
+          options,
           customUrl,
         )
-      : await registerNewGetRequest(
-          entityType,
-          entityId,
-          { signal },
-          customUrl,
-        );
+      : await registerNewGetRequest(entityType, entityId, options, customUrl);
   } catch (e) {
     // This error could contain user abort request
     console.log("Failed on command. (There is likely a connection error): ", e);
@@ -147,7 +134,7 @@ export const getEntityData = async (
       const getActualData = async (maxTry = config.maxTryForNullQuery) => {
         const result = (await getRequestedData(
           reqId,
-          { signal },
+          options,
           customUrl,
         )) as queryResultType;
 
