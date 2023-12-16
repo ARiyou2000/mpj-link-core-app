@@ -7,12 +7,18 @@ import {
 } from "@/components/icons";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { Curtains as CurtainsGradiantDeviceIcon } from "@/components/icons/colored";
+import ModbusCurtains from "@/classes/devices/modbus/curtains";
 
-const musicPlayerInputSourceButtonStyleClassName =
+const curtainsButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-evenly p-8 m-0 border-0.5 rounded-card border-milkwhite";
-const musicPlayerVolumeButtonIconStyleClassName = "h-8 w-8";
+const curtainsButtonIconStyleClassName = "h-8 w-8";
 
-const Curtains = ({ deviceInstance, className, ...props }) => {
+type PropsT = {
+  className?: string;
+  deviceInstance: ModbusCurtains;
+};
+
+const Curtains = ({ deviceInstance, className, ...props }: PropsT) => {
   return (
     <>
       <ScrollArea className={className}>
@@ -31,28 +37,28 @@ const Curtains = ({ deviceInstance, className, ...props }) => {
               </div>
               <div className={"w-full flex flex-col gap-4"}>
                 <Button
-                  className={musicPlayerInputSourceButtonStyleClassName}
-                  onClick={deviceInstance.open}>
-                  <ShadersOpened
-                    className={musicPlayerVolumeButtonIconStyleClassName}
-                  />
-                  <h3>بازکردن</h3>
+                  className={curtainsButtonStyleClassName}
+                  onClick={deviceInstance?.open}>
+                  <ShadersOpened className={curtainsButtonIconStyleClassName} />
+                  <h3>
+                    {"بازکردن" || deviceInstance?.registers?.openRegister?.name}
+                  </h3>
                 </Button>
                 <Button
-                  className={musicPlayerInputSourceButtonStyleClassName}
-                  onClick={deviceInstance.pause}>
+                  className={curtainsButtonStyleClassName}
+                  onClick={deviceInstance?.pause}>
                   <ShadersHalfway
-                    className={musicPlayerVolumeButtonIconStyleClassName}
+                    className={curtainsButtonIconStyleClassName}
                   />
                   <h3>توقف</h3>
                 </Button>
                 <Button
-                  className={musicPlayerInputSourceButtonStyleClassName}
-                  onClick={deviceInstance.close}>
-                  <ShadersClosed
-                    className={musicPlayerVolumeButtonIconStyleClassName}
-                  />
-                  <h3>بستن</h3>
+                  className={curtainsButtonStyleClassName}
+                  onClick={deviceInstance?.close}>
+                  <ShadersClosed className={curtainsButtonIconStyleClassName} />
+                  <h3>
+                    {"بستن" || deviceInstance?.registers?.closeRegister?.name}
+                  </h3>
                 </Button>
               </div>
             </>
