@@ -28,10 +28,10 @@ import ZigbeeCurtains from "@/classes/devices/zigbee/curtains";
 import IrSplit from "@/classes/devices/modbus/irSplit";
 import IrHood from "@/classes/devices/modbus/irHood";
 import ModbusDuctSplit from "@/classes/devices/modbus/ductSplit";
-import useStaticData from "@/hooks/useStaticData";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useForceUpdateUI from "@/hooks/useForceUpdateUI";
 import ModbusCurtains from "@/classes/devices/modbus/curtains";
+import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -42,7 +42,7 @@ const config = {
   intervalTimeOnCallWithError: 500,
 };
 
-const getDeviceInstatnce = (
+const getDeviceInstance = (
   info: ServerSideDeviceInfoT,
   registersList: ServerSideRegisterInfoT[],
 ) => {
@@ -124,52 +124,43 @@ const useDeviceData = () => {
   const devicePId = urlParams?.devicePublicId as string;
 
   // -------------------- Device and Its Registers Info --------------------
+  const deviceInfoURL = new URL(
+    `api/devices/${devicePId}`,
+    `http://localhost:3000/`,
+  );
+  const deviceRegistersURL = new URL(
+    `api/devices/${devicePId}/registers`,
+    `http://localhost:3000/`,
+  );
 
-  // Get all Devices list and info from local storage (Search only device in that zone if possible for better performance.)
-  const [deviceListFromStorage] = useStaticData(async ({ signal }) => {
-    if (!!zonePublicId) {
-      return await getZoneDevices(zonePublicId, { signal });
-    }
-    return await getDevices({ signal });
-  }) as [ServerSideDeviceInfoT[]];
-
-  // Device registers list and info form local storage
-  const [deviceRegistersFromStorage] = useStaticData(async ({ signal }) => {
-    if (!!zonePublicId) {
-      return await getZoneDeviceRegisters(zonePublicId, devicePId, { signal });
-    }
-    return await getDeviceRegisters(devicePId, { signal });
-  }) as [ServerSideRegisterInfoT[]];
-  const deviceRegistersJsonFromStorage = JSON.stringify(deviceListFromStorage);
-
-  // Find device info
-  const deviceObjFromStorage = deviceListFromStorage?.find((deviceInfo) => {
-    return deviceInfo?.publicId === devicePId;
-  });
-  const deviceJsonFromStorage = JSON.stringify(deviceObjFromStorage);
-
-  // const [device, setDevice] = useState<Device | null>(null);
-  // useEffect(() => {
-  let device: Device | undefined;
-  if (
-    deviceObjFromStorage &&
-    deviceRegistersFromStorage &&
-    deviceRegistersFromStorage.length > 0
-  ) {
-    // try {
-    device = getDeviceInstatnce(
-      deviceObjFromStorage,
-      deviceRegistersFromStorage,
-    );
-    // setDevice(Device);
-    // } catch (e) {
-    //   console.error(e);
-    //   isPagePresent.current = false;
-    //   isThereFetchDataError.current = true;
-    //   generalErrorToaster();
-    // }
+  if (zonePublicId) {
+    deviceInfoURL.searchParams.set("zpid", zonePublicId);
+    deviceRegistersURL.searchParams.set("zpid", zonePublicId);
   }
-  // }, [deviceJsonFromStorage]);
+
+  const [device, setDevice] = useState<Device | null>(null);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const [deviceInfo, deviceRegisters] = await Promise.all([
+          (await clientSideAuthorizedFetch(
+            deviceInfoURL,
+          )) as ServerSideDeviceInfoT,
+          (await clientSideAuthorizedFetch(
+            deviceRegistersURL,
+          )) as ServerSideRegisterInfoT[],
+        ]);
+
+        const device = getDeviceInstance(deviceInfo, deviceRegisters);
+        setDevice(device);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    getData();
+  }, []);
+
   const deviceJSON = JSON.stringify(device);
 
   const zigbeeData = useZigbeeDeviceData(
@@ -211,78 +202,43 @@ const useDeviceData = () => {
 
       try {
         // -------------------- Device Registers Value --------------------
-        if (
-          device &&
-          deviceRegistersFromStorage &&
-          deviceRegistersFromStorage.length > 0
-        ) {
+        if (device && device.registers) {
           // Get device data only if it has feedback
-          if (device?.protocol === Protocols.modbus) {
-            if (device?.hasDataFeedback) {
-              try {
-                // Device registers current value form server
-                const deviceRegistersValue = await getDeviceData(devicePId, {
-                  signal,
-                });
+          try {
+            await device.getData({ signal }, zigbeeData);
+            // This must place here to prevent showing registers list to user on error getting data from server
+            console.log(device.registers);
+            setDeviceInstance(device);
 
-                // Get registers value from string
-                const registersStringValue = deviceRegistersValue.value;
-                if (!registersStringValue || !Number(registersStringValue)) {
-                  throw new Error("Registers value is null");
-                }
+            // Since device instance will not change reference we need to force update ui
+            // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call
+            forceUpdateUI();
+          } catch (e: {
+            code?: number;
+            message: string;
+          }) {
+            // Do not set isThereFetchDataError to true. Because this error will usually happen on Aborted requests
+            // isThereFetchDataError.current = true;
 
-                const registersValueArray =
-                  getRegistersValueFormString(registersStringValue);
-
-                device?.valueAssignment(registersValueArray);
-
-                // This must place here to prevent showing registers list to user on error getting data from server
-                setDeviceInstance(device);
-
-                // Since device instance will not change reference we need to force update ui
-                // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call
-                forceUpdateUI();
-              } catch (e: {
-                code?: number;
-                message: string;
-              }) {
-                // Do not set isThereFetchDataError to true. Because this error will usually happen on Aborted requests
-                // isThereFetchDataError.current = true;
-
-                // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
-                // This will happen on 50 null constitutive null query result
-                if (e.code && e.code === 560) {
-                  // pushBackOnError();
-                  // throw the error so it will try again on 50 null query
-                  // DO NOT ABORT ON 50 NULL REQUEST OR APP WILL STOP controller.abort();
-                  throw e;
-                } else if (e.code && e.code === 561) {
-                  // in case request fails on command itself or there is network error
-                  console.error(e);
-                  // throw e;
-                }
-
-                console.group("Error getting device data: ");
-                console.info(
-                  "This error could happen on user abort request on leaving page",
-                );
-                console.error(e);
-                console.groupEnd();
-              }
-            } else {
-              // If device doesn't have feedback set registers info
-              setDeviceInstance(device);
+            // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
+            // This will happen on 50 null constitutive null query result
+            if (e.code && e.code === 560) {
+              // pushBackOnError();
+              // throw the error so it will try again on 50 null query
+              // DO NOT ABORT ON 50 NULL REQUEST OR APP WILL STOP controller.abort();
+              throw e;
+            } else if (e.code && e.code === 561) {
+              // in case request fails on command itself or there is network error
+              console.error(e);
+              // throw e;
             }
-          } else if (device?.protocol === Protocols.zigbee) {
-            try {
-              if (!!zigbeeData) {
-                const dataObject = JSON.parse(zigbeeData.toString());
-                device.valueAssignment(dataObject);
-                setDeviceInstance(device);
-              }
-            } catch (e) {
-              console.error("Error parsing mqtt data: ", zigbeeData, e);
-            }
+
+            console.group("Error getting device data: ");
+            console.info(
+              "This error could happen on user abort request on leaving page",
+            );
+            console.error(e);
+            console.groupEnd();
           }
         }
       } catch (e) {
@@ -318,12 +274,7 @@ const useDeviceData = () => {
       console.warn("Exiting useDeviceData");
       resetOnPageLeave();
     };
-  }, [
-    zigbeeData,
-    deviceJsonFromStorage,
-    deviceRegistersJsonFromStorage,
-    deviceJSON,
-  ]);
+  }, [zigbeeData, deviceJSON]);
 
   return deviceInstance;
 };
