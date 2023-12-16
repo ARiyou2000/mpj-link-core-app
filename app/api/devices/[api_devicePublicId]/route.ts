@@ -4,7 +4,7 @@ import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 import ApiResponse from "@/app/api/apiResponse";
 import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 
-type paramsType = { params: { api_devicePublicId: string } };
+export type paramsType = { params: { api_devicePublicId: string } };
 
 export const GET = async (
   request: NextRequest,
@@ -14,14 +14,8 @@ export const GET = async (
   const zonePublicId = searchParams.get("zpid");
 
   try {
-    const url = new URL(
-      zonePublicId ? `zone/${zonePublicId}` : "device",
-      `${process.env.NEXT_CORE_ABSOLUTE_URL}/`,
-    );
-
-    // Using parent route as reference
-    // const url = new URL(`${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices`);
-    // url.searchParams.set("zpid",zonePublicId)
+    const url = new URL(`${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices`);
+    zonePublicId && url.searchParams.set("zpid", zonePublicId);
 
     const list = (await fetchUrl(url, {
       headers: getAuthorizationHeaders(request.headers),

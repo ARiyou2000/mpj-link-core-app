@@ -17,11 +17,9 @@ export const GET = async (
 
   try {
     const url = new URL(
-      zonePublicId
-        ? `zone/${zonePublicId}/device/${api_devicePublicId}`
-        : `device/${api_devicePublicId}`,
-      `${process.env.NEXT_CORE_ABSOLUTE_URL}/`,
+      `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices/${api_devicePublicId}/registers`,
     );
+    zonePublicId && url.searchParams.set("zpid", zonePublicId);
 
     const list = (await fetchUrl(url, {
       headers: getAuthorizationHeaders(request.headers),
