@@ -9,6 +9,8 @@ import {
   Thermometer,
 } from "@/components/icons/colored";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
+import { Protocols } from "@/classes/protocols";
+import { FunctionComponent } from "react";
 
 export type ServerSideDeviceInfoT = {
   publicId: string;
@@ -84,7 +86,11 @@ class DeviceInfo extends ResponseModel {
   // @ts-ignore
   #category: deviceCategories;
   // @ts-ignore
-  #icon: any;
+  #icon: FunctionComponent;
+  // @ts-ignore
+  #hasDataFeedback: boolean = true;
+  // @ts-ignore
+  #protocol: Protocols;
 
   constructor(
     publicId: string,
@@ -101,39 +107,67 @@ class DeviceInfo extends ResponseModel {
       case DevicesType.modbus_switch_3p:
       case DevicesType.modbus_switch_4p:
       case DevicesType.modbus_switch_6p:
+        this.#protocol = Protocols.modbus;
+        this.#category = deviceCategories.switch;
+        this.#icon = deviceCategoryInfo[deviceCategories.switch].icon;
+        break;
       case DevicesType.zigbee_switch_3p:
+        this.#protocol = Protocols.zigbee;
         this.#category = deviceCategories.switch;
         this.#icon = deviceCategoryInfo[deviceCategories.switch].icon;
         break;
       case DevicesType.modbus_relay:
+        this.#protocol = Protocols.modbus;
+        this.#category = deviceCategories.relay;
+        this.#icon = deviceCategoryInfo[deviceCategories.relay].icon;
+        break;
       case DevicesType.zigbee_relay:
+        this.#protocol = Protocols.zigbee;
         this.#category = deviceCategories.relay;
         this.#icon = deviceCategoryInfo[deviceCategories.relay].icon;
         break;
       case DevicesType.modbus_thermostat:
+        this.#protocol = Protocols.modbus;
         this.#category = deviceCategories.thermostat;
         this.#icon = deviceCategoryInfo[deviceCategories.thermostat].icon;
         break;
       case DevicesType.modbus_music_player:
+        this.#protocol = Protocols.modbus;
         this.#category = deviceCategories.music_player;
         this.#icon = deviceCategoryInfo[deviceCategories.music_player].icon;
+        this.#hasDataFeedback = false;
         break;
       case DevicesType.modbus_duct_split:
-      case DevicesType.ir_split:
+        this.#protocol = Protocols.modbus;
         this.#category = deviceCategories.split;
         this.#icon = deviceCategoryInfo[deviceCategories.split].icon;
         break;
+      case DevicesType.ir_split:
+        this.#protocol = Protocols.modbus;
+        this.#category = deviceCategories.split;
+        this.#icon = deviceCategoryInfo[deviceCategories.split].icon;
+        this.#hasDataFeedback = false;
+        break;
       case DevicesType.ir_hood:
+        this.#protocol = Protocols.modbus;
         this.#category = deviceCategories.hood;
         this.#icon = deviceCategoryInfo[deviceCategories.hood].icon;
+        this.#hasDataFeedback = false;
         break;
       case DevicesType.modbus_curtains:
+        this.#protocol = Protocols.modbus;
+        this.#category = deviceCategories.curtains;
+        this.#icon = deviceCategoryInfo[deviceCategories.curtains].icon;
+        this.#hasDataFeedback = false;
+        break;
       case DevicesType.zigbee_curtains:
+        this.#protocol = Protocols.zigbee;
         this.#category = deviceCategories.curtains;
         this.#icon = deviceCategoryInfo[deviceCategories.curtains].icon;
         break;
       default:
         console.error("uncategorized device with type number of: ", type);
+        this.#protocol = Protocols.modbus;
         this.#category = deviceCategories.uncategorized;
         this.#icon = deviceCategoryInfo[deviceCategories.uncategorized].icon;
     }
@@ -149,6 +183,14 @@ class DeviceInfo extends ResponseModel {
 
   get icon(): any {
     return this.#icon;
+  }
+
+  get protocol(): Protocols {
+    return this.#protocol;
+  }
+
+  get hasDataFeedback(): boolean {
+    return this.#hasDataFeedback;
   }
 }
 
