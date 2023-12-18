@@ -3,7 +3,7 @@
 import useMqttData from "@/hooks/useMqttData";
 import { useEffect, useState } from "react";
 import { messageType } from "@/mqtt";
-import { getZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
+import fetchUrl from "@/utils/fetchUrl";
 
 const getDeviceStatusWhileNotConnected = async (
   message: JSON,
@@ -13,7 +13,7 @@ const getDeviceStatusWhileNotConnected = async (
     const dataObject = JSON.parse(message.toString());
 
     if (!dataObject || !dataObject.linkquality) {
-      await getZigbeeDeviceStatus(devicePublicId);
+      await fetchUrl(`/api/devices/${devicePublicId}`);
     }
   } catch (e) {}
 };
@@ -23,7 +23,10 @@ const useZigbeeDeviceData = (devicePublicId: string, isActive: boolean) => {
 
   useEffect(() => {
     if (isActive && isConnected) {
-      getZigbeeDeviceStatus(devicePublicId);
+      const getData = async () => {
+        await fetchUrl(`/api/devices/${devicePublicId}`);
+      };
+      getData();
     }
   }, [devicePublicId, isActive, isConnected]);
 

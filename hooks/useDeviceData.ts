@@ -2,13 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import {
-  getDeviceRegisters,
-  getDevices,
-  getZoneDeviceRegisters,
-  getZoneDevices,
-} from "@/utils/getStaticData";
-import { getDeviceData } from "@/utils/queueHelper";
 import { toast } from "sonner";
 
 import {
@@ -207,7 +200,6 @@ const useDeviceData = () => {
           try {
             await device.getData({ signal }, zigbeeData);
             // This must place here to prevent showing registers list to user on error getting data from server
-            console.log(device.registers);
             setDeviceInstance(device);
 
             // Since device instance will not change reference we need to force update ui

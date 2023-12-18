@@ -1,7 +1,6 @@
 import ResponseModel from "@/classes/responseModel";
 import { Protocols } from "@/classes/protocols";
-import { setRegisterData } from "@/utils/queueHelper";
-import { setZigbeeDeviceStatus } from "@/utils/zigbee/deviceStatus";
+import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 export type generalValueType = number | boolean | string;
 export type objectType = { [key: string]: generalValueType };
@@ -112,19 +111,19 @@ class Register extends ResponseModel {
         this.#valueMap,
         value,
       ) as string;
-      if (this.#protocol === Protocols.modbus) {
-        return await setRegisterData(this.publicId, convertedValue, {
-          hasFeedback: this.#hasFeedback,
-        });
-      } else if (this.#protocol === Protocols.zigbee) {
-        return await setZigbeeDeviceStatus(
-          this.devicePublicId,
-          this.#indicator,
-          convertedValue,
-        );
-      } else {
-        throw new Error("Unsupported protocol!");
-      }
+
+      return await clientSideAuthorizedFetch(
+        `/api/devices/${this.#devicePublicId}/registers/${this.publicId}/data`,
+        {
+          method: "PUT",
+          body: {
+            protocol: this.#protocol,
+            indicator: this.#indicator,
+            value: convertedValue,
+            hasFeedback: this.#hasFeedback,
+          },
+        },
+      );
     } catch (e) {
       throw e;
     }

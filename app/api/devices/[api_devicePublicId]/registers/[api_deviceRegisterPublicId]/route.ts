@@ -4,7 +4,7 @@ import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import ApiResponse from "@/app/api/apiResponse";
 import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 
-type paramsType = {
+export type paramsType = {
   params: { api_devicePublicId: string; api_deviceRegisterPublicId: string };
 };
 
