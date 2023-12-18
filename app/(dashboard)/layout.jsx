@@ -1,6 +1,5 @@
 import MainLayoutHeader from "@/components/MainLayoutHeader";
 import MainLayoutTabNavigation from "@/components/MainLayoutTabNavigation";
-import { Toaster } from "sonner";
 
 export const metadata = {
   title: "Dashboard - MPJ Link App",
@@ -23,7 +22,6 @@ const MainLayout = ({ children }) => {
         </div>
         <MainLayoutTabNavigation />
       </div>
-      <Toaster richColors toastOptions={{ className: "font-sans" }} />
     </>
   );
 };

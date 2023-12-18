@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import RegisterServiceWorker from "@/components/RegisterServiceWorker";
 import getDocumentDir from "@/utils/getDocumentDir";
 import RadixDirectionProvider from "@/components/ui/RadixDirectionProvider";
+import { Toaster } from "sonner";
 
 const YekanBakhFont = localFont({
   src: "./fonts/YekanBakh-VF.ttf",
@@ -32,6 +33,7 @@ export default function RootLayout({
           }>
           <RadixDirectionProvider dir={dir}>{children}</RadixDirectionProvider>
         </div>
+        <Toaster richColors toastOptions={{ className: "font-sans" }} />
       </body>
     </html>
   );
