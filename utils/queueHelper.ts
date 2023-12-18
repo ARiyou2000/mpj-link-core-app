@@ -33,23 +33,18 @@ const registerNewRequest = async (
   customUrl?: string,
 ) => {
   try {
+    const url = new URL(
+      `${
+        customUrl || process.env.NEXT_CORE_ABSOLUTE_URL
+      }/command/${entityType}/${entityId}`,
+    );
     const result = value
-      ? ((await fetchUrl(
-          `${
-            customUrl || process.env.NEXT_CORE_ABSOLUTE_URL
-          }/command/${entityType}/${entityId}`,
-          {
-            method: "PUT",
-            body: { value },
-            ...options,
-          },
-        )) as commandResultType)
-      : ((await fetchUrl(
-          `${
-            customUrl || process.env.NEXT_CORE_ABSOLUTE_URL
-          }/command/${entityType}/${entityId}`,
-          options,
-        )) as commandResultType);
+      ? ((await fetchUrl(url, {
+          method: "PUT",
+          body: { value },
+          ...options,
+        })) as commandResultType)
+      : ((await fetchUrl(url, options)) as commandResultType);
 
     return result.actionPublicId;
   } catch (e) {
@@ -169,13 +164,19 @@ export const getEntityData = async (
   }
 };
 
-// Set only need 'signal'
+// get only need 'signal'
 export const getDeviceData = (
   devicePId: string,
   options: getDataOptionsType,
   customUrl?: string,
-): Promise<queryResultType> =>
-  getEntityData("device", devicePId, null, options, customUrl);
+) =>
+  getEntityData(
+    "device",
+    devicePId,
+    null,
+    options,
+    customUrl,
+  ) as Promise<queryResultType>;
 
 export const getRegisterData = (
   registerPId: string,
@@ -199,4 +200,16 @@ export const setRegisterData = (
     customUrl,
   );
 
+export const activateScenario = (
+  scenarioPId: string,
+  options?: getDataOptionsType,
+  customUrl?: string,
+) =>
+  getEntityData(
+    "scenario",
+    scenarioPId,
+    null,
+    { signal: mockController.signal, hasFeedback: false, ...options },
+    customUrl,
+  ) as Promise<queryResultType>;
 export default registerNewRequest;

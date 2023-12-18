@@ -1,8 +1,8 @@
 import fetchUrl from "@/utils/clientSideAuthorizedFetch";
-import getCoreIP from "@/utils/getCoreIP";
 import ResponseWithImage, {
   ServerSideResponseWithImageT,
 } from "@/classes/responseWithImage";
+import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 export type ServerSideScenarioT = ServerSideResponseWithImageT & {
   favorite: boolean;
@@ -39,7 +39,7 @@ class Scenario extends ResponseWithImage {
   // @ts-ignore
   #apply = async () => {
     try {
-      return await fetchUrl(`${getCoreIP()}/command/scenario/${this.publicId}`);
+      return await fetchUrl(`/api/scenarios/${this.publicId}/apply`);
     } catch (e) {
       throw e;
     }
@@ -48,10 +48,13 @@ class Scenario extends ResponseWithImage {
   // @ts-ignore
   #makeNotFavored = async () => {
     try {
-      return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
-        method: "PUT",
-        body: { favorite: false },
-      });
+      return await clientSideAuthorizedFetch(
+        `/api/scenarios/${this.publicId}`,
+        {
+          method: "PUT",
+          body: { favorite: false },
+        },
+      );
     } catch (e) {
       throw e;
     }
@@ -60,10 +63,13 @@ class Scenario extends ResponseWithImage {
   // @ts-ignore
   #makeFavored = async () => {
     try {
-      return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
-        method: "PUT",
-        body: { favorite: true },
-      });
+      return await clientSideAuthorizedFetch(
+        `/api/scenarios/${this.publicId}`,
+        {
+          method: "PUT",
+          body: { favorite: true },
+        },
+      );
     } catch (e) {
       throw e;
     }
@@ -72,7 +78,7 @@ class Scenario extends ResponseWithImage {
   // @ts-ignore
   #toggleIsFavored = async () => {
     try {
-      return await fetchUrl(`${getCoreIP()}/scenario/${this.publicId}`, {
+      return await clientSideAuthorizedFetch(`api/scenarios/${this.publicId}`, {
         method: "PUT",
         body: { favorite: !this.#isFavored },
       });
