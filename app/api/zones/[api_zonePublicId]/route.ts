@@ -11,9 +11,12 @@ export const GET = async (
   { params: { api_zonePublicId } }: paramsType,
 ) => {
   try {
-    const list = (await fetchUrl(`${process.env.NEXT_CORE_ABSOLUTE_URL}/zone`, {
-      headers: getAuthorizationHeaders(request.headers),
-    })) as ServerSideZoneT[];
+    const list = (await fetchUrl(
+      `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/zones`,
+      {
+        headers: getAuthorizationHeaders(request.headers),
+      },
+    )) as ServerSideZoneT[];
     const result = list?.find((item) => {
       return item.publicId === api_zonePublicId;
     });
