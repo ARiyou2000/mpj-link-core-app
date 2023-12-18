@@ -8,6 +8,7 @@ import { loginWithCode } from "@/utils/login";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 import { storageConfig } from "@/storage.config";
 import MainLayoutHeader from "@/components/MainLayoutHeader";
+import { toast } from "sonner";
 
 const ChangePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -49,6 +50,7 @@ const ChangePasswordPage = () => {
         }
         // Show message
         console.info("passcode changed");
+        toast.success("رمز عبور با موفقیت تغییر کرد.");
         // Move to landing page
         setSystemSettingPageToShow("SystemSettingLandingPage");
       } catch (e) {

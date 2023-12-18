@@ -1,12 +1,11 @@
-import fetchUrl from "./clientSideAuthorizedFetch";
-import getCoreIP from "@/utils/getCoreIP";
+import ClientSideAuthorizedFetch from "./clientSideAuthorizedFetch";
 
 const updatePassword = async (
   user: string = "user",
   oldPassword: string | number,
   newPassword: string | number,
 ) => {
-  return await fetchUrl(`${getCoreIP()}/users/${user}`, {
+  return await ClientSideAuthorizedFetch(`/api/auth/users/${user}`, {
     method: "PUT",
     body: {
       oldPassword: oldPassword.toString(),

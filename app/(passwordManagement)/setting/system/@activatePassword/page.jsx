@@ -8,6 +8,7 @@ import window from "@/utils/window";
 import PasswordManagementPageWrapper from "../PasswordManagementPageWrapper";
 import { storageConfig } from "@/storage.config";
 import MainLayoutHeader from "@/components/MainLayoutHeader";
+import { toast } from "sonner";
 
 const DeactivatePasswordPage = () => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
@@ -28,6 +29,7 @@ const DeactivatePasswordPage = () => {
         );
         // Show message
         console.info("passcode activated");
+        toast.success("رمز عبور فعال شد.");
         // Move to landing page
         setSystemSettingPageToShow("SystemSettingLandingPage");
       } catch (e) {
