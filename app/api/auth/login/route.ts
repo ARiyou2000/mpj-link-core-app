@@ -20,7 +20,10 @@ export const POST = async (request: NextRequest) => {
     });
   } catch (e) {
     console.error("Network error while fetching data:", e);
-    return NextResponse.error();
+    return NextResponse.json(
+      new ApiResponse(false, { message: "Network error" }),
+      { status: 555 },
+    );
   }
 
   try {
@@ -41,7 +44,9 @@ export const POST = async (request: NextRequest) => {
 
       return response;
     } else {
-      return NextResponse.json({}, { status: authResponse.status });
+      return NextResponse.json(new ApiResponse(true, {}), {
+        status: authResponse.status,
+      });
     }
   } catch (e) {
     console.error("Error parsing JSON data: ", e);

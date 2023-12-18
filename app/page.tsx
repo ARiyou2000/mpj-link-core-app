@@ -86,10 +86,8 @@ export default function Home() {
     try {
       // await loginWithCode(passcode);
       const res = await signIn("credentials", { passcode, redirect: false });
-      console.log("res", res.error);
 
       if (res?.error) {
-        console.log(res.error);
         try {
           const error = JSON.parse(res.error);
 

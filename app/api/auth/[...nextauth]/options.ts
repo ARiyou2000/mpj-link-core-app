@@ -20,7 +20,7 @@ export const authOptions: AuthOptions = {
 
         try {
           authResponse = await fetch(
-            `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/login`,
+            `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/auth/login`,
             {
               method: "POST",
               body: JSON.stringify({ passcode: credentials?.passcode }),
@@ -52,12 +52,18 @@ export const authOptions: AuthOptions = {
             };
             return user;
           } else {
-            console.log("NOT OK");
+            console.log(
+              `Response on login is NOT OK\t-\t${authResponse.status}/${authResponse.statusText}`,
+            );
+            if (authResponse.status === 555) {
+              throw new Error(JSON.stringify({ status: -113 }));
+            }
             return null;
           }
         } catch (e) {
-          console.error("Error parsing JSON data: ", e);
-          return null;
+          console.error("Network error or Error parsing JSON data: ", e);
+          throw e;
+          // return null;
         }
       },
     }),
