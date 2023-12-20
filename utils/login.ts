@@ -2,10 +2,11 @@
 
 import window from "@/utils/window";
 import { storageConfig } from "@/storage.config";
+import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 export const loginWithCode = async (passcode: string) => {
   try {
-    await fetch("/api/login", {
+    await clientSideAuthorizedFetch("/api/auth/login", {
       method: "POST",
       body: JSON.stringify({ passcode }),
     });
