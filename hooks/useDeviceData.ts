@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -25,6 +25,8 @@ import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useForceUpdateUI from "@/hooks/useForceUpdateUI";
 import ModbusCurtains from "@/classes/devices/modbus/curtains";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
+import useDeviceInstance from "@/hooks/useDeviceInstance";
+import getDeviceInstance from "@/utils/getDeviceInstance";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {
   return str.match(/.{1,2}/g) ?? [];
@@ -35,65 +37,12 @@ const config = {
   intervalTimeOnCallWithError: 500,
 };
 
-const getDeviceInstance = (
+const useDeviceData = (
   info: ServerSideDeviceInfoT,
   registersList: ServerSideRegisterInfoT[],
 ) => {
-  const props = [
-    info?.publicId,
-    info?.name,
-    info?.description,
-    info?.type,
-    registersList,
-  ] as const;
+  const device = useMemo(() => getDeviceInstance(info, registersList), []);
 
-  let Device: Device;
-  switch (Number(info?.type)) {
-    case DevicesType.modbus_switch_1p:
-    case DevicesType.modbus_switch_2p:
-    case DevicesType.modbus_switch_3p:
-    case DevicesType.modbus_switch_4p:
-    case DevicesType.modbus_switch_6p:
-      Device = new ModbusSwitch(...props);
-      break;
-    case DevicesType.zigbee_switch_3p:
-      Device = new ZigbeeSwitch(...props);
-      break;
-    case DevicesType.modbus_relay:
-      Device = new ModbusRelay(...props);
-      break;
-    case DevicesType.zigbee_relay:
-      Device = new ZigbeeRelay(...props);
-      break;
-    case DevicesType.modbus_thermostat:
-      Device = new ModbusThermostat(...props);
-      break;
-    case DevicesType.modbus_music_player:
-      Device = new ModbusMusicPlayer(...props);
-      break;
-    case DevicesType.modbus_duct_split:
-      Device = new ModbusDuctSplit(...props);
-      break;
-    case DevicesType.ir_split:
-      Device = new IrSplit(...props);
-      break;
-    case DevicesType.ir_hood:
-      Device = new IrHood(...props);
-      break;
-    case DevicesType.modbus_curtains:
-      Device = new ModbusCurtains(...props);
-      break;
-    case DevicesType.zigbee_curtains:
-      Device = new ZigbeeCurtains(...props);
-      break;
-    case DevicesType.invalid:
-    default:
-      throw new Error("device type is not mapped with a class!");
-  }
-  return Device;
-};
-
-const useDeviceData = () => {
   const router = useRouter();
   const isPagePresent = useRef(true);
   const isThereFetchDataError = useRef(false);
@@ -108,51 +57,9 @@ const useDeviceData = () => {
 
   const [deviceInstance, setDeviceInstance] = useState<Device>();
 
-  // Check if there is query params not. if there is use get getZoneDeviceRegisters instead of getDeviceRegisters
-  const searchParams = useSearchParams();
-  const zonePublicId = searchParams?.get("zpid");
-
   // Device Public ID
   const urlParams = useParams();
   const devicePId = urlParams?.devicePublicId as string;
-
-  // -------------------- Device and Its Registers Info --------------------
-  const deviceInfoURL = new URL(
-    `api/devices/${devicePId}`,
-    `http://localhost:3000/`,
-  );
-  const deviceRegistersURL = new URL(
-    `api/devices/${devicePId}/registers`,
-    `http://localhost:3000/`,
-  );
-
-  if (zonePublicId) {
-    deviceInfoURL.searchParams.set("zpid", zonePublicId);
-    deviceRegistersURL.searchParams.set("zpid", zonePublicId);
-  }
-
-  const [device, setDevice] = useState<Device | null>(null);
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const [deviceInfo, deviceRegisters] = await Promise.all([
-          (await clientSideAuthorizedFetch(
-            deviceInfoURL,
-          )) as ServerSideDeviceInfoT,
-          (await clientSideAuthorizedFetch(
-            deviceRegistersURL,
-          )) as ServerSideRegisterInfoT[],
-        ]);
-
-        const device = getDeviceInstance(deviceInfo, deviceRegisters);
-        setDevice(device);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    getData();
-  }, []);
 
   const deviceJSON = JSON.stringify(device);
 
