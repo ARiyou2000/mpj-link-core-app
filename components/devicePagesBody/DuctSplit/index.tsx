@@ -5,7 +5,7 @@ import Carousel from "@/components/Carousel";
 import LoadingText from "@/components/loading/LoadingText";
 
 type PropsT = {
-  deviceInstance: DuctSplit;
+  deviceInstance?: DuctSplit;
   className?: string;
   registerUpdateHandler: (callbackFn: () => void) => Promise<null>;
 };

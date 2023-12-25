@@ -1,12 +1,18 @@
 "use client";
 
+import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
+import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import DuctSplitDevicePageBody from "@/components/devicePagesBody/DuctSplit";
-import useDeviceData from "@/hooks/useDeviceData";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 
-const DuctSplitDevicePage = () => {
-  const device = useDeviceData();
+type PropsT = {
+  info: ServerSideDeviceInfoT;
+  registers: ServerSideRegisterInfoT[];
+};
+const DuctSplitDevicePageView = ({ info, registers }: PropsT) => {
+  const Device = useDeviceData(info, registers);
 
   const [handleRegistersUpdate, loading] = useRegisterUpdateToast();
 
@@ -14,24 +20,24 @@ const DuctSplitDevicePage = () => {
     <>
       <div className={"px-3"}>
         <DeviceHeader
-          name={device?.name}
-          description={device?.description}
+          name={Device?.name}
+          description={Device?.description}
           hasPowerButton={true}
-          powerValue={device?.registers?.power}
+          powerValue={Device?.registers?.power}
           onPowerChange={async (value) => {
             await handleRegistersUpdate(
-              device?.registers?.power?.updateValue(value),
+              Device?.registers?.power?.updateValue(value),
             );
           }}
         />
       </div>
       <DuctSplitDevicePageBody
         className={"flex-1 h-0 w-full"}
-        deviceInstance={device}
+        deviceInstance={Device}
         registerUpdateHandler={handleRegistersUpdate}
       />
     </>
   );
 };
 
-export default DuctSplitDevicePage;
+export default DuctSplitDevicePageView;
