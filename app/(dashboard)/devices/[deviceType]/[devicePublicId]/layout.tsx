@@ -1,5 +1,10 @@
 import { DevicesType } from "@/classes/devices/deviceInfo";
 
+export type DevicePageParamsT = {
+  params: { deviceType: string; devicePublicId: string };
+  searchParams: { zpid?: string };
+};
+
 export const metadata = {
   title: "Device page - MPJ Link App",
   description: "Show current status of device",
