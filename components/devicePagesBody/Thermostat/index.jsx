@@ -20,7 +20,7 @@ const fanSpeedsDataTable = [
 ];
 // const OPTIONS = { dragFree: true, loop: true };
 
-const Thermostat = ({
+const ThermostatDevicePageBody = ({
   className,
   deviceInstance,
   registerUpdateHandler = async (callbackFn) => null,
@@ -129,4 +129,4 @@ const Thermostat = ({
   );
 };
 
-export default Thermostat;
+export default ThermostatDevicePageBody;

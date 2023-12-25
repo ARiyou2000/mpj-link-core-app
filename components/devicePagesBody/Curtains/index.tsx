@@ -18,7 +18,11 @@ type PropsT = {
   deviceInstance: ModbusCurtains;
 };
 
-const Curtains = ({ deviceInstance, className, ...props }: PropsT) => {
+const CurtainsDevicePageBody = ({
+  deviceInstance,
+  className,
+  ...props
+}: PropsT) => {
   return (
     <>
       <ScrollArea className={className}>
@@ -71,4 +75,4 @@ const Curtains = ({ deviceInstance, className, ...props }: PropsT) => {
   );
 };
 
-export default Curtains;
+export default CurtainsDevicePageBody;

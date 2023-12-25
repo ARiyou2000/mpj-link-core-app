@@ -16,7 +16,7 @@ import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
 const tabContentStyleClassName = "h-full pt-6 pb-5";
 const relayPortStyleClassName = "h-full";
 
-const Relay = ({ registersList = [], className, ...props }) => {
+const RelayDevicePageBody = ({ registersList = [], className, ...props }) => {
   // const inputs = registersList.filter((register) => register.number < 8);
 
   const inputs = [];
@@ -86,4 +86,4 @@ const Relay = ({ registersList = [], className, ...props }) => {
   );
 };
 
-export default Relay;
+export default RelayDevicePageBody;

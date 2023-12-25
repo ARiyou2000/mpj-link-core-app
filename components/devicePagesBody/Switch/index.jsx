@@ -1,6 +1,6 @@
 import SwitchPolesList from "@/components/listCardPairs/switchPoles/SwitchPolesList";
 
-const Switch = ({ registersList, className, ...props }) => {
+const SwitchDevicePageBody = ({ registersList, className, ...props }) => {
   return (
     <>
       <SwitchPolesList list={registersList} className={className} {...props} />
@@ -8,4 +8,4 @@ const Switch = ({ registersList, className, ...props }) => {
   );
 };
 
-export default Switch;
+export default SwitchDevicePageBody;

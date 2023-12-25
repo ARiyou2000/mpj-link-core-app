@@ -20,7 +20,7 @@ const musicPlayerVolumeButtonStyleClassName =
   "mx-3 p-1.5 rounded-full border-1.5";
 const musicPlayerVolumeButtonIconStyleClassName = "h-4 w-4";
 
-const MusicPlayer = ({
+const MusicPlayerDevicePageBody = ({
   deviceInstance,
   className,
   updateHandler = async (callbackFn) => null,
@@ -143,4 +143,4 @@ const MusicPlayer = ({
   );
 };
 
-export default MusicPlayer;
+export default MusicPlayerDevicePageBody;
