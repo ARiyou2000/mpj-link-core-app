@@ -1,4 +1,11 @@
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
+
+export type DeviceAndZoneHeaderContainerT = {
+  name?: string;
+  description?: string;
+  className?: string;
+};
 
 const DeviceAndZoneHeaderContainer = ({
   name,
@@ -6,6 +13,8 @@ const DeviceAndZoneHeaderContainer = ({
   children,
   className,
   ...props
+}: DeviceAndZoneHeaderContainerT & {
+  children?: ReactNode;
 }) => {
   return (
     <>

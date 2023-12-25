@@ -2,8 +2,15 @@
 
 import { Power } from "lucide-react";
 import { PowerToggle } from "@/components/ui/power-toggle";
-import DeviceAndZoneHeaderContainer from "../DeviceAndZoneHeaderContainer";
+import DeviceAndZoneHeaderContainer, {
+  DeviceAndZoneHeaderContainerT,
+} from "../DeviceAndZoneHeaderContainer";
 
+type PropsT = DeviceAndZoneHeaderContainerT & {
+  hasPowerButton?: boolean;
+  powerValue?: boolean;
+  onPowerChange?: (value: boolean) => null;
+};
 const DeviceHeader = ({
   name,
   description,
@@ -12,7 +19,7 @@ const DeviceHeader = ({
   powerValue = true,
   onPowerChange = (value) => null,
   ...props
-}) => {
+}: PropsT) => {
   return (
     <>
       <DeviceAndZoneHeaderContainer
