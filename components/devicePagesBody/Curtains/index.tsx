@@ -15,7 +15,7 @@ const curtainsButtonIconStyleClassName = "h-8 w-8";
 
 type PropsT = {
   className?: string;
-  deviceInstance: ModbusCurtains;
+  deviceInstance: ModbusCurtains | null | undefined;
 };
 
 const CurtainsDevicePageBody = ({
