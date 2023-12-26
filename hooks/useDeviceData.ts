@@ -61,12 +61,11 @@ const useDeviceData = (
   const urlParams = useParams();
   const devicePId = urlParams?.devicePublicId as string;
 
-  const deviceJSON = JSON.stringify(device);
-
   const zigbeeData = useZigbeeDeviceData(
     devicePId,
     device?.protocol === Protocols.zigbee,
   );
+  const zigbeeDataJson = JSON.stringify(zigbeeData);
 
   const forceUpdateUI = useForceUpdateUI();
 
@@ -173,7 +172,7 @@ const useDeviceData = (
       console.warn("Exiting useDeviceData");
       resetOnPageLeave();
     };
-  }, [zigbeeData, deviceJSON]);
+  }, [zigbeeDataJson]);
 
   return deviceInstance;
 };

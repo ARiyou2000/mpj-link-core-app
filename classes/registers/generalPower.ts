@@ -1,28 +1,36 @@
 import Register from "@/classes/registers/register";
 import { Protocols } from "@/classes/protocols";
+import getValueMap from "@/classes/registers/getValueMap";
 
-const valueMap = {
+const modbusValueMap = {
+  "01": false,
+  "02": true,
+} as const;
+
+const zigbeeValueMap = {
   ON: true,
   OFF: false,
 } as const;
 
 class GeneralPower extends Register {
   constructor(
+    protocol: Protocols,
     devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
+    hasFeedback: boolean,
   ) {
     super(
-      Protocols.zigbee,
+      protocol,
       devicePublicId,
       publicId,
       name,
       description,
       indicator,
-      valueMap,
-      false,
+      getValueMap(protocol, modbusValueMap, zigbeeValueMap, "General Power"),
+      hasFeedback,
     );
   }
 }

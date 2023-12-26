@@ -3,7 +3,7 @@ import { Protocols } from "@/classes/protocols";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 export type generalValueType = number | boolean | string;
-export type objectType = { [key: string]: generalValueType };
+export type ObjectType = { [key: string]: generalValueType };
 export type ServerSideRegisterInfoT = {
   publicId: string;
   name: string;
@@ -22,13 +22,13 @@ const checkValueValidity = (
   }
 };
 
-export const stringToActualValue = (valuesMap: objectType, value: string) => {
+export const stringToActualValue = (valuesMap: ObjectType, value: string) => {
   const convertedValue: generalValueType | undefined = valuesMap[value];
   return checkValueValidity(convertedValue);
 };
 
 export const actualValueToString = (
-  valueMap: objectType,
+  valueMap: ObjectType,
   value: generalValueType,
 ) => {
   const convertedValue = Object.keys(valueMap).find((key) => {
@@ -52,7 +52,7 @@ class Register extends ResponseModel {
   // @ts-ignore
   #value: generalValueType;
   // @ts-ignore
-  #valueMap: objectType;
+  #valueMap: ObjectType;
   // @ts-ignore
   #hasFeedback: boolean;
   // @ts-ignore
@@ -78,7 +78,7 @@ class Register extends ResponseModel {
     name: string,
     description: string,
     indicator: string,
-    valueMap: objectType,
+    valueMap: ObjectType,
     hasFeedback: boolean,
   ) {
     super(publicId, name, description);

@@ -2,9 +2,9 @@ import RelayPortOutCard from "../RelayPortOutCard";
 import RelayPortInCard from "../RelayPortInCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { RelayPortType } from "@/classes/registers/zigbee/relayRegisters";
-import { RelayPort as ModbusRelayPort } from "@/classes/registers/modbus/relayRegisters";
-import { RelayPort as ZigbeeRelayPort } from "@/classes/registers/zigbee/relayRegisters";
+import { RelayPortType } from "@/classes/registers/relayRegisters";
+import { RelayPort as ModbusRelayPort } from "@/classes/registers/relayRegisters";
+import { RelayPort as ZigbeeRelayPort } from "@/classes/registers/relayRegisters";
 import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type PropsT = {

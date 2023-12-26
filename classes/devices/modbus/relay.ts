@@ -4,30 +4,41 @@ import RelayPort, {
   RelayPortIn,
   RelayPortOut,
   RelayPortType,
-} from "@/classes/registers/modbus/relayRegisters";
-import GeneralToggleDevice from "@/classes/devices/modbus/generalToggleDevice";
+} from "@/classes/registers/relayRegisters";
+import GeneralToggleDevice from "@/classes/devices/generalToggleDevice";
+import { Protocols } from "@/classes/protocols";
 
 const createRegisters = (
+  protocol: Protocols,
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
+  hasDataFeedback: boolean,
 ) => {
-  const registersObject: {
-    [key: string]: RelayPort;
-  } = {};
+  const registersObject: { [key: string]: RelayPort } = {};
+
   registersList.forEach((register) => {
-    const registerNumber = Number(register.number);
     const params = [
+      protocol,
       devicePublicId,
       register.publicId,
       register.name,
       register.description,
       register.number,
+      hasDataFeedback,
     ] as const;
 
-    registersObject[`port${registerNumber.toString().padStart(2, "0")}`] =
-      getRelayPortType(registerNumber) === RelayPortType.output
-        ? new RelayPortOut(...params)
-        : new RelayPortIn(...params);
+    if (protocol === Protocols.modbus) {
+      const registerNumber = Number(register.number);
+
+      registersObject[`port${registerNumber.toString().padStart(2, "0")}`] =
+        getRelayPortType(protocol, registerNumber) === RelayPortType.output
+          ? new RelayPortOut(...params)
+          : new RelayPortIn(...params);
+    } else if (protocol === Protocols.zigbee) {
+      registersObject[register.number] = new RelayPortOut(...params);
+    } else {
+      throw new Error("Invalid protocol - relay registers");
+    }
   });
 
   return registersObject;
@@ -41,13 +52,12 @@ class Relay extends GeneralToggleDevice {
     type: number,
     registersInfo: ServerSideRegisterInfoT[],
   ) {
-    super(
+    super(publicId, name, description, type);
+    this.registers = createRegisters(
+      this.protocol,
       publicId,
-      name,
-      description,
-      type,
-      createRegisters(publicId, registersInfo),
-      true,
+      registersInfo,
+      this.hasDataFeedback,
     );
   }
 }

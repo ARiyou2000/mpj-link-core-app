@@ -7,10 +7,8 @@ import {
   IrSplitMode,
   IrSplitMovementDirection,
   IrSplitPower,
-} from "@/classes/registers/modbus/irSplitRegisters";
+} from "@/classes/registers/irSplitRegisters";
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
-import { type } from "os";
 
 type IrSplitRegistersListT = {
   power: IrSplitPower;
@@ -84,13 +82,11 @@ class IrSplit extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
       type,
       createRegisters(publicId, registersInfo),
-      false,
     );
   }
 

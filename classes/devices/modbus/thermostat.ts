@@ -1,5 +1,4 @@
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import {
   ThermostatCurrentTemperature,
@@ -7,7 +6,7 @@ import {
   ThermostatPower,
   ThermostatSeasonMode,
   ThermostatTargetPointTemperature,
-} from "@/classes/registers/modbus/thermostatRegisters";
+} from "@/classes/registers/thermostatRegisters";
 
 type ThermostatRegistersListType = {
   power: ThermostatPower;
@@ -66,13 +65,11 @@ class Thermostat extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
       type,
       createRegisters(publicId, registersInfo),
-      true,
     );
   }
 

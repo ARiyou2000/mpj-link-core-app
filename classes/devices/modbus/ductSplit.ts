@@ -1,5 +1,4 @@
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import {
   DuctSplitCurrentTemperature,
@@ -7,7 +6,7 @@ import {
   DuctSplitMode,
   DuctSplitPower,
   DuctSplitTargetPointTemperature,
-} from "@/classes/registers/modbus/ductSplitRegisters";
+} from "@/classes/registers/ductSplitRegisters";
 
 type DuctSplitRegistersListType = {
   power: DuctSplitPower;
@@ -66,13 +65,11 @@ class DuctSplit extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
       type,
       createRegisters(publicId, registersInfo),
-      true,
     );
   }
 

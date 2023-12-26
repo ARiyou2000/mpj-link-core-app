@@ -1,5 +1,5 @@
-import Register, { objectType } from "@/classes/registers/register";
-import DeviceInfo from "@/classes/devices/deviceInfo";
+import Register, { ObjectType } from "@/classes/registers/register";
+import DeviceInfo, { DevicesType } from "@/classes/devices/deviceInfo";
 import { Protocols } from "@/classes/protocols";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 import { getRegistersValueFormString } from "@/hooks/useDeviceData";
@@ -12,22 +12,27 @@ class Device extends DeviceInfo {
   private _registers: RegistersListObjectType;
 
   constructor(
-    protocol: Protocols,
     publicId: string,
     name: string,
     description: string,
-    type: number,
-    registers: RegistersListObjectType,
+    type: DevicesType,
+    registers?: RegistersListObjectType,
   ) {
     super(publicId, name, description, type);
-    this._registers = registers;
+    if (registers) {
+      this._registers = registers;
+    }
+  }
+
+  set registers(value: RegistersListObjectType) {
+    this._registers = value;
   }
 
   get registers(): RegistersListObjectType {
     return this._registers;
   }
 
-  valueAssignment(values: string[] | objectType) {}
+  valueAssignment(values: string[] | ObjectType) {}
 
   // @ts-ignore
   #getData = async (options: getDataOptionsType, zigbeeData?: messageType) => {

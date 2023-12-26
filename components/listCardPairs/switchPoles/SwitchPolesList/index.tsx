@@ -1,12 +1,12 @@
 import SwitchCard from "../SwitchPoleCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { SwitchPole as ModbusSwitchPole } from "@/classes/registers/modbus/switchRegister";
-import { SwitchPole as ZigbeeSwitchPole } from "@/classes/registers/zigbee/switchRegister";
+import { SwitchPole } from "@/classes/registers/switchRegister";
+
 import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type PropsT = {
-  list: null | ModbusSwitchPole[] | ZigbeeSwitchPole[];
+  list: null | SwitchPole[];
   className?: string;
 };
 

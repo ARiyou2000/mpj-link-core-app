@@ -1,138 +1,166 @@
-import GeneralPower from "./generalPower";
-import Register, { objectType } from "@/classes/registers/register";
+import GeneralPower from "@/classes/registers/generalPower";
+import Register, { ObjectType } from "@/classes/registers/register";
 import { Protocols } from "@/classes/protocols";
+import getValueMap from "@/classes/registers/getValueMap";
 
 // ---------- Power ----------
 export class DuctSplitPower extends GeneralPower {}
 
 // ---------- Value registers ----------
-class DuctSplitRegister extends Register {
-  constructor(
-    devicePublicId: string,
-    publicId: string,
-    name: string,
-    description: string,
-    indicator: string,
-    valueMap: objectType,
-  ) {
-    super(
-      Protocols.modbus,
-      devicePublicId,
-      publicId,
-      name,
-      description,
-      indicator,
-      valueMap,
-      true,
-    );
-  }
-}
+class DuctSplitRegister extends Register {}
 
 // ---------- Fan Speed ----------
-const fanSpeedValueMap = {
+const modbusFanSpeedValueMap = {
   "01": "slow",
   "02": "medium",
   "03": "fast",
   "04": "auto",
 };
+const zigbeeFanSpeedValueMap = {};
 
 export class DuctSplitFanSpeed extends DuctSplitRegister {
   constructor(
+    protocol: Protocols,
     devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
+    hasFeedback: boolean,
   ) {
     super(
+      protocol,
       devicePublicId,
       publicId,
       name,
       description,
       indicator,
-      fanSpeedValueMap,
+      getValueMap(
+        protocol,
+        modbusFanSpeedValueMap,
+        zigbeeFanSpeedValueMap,
+        "Duct split fan speed",
+      ),
+      hasFeedback,
     );
   }
 }
 
 // ---------- Mode ----------
-const modeValueMap = {
+const modbusModeValueMap = {
   "01": "plasma",
   "02": "cold",
   "03": "hot",
   "04": "auto",
 };
+const zigbeeModeValueMap = {};
 
 export class DuctSplitMode extends DuctSplitRegister {
   constructor(
+    protocol: Protocols,
     devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
+    hasFeedback: boolean,
   ) {
-    super(devicePublicId, publicId, name, description, indicator, modeValueMap);
+    super(
+      protocol,
+      devicePublicId,
+      publicId,
+      name,
+      description,
+      indicator,
+      getValueMap(
+        protocol,
+        modbusModeValueMap,
+        zigbeeModeValueMap,
+        "Duct split mode",
+      ),
+      hasFeedback,
+    );
   }
 }
 
 //  ---------- Target Point Temperature ----------
-const targetPointTemperatureMap = (() => {
+const modbusTargetPointTemperatureMap = (() => {
   const startTemp = 15;
   const endTemp = 35 + 1;
-  const temp: objectType = {};
+  const temp: ObjectType = {};
   for (let i = startTemp; i < endTemp; i++) {
     const keyVal = String(i).padStart(2, "0");
     temp[keyVal] = keyVal;
   }
   return temp;
 })();
+const zigbeeTargetPointTemperatureMap = {};
 
 export class DuctSplitTargetPointTemperature extends DuctSplitRegister {
   constructor(
+    protocol: Protocols,
     devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
+    hasFeedback: boolean,
   ) {
     super(
+      protocol,
       devicePublicId,
       publicId,
       name,
       description,
       indicator,
-      targetPointTemperatureMap,
+      getValueMap(
+        protocol,
+        modbusTargetPointTemperatureMap,
+        zigbeeTargetPointTemperatureMap,
+        "Duct split - Target Point",
+      ),
+      hasFeedback,
     );
   }
 }
 
 // ---------- Current Temperature ----------
-const currentTemperatureMap = (() => {
+const modusCurrentTemperatureMap = (() => {
   const startTemp = 1;
   const endTemp = 99 + 1;
-  const temp: objectType = {};
+  const temp: ObjectType = {};
   for (let i = startTemp; i < endTemp; i++) {
     const keyVal = String(i).padStart(2, "0");
     temp[keyVal] = keyVal;
   }
   return temp;
 })();
+const zigbeeCurrentPointTemperatureMap = {};
 
 export class DuctSplitCurrentTemperature extends DuctSplitRegister {
   constructor(
+    protocol: Protocols,
     devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
+    hasFeedback: boolean,
   ) {
     super(
+      protocol,
       devicePublicId,
       publicId,
       name,
       description,
       indicator,
-      currentTemperatureMap,
+      getValueMap(
+        protocol,
+        modusCurrentTemperatureMap,
+        zigbeeCurrentPointTemperatureMap,
+        "Duct split target point",
+      ),
+      hasFeedback,
     );
   }
 

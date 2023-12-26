@@ -1,20 +1,24 @@
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { MusicplayerMainReg } from "@/classes/registers/modbus/musicplayerRegister";
+import { MusicPlayerMainReg } from "@/classes/registers/musicplayerRegister";
+import { Protocols } from "@/classes/protocols";
 
 const createRegisters = (
+  protocol: Protocols,
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
+  hasDataFeedback: boolean,
 ) => {
   const register = registersList[0];
   const registersObject = {
-    mainRegister: new MusicplayerMainReg(
+    mainRegister: new MusicPlayerMainReg(
+      protocol,
       devicePublicId,
       register.publicId,
       register.name,
       register.description,
       register.number,
+      hasDataFeedback,
     ),
   };
 
@@ -29,14 +33,12 @@ class MusicPlayer extends Device {
     type: number,
     registersInfo: ServerSideRegisterInfoT[],
   ) {
-    super(
-      Protocols.modbus,
+    super(publicId, name, description, type);
+    this.registers = createRegisters(
+      this.protocol,
       publicId,
-      name,
-      description,
-      type,
-      createRegisters(publicId, registersInfo),
-      false,
+      registersInfo,
+      this.hasDataFeedback,
     );
   }
 

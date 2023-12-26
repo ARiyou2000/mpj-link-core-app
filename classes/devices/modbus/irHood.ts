@@ -4,9 +4,8 @@ import {
   IrHoodIncreaseFanSpeed,
   IrHoodLight,
   IrHoodPower,
-} from "@/classes/registers/modbus/irHoodRegisters";
+} from "@/classes/registers/irHoodRegisters";
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
 
 type IrHoodRegistersListT = {
   power: IrHoodPower;
@@ -62,13 +61,11 @@ class IrHood extends Device {
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(
-      Protocols.modbus,
       publicId,
       name,
       description,
       type,
       createRegisters(publicId, registersInfo),
-      false,
     );
   }
 

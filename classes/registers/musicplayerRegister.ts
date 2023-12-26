@@ -1,7 +1,8 @@
 import Register from "@/classes/registers/register";
 import { Protocols } from "@/classes/protocols";
+import getValueMap from "@/classes/registers/getValueMap";
 
-const valueMap = {
+const modbusValueMap = {
   "31": "previous",
   "32": "next",
   "37": "play",
@@ -15,24 +16,32 @@ const valueMap = {
   "42": "down",
   "43": "mute",
 };
+const zigbeeValueMap = {};
 
-export class MusicplayerMainReg extends Register {
+export class MusicPlayerMainReg extends Register {
   constructor(
+    protocol: Protocols,
     devicePublicId: string,
     publicId: string,
     name: string,
     description: string,
     indicator: string,
+    hasFeedback: boolean,
   ) {
     super(
-      Protocols.modbus,
+      protocol,
       devicePublicId,
       publicId,
       name,
       description,
       indicator,
-      valueMap,
-      false,
+      getValueMap(
+        protocol,
+        modbusValueMap,
+        zigbeeValueMap,
+        "Music Player main register",
+      ),
+      hasFeedback,
     );
   }
 }
