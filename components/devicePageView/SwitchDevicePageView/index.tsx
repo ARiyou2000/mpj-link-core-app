@@ -4,14 +4,15 @@ import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
-import SwitchDevicePageBody from "@/components/devicePagesBody/Switch";
+import SwitchDevicePageBody from "@/components/devicePagesBody/SwitchDevicePageBody";
+import Switch from "@/classes/devices/modbus/switch";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;
   registers: ServerSideRegisterInfoT[];
 };
 const SwitchDevicePageView = ({ info, registers }: PropsT) => {
-  const Device = useDeviceData(info, registers);
+  const Device = useDeviceData(info, registers) as Switch;
 
   const registersList = Device && Object.values(Device?.registers);
 

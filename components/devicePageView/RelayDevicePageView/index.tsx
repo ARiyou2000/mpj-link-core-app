@@ -4,14 +4,15 @@ import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
-import RelayDevicePageBody from "@/components/devicePagesBody/Relay";
+import RelayDevicePageBody from "@/components/devicePagesBody/RelayDevicePageBody";
+import relay from "@/classes/devices/modbus/relay";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;
   registers: ServerSideRegisterInfoT[];
 };
 const RelayDevicePageView = ({ info, registers }: PropsT) => {
-  const Device = useDeviceData(info, registers);
+  const Device = useDeviceData(info, registers) as relay;
   const registersList = Device && Object.values(Device?.registers);
 
   return (

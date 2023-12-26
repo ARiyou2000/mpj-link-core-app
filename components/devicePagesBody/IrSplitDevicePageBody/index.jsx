@@ -16,7 +16,6 @@ import {
   UpDown,
 } from "@/components/icons/dashed";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import DuctSplitDevicePageBody from "../DuctSplit";
 
 const SplitIRControlCard = ({ title, children, className, ...props }) => {
   return (
@@ -48,7 +47,7 @@ const controlButtonStyleClassName =
 const primaryControlButtonWrapperStyleClassName =
   "p-2.5 flex content-center bg-[#090A0A]";
 
-const SplitIRDevicePageBody = ({
+const IrSplitDevicePageBody = ({
   className,
   updateHandler = async (callbackFn) => null,
   deviceInstance,
@@ -144,4 +143,4 @@ const SplitIRDevicePageBody = ({
   );
 };
 
-export default SplitIRDevicePageBody;
+export default IrSplitDevicePageBody;

@@ -6,7 +6,7 @@ import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 import useHertakiUpdate from "@/hooks/useHertakiUpdate";
-import MusicPlayerDevicePageBody from "@/components/devicePagesBody/MusicPlayer";
+import MusicPlayerDevicePageBody from "@/components/devicePagesBody/MusicPlayerDevicePageBody";
 import MusicPlayer from "@/classes/devices/modbus/musicPlayer";
 
 type PropsT = {

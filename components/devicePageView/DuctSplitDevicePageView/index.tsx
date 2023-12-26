@@ -4,15 +4,16 @@ import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
-import DuctSplitDevicePageBody from "@/components/devicePagesBody/DuctSplit";
+import DuctSplitDevicePageBody from "@/components/devicePagesBody/DuctSplitDevicePageBody";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
+import DuctSplit from "@/classes/devices/modbus/ductSplit";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;
   registers: ServerSideRegisterInfoT[];
 };
 const DuctSplitDevicePageView = ({ info, registers }: PropsT) => {
-  const Device = useDeviceData(info, registers);
+  const Device = useDeviceData(info, registers) as DuctSplit;
 
   const [handleRegistersUpdate, loading] = useRegisterUpdateToast();
 

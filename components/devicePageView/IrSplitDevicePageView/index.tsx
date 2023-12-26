@@ -6,7 +6,7 @@ import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 import useHertakiUpdate from "@/hooks/useHertakiUpdate";
-import SplitIR from "@/components/devicePagesBody/SplitIR";
+import IrSplitDevicePageBody from "@/components/devicePagesBody/IrSplitDevicePageBody";
 import IrSplit from "@/classes/devices/modbus/irSplit";
 
 type PropsT = {
@@ -32,7 +32,7 @@ const IrSplitDevicePageiew = ({ info, registers }: PropsT) => {
           }}
         />
       </div>
-      <SplitIR
+      <IrSplitDevicePageBody
         className={"flex-1 h-0 w-full"}
         updateHandler={registerUpdateHandler}
         deviceInstance={Device}

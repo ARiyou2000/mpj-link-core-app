@@ -4,9 +4,8 @@ import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
-import SwitchDevicePageBody from "@/components/devicePagesBody/Switch";
-import ThermostatDevicePageBody from "@/components/devicePagesBody/Thermostat";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
+import ThermostatDevicePageBody from "@/components/devicePagesBody/ThermostatDevicePageBody";
 import Thermostat from "@/classes/devices/modbus/thermostat";
 
 type PropsT = {

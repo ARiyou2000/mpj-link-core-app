@@ -5,14 +5,15 @@ import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
-import IrHood from "@/components/devicePagesBody/IrHood";
+import IrHoodDevicePageBody from "@/components/devicePagesBody/IrHoodDevicePageBody";
+import IrHood from "@/classes/devices/modbus/irHood";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;
   registers: ServerSideRegisterInfoT[];
 };
 const IrHoodDevicePageView = ({ info, registers }: PropsT) => {
-  const Device = useDeviceData(info, registers);
+  const Device = useDeviceData(info, registers) as IrHood;
 
   const [handleRegistersUpdate] = useRegisterUpdateToast();
 
@@ -29,7 +30,7 @@ const IrHoodDevicePageView = ({ info, registers }: PropsT) => {
           }}
         />
       </div>
-      <IrHood
+      <IrHoodDevicePageBody
         className={"flex-1 h-0 w-full"}
         handleDeviceUpdate={handleRegistersUpdate}
         deviceInstance={Device}
