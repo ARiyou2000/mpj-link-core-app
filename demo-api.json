@@ -1,0 +1,407 @@
+{
+  "uuid": "23903be4-e5c3-4659-b410-8faff5a9e132",
+  "lastMigration": 32,
+  "name": "Demo api",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 4040,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "b13bd27b-3807-4091-aec6-b8cfc8b7ebb3",
+      "name": "Zone Device list",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "90ec0773-0a11-4d11-a12a-907d5c5ec1f0"
+        }
+      ]
+    },
+    {
+      "uuid": "84c0b510-e0ef-45b3-ac88-e7177ee006bd",
+      "name": "Device Registers list",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "ee3bfff5-437b-4a1d-bec2-737d88af537c"
+        }
+      ]
+    },
+    {
+      "uuid": "54249c45-15c8-4d0b-b1cc-60567c97e4fc",
+      "name": "Read from device",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "01501a85-20a1-4946-b282-8b395917fc5d"
+        },
+        {
+          "type": "route",
+          "uuid": "da84f28e-0a7b-4c3c-bd7b-978787949198"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "a5da4585-62a2-4181-bb22-6ffd6e9032be",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "login",
+      "responses": [
+        {
+          "uuid": "d76180ee-0650-40a3-afe5-0a891d4dc332",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "319399ac-7c4c-4a12-83a1-2ec71e1a61ef",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Basic dXNlcjo2Nzg5"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "4c278caf-9d7c-41b7-a50a-a0c792897962",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "scenario",
+      "responses": [
+        {
+          "uuid": "a96c8802-cd25-479c-bbc2-4ee06c83b19b",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "km0v",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "publicId",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "01501a85-20a1-4946-b282-8b395917fc5d",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "command/device/*",
+      "responses": [
+        {
+          "uuid": "6c614ad9-f21c-4ee2-9d33-470087d1a98d",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "da84f28e-0a7b-4c3c-bd7b-978787949198",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "query/*",
+      "responses": [
+        {
+          "uuid": "5b29cb2d-3163-431a-bb3e-a45e34d6f975",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "90ec0773-0a11-4d11-a12a-907d5c5ec1f0",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "zone/z1",
+      "responses": [
+        {
+          "uuid": "f064d1b8-e969-44de-a0ce-92fe4d938da0",
+          "body": "{\n  action:true,\n  result:[]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ee3bfff5-437b-4a1d-bec2-737d88af537c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "device/switch1",
+      "responses": [
+        {
+          "uuid": "129ee32d-3f19-4486-a0b1-681cea4bacf9",
+          "body": "{\n  action:true,\n  result:[]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "62f18c72-cb43-400e-8458-df4e196b75eb",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "zone",
+      "responses": [
+        {
+          "uuid": "86d752f5-ae81-404a-a224-dccd149cb365",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "6ulm",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "publicId",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "41cc7c55-58c1-4caf-8f13-1cf4e05fbc09",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "device",
+      "responses": [
+        {
+          "uuid": "e7f0dab7-9a6a-49de-8fac-aa1e2eeb434b",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "qdvr",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "publicId",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "a5da4585-62a2-4181-bb22-6ffd6e9032be"
+    },
+    {
+      "type": "route",
+      "uuid": "4c278caf-9d7c-41b7-a50a-a0c792897962"
+    },
+    {
+      "type": "route",
+      "uuid": "62f18c72-cb43-400e-8458-df4e196b75eb"
+    },
+    {
+      "type": "route",
+      "uuid": "41cc7c55-58c1-4caf-8f13-1cf4e05fbc09"
+    },
+    {
+      "type": "folder",
+      "uuid": "b13bd27b-3807-4091-aec6-b8cfc8b7ebb3"
+    },
+    {
+      "type": "folder",
+      "uuid": "84c0b510-e0ef-45b3-ac88-e7177ee006bd"
+    },
+    {
+      "type": "folder",
+      "uuid": "54249c45-15c8-4d0b-b1cc-60567c97e4fc"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "45656555-c7c3-4daf-968b-c2ac19755449",
+      "id": "km0v",
+      "name": "scenariosData",
+      "documentation": "",
+      "value": "{\n  action:true,\n  result:[]\n}"
+    },
+    {
+      "uuid": "4c78b337-0c57-4d2a-b593-b3f8e7c1e55f",
+      "id": "6ulm",
+      "name": "zonesData",
+      "documentation": "",
+      "value": "{\n  action:true,\n  result: []\n}"
+    },
+    {
+      "uuid": "4ec848a6-21c5-415d-8f72-19de0c618dba",
+      "id": "i4oq",
+      "name": "zoneDevicesListData",
+      "documentation": "",
+      "value": "[\n  {\n    id: \"z1\",\n    action: true,\n    result: []\n  },\n    {\n    id: \"z2\",\n    action: true,\n    result: []\n  },\n]"
+    },
+    {
+      "uuid": "4b8458f7-180b-4128-a03b-b7cf316c2ac9",
+      "id": "qdvr",
+      "name": "allDevicesListData",
+      "documentation": "",
+      "value": "{\n  action:true,\n  result: []\n}"
+    }
+  ],
+  "callbacks": []
+}
