@@ -1,5 +1,5 @@
-import getDeviceCompleteData from "@/utils/getDeviceCompleteData";
 import { DevicePageParamsT } from "@/app/(dashboard)/devices/[deviceType]/[devicePublicId]/layout";
+import getDeviceCompleteData from "@/utils/getDeviceCompleteData";
 import RelayDevicePageView from "@/components/devicePageView/RelayDevicePageView";
 
 const RelayDevicePage = async ({

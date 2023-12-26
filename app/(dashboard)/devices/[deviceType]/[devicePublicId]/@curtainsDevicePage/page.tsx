@@ -1,5 +1,5 @@
-import getDeviceCompleteData from "@/utils/getDeviceCompleteData";
 import { DevicePageParamsT } from "@/app/(dashboard)/devices/[deviceType]/[devicePublicId]/layout";
+import getDeviceCompleteData from "@/utils/getDeviceCompleteData";
 import CurtainsDevicePageView from "@/components/devicePageView/CurtainsPageView";
 
 const CurtainsDevicePage = async ({
