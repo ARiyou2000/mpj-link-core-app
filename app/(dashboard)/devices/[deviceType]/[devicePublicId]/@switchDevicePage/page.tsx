@@ -1,6 +1,6 @@
 import { DevicePageParamsT } from "@/app/(dashboard)/devices/[deviceType]/[devicePublicId]/layout";
 import getDeviceCompleteData from "@/utils/getDeviceCompleteData";
-import SwitchDevicePageView from "../../../../../../components/devicePageView/SwitchPageView";
+import SwitchDevicePageView from "@/components/devicePageView/SwitchDevicePageView";
 
 const SwitchDevicePage = async ({
   params: { deviceType, devicePublicId },
