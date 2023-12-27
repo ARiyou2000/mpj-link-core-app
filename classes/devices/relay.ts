@@ -1,8 +1,16 @@
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { SwitchPole } from "@/classes/registers/switchRegister";
-import { DevicesType } from "@/classes/devices/deviceInfo";
+import RelayPort, {
+  getRelayPortType,
+  RelayPortIn,
+  RelayPortOut,
+  RelayPortType,
+} from "@/classes/registers/relayRegisters";
 import GeneralToggleDevice from "@/classes/devices/generalToggleDevice";
 import { Protocols } from "@/classes/protocols";
+
+type RelayRegistersListT = {
+  [key: string]: RelayPort | RelayPortIn | RelayPortOut;
+};
 
 const createRegisters = (
   protocol: Protocols,
@@ -10,11 +18,9 @@ const createRegisters = (
   registersList: ServerSideRegisterInfoT[],
   hasDataFeedback: boolean,
 ) => {
-  const registersObject: {
-    [key: string]: SwitchPole;
-  } = {};
+  const registersObject = <RelayRegistersListT>{};
+
   registersList.forEach((register) => {
-    const registerNumber = Number(register.number);
     const params = [
       protocol,
       devicePublicId,
@@ -26,24 +32,28 @@ const createRegisters = (
     ] as const;
 
     if (protocol === Protocols.modbus) {
-      registersObject[`pole${registerNumber.toString().padStart(2, "0")}`] =
-        new SwitchPole(...params);
+      const registerNumber = Number(register.number);
+
+      registersObject[`port${registerNumber.toString().padStart(2, "0")}`] =
+        getRelayPortType(protocol, registerNumber) === RelayPortType.output
+          ? new RelayPortOut(...params)
+          : new RelayPortIn(...params);
     } else if (protocol === Protocols.zigbee) {
-      registersObject[register.number] = new SwitchPole(...params);
+      registersObject[register.number] = new RelayPortOut(...params);
     } else {
-      throw new Error("Invalid protocol - Switch registers");
+      throw new Error("Invalid protocol - relay registers");
     }
   });
 
   return registersObject;
 };
 
-class Switch extends GeneralToggleDevice {
+class Relay extends GeneralToggleDevice {
   constructor(
     publicId: string,
     name: string,
     description: string,
-    type: DevicesType,
+    type: number,
     registersInfo: ServerSideRegisterInfoT[],
   ) {
     super(publicId, name, description, type);
@@ -56,4 +66,4 @@ class Switch extends GeneralToggleDevice {
   }
 }
 
-export default Switch;
+export default Relay;

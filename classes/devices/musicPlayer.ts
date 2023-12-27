@@ -3,24 +3,33 @@ import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import { MusicPlayerMainReg } from "@/classes/registers/musicplayerRegister";
 import { Protocols } from "@/classes/protocols";
 
+type MusicPlayerRegistersListT = { mainRegister: MusicPlayerMainReg };
+
 const createRegisters = (
   protocol: Protocols,
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
   hasDataFeedback: boolean,
 ) => {
+  const registersObject = <MusicPlayerRegistersListT>{};
   const register = registersList[0];
-  const registersObject = {
-    mainRegister: new MusicPlayerMainReg(
-      protocol,
-      devicePublicId,
-      register.publicId,
-      register.name,
-      register.description,
-      register.number,
-      hasDataFeedback,
-    ),
-  };
+  const params = [
+    protocol,
+    devicePublicId,
+    register.publicId,
+    register.name,
+    register.description,
+    register.number,
+    hasDataFeedback,
+  ] as const;
+
+  if (protocol === Protocols.modbus) {
+    registersObject.mainRegister = new MusicPlayerMainReg(...params);
+  } else if (protocol === Protocols.zigbee) {
+    throw new Error("Zigbee protocol is not supported yet - Music Player");
+  } else {
+    throw new Error("Invalid protocol - Music Player");
+  }
 
   return registersObject;
 };

@@ -1,62 +1,76 @@
 import Device from "@/classes/devices/device";
 import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import {
-  DuctSplitCurrentTemperature,
-  DuctSplitFanSpeed,
-  DuctSplitMode,
-  DuctSplitPower,
-  DuctSplitTargetPointTemperature,
-} from "@/classes/registers/ductSplitRegisters";
+  ThermostatCurrentTemperature,
+  ThermostatFanSpeed,
+  ThermostatPower,
+  ThermostatSeasonMode,
+  ThermostatTargetPointTemperature,
+} from "@/classes/registers/thermostatRegisters";
+import { Protocols } from "@/classes/protocols";
 
-type DuctSplitRegistersListType = {
-  power: DuctSplitPower;
-  mode: DuctSplitMode;
-  fanSpeed: DuctSplitFanSpeed;
-  targetPointTemperature: DuctSplitTargetPointTemperature;
-  currentTemperature: DuctSplitCurrentTemperature;
+type ThermostatRegistersListType = {
+  power: ThermostatPower;
+  seasonMode: ThermostatSeasonMode;
+  fanSpeed: ThermostatFanSpeed;
+  targetPointTemperature: ThermostatTargetPointTemperature;
+  currentTemperature: ThermostatCurrentTemperature;
 };
 
 const createRegisters = (
+  protocol: Protocols,
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
+  hasDataFeedback: boolean,
 ) => {
-  const registersObject = <DuctSplitRegistersListType>{};
+  const registersObject = <ThermostatRegistersListType>{};
   registersList.forEach((register) => {
     const params = [
+      protocol,
       devicePublicId,
       register.publicId,
       register.name,
       register.description,
       register.number,
+      hasDataFeedback,
     ] as const;
-    switch (Number(register.number)) {
-      case 1:
-        registersObject.mode = new DuctSplitMode(...params);
-        break;
-      case 2:
-        registersObject.fanSpeed = new DuctSplitFanSpeed(...params);
-        break;
-      case 3:
-        registersObject.targetPointTemperature =
-          new DuctSplitTargetPointTemperature(...params);
-        break;
-      case 4:
-        registersObject.currentTemperature = new DuctSplitCurrentTemperature(
-          ...params,
-        );
-        break;
-      case 5:
-        registersObject.power = new DuctSplitPower(...params);
-        break;
-      default:
-        throw new Error("Wrong register number in duct split registers list!");
+
+    if (protocol === Protocols.modbus) {
+      switch (Number(register.number)) {
+        case 1:
+          registersObject.seasonMode = new ThermostatSeasonMode(...params);
+          break;
+        case 2:
+          registersObject.fanSpeed = new ThermostatFanSpeed(...params);
+          break;
+        case 4:
+          registersObject.targetPointTemperature =
+            new ThermostatTargetPointTemperature(...params);
+          break;
+        case 5:
+          registersObject.currentTemperature = new ThermostatCurrentTemperature(
+            ...params,
+          );
+          break;
+        case 7:
+          registersObject.power = new ThermostatPower(...params);
+          break;
+        default:
+          throw new Error(
+            "Wrong register number in thermostat registers list!",
+          );
+      }
+    } else if (protocol === Protocols.zigbee) {
+      throw new Error("Zigbee protocol is not supported yet - Thermostat");
+    } else {
+      throw new Error("Invalid protocol - Thermostat");
     }
   });
 
   return registersObject;
 };
 
-class DuctSplit extends Device {
+class Thermostat extends Device {
   constructor(
     publicId: string,
     name: string,
@@ -64,17 +78,17 @@ class DuctSplit extends Device {
     type: number,
     registersInfo: ServerSideRegisterInfoT[],
   ) {
-    super(
+    super(publicId, name, description, type);
+    this.registers = createRegisters(
+      this.protocol,
       publicId,
-      name,
-      description,
-      type,
-      createRegisters(publicId, registersInfo),
+      registersInfo,
+      this.hasDataFeedback,
     );
   }
 
   valueAssignment(values: string[]) {
-    this.registers.mode.stringValue = values[0];
+    this.registers.seasonMode.stringValue = values[0];
     this.registers.fanSpeed.stringValue = values[1];
     this.registers.targetPointTemperature.stringValue = values[2];
     this.registers.currentTemperature.stringValue = values[3];
@@ -97,20 +111,19 @@ class DuctSplit extends Device {
     return await this.#powerOn();
   };
   // @ts-ignore
-  #plasmaMode = async () => {
-    return await this.registers.mode.updateValue("plasma");
-  };
-  // @ts-ignore
   #coolingMode = async () => {
-    return await this.registers.mode.updateValue("cold");
+    return await this.registers.seasonMode.updateValue("cold");
   };
   // @ts-ignore
   #heatingMode = async () => {
-    return await this.registers.mode.updateValue("hot");
+    return await this.registers.seasonMode.updateValue("hot");
   };
   // @ts-ignore
-  #autoMode = async () => {
-    return await this.registers.mode.updateValue("auto");
+  #toggleSeasonMode = async () => {
+    if (this.registers.seasonMode.value === "cold") {
+      return await this.#heatingMode();
+    }
+    return await this.#coolingMode();
   };
   // @ts-ignore
   #slowFanSpeed = async () => {
@@ -145,10 +158,6 @@ class DuctSplit extends Device {
     return this.#togglePower;
   }
 
-  get plasmaMode(): () => Promise<unknown> {
-    return this.#plasmaMode;
-  }
-
   get coolingMode(): () => Promise<unknown> {
     return this.#coolingMode;
   }
@@ -157,8 +166,8 @@ class DuctSplit extends Device {
     return this.#heatingMode;
   }
 
-  get autoMode(): () => Promise<unknown> {
-    return this.#autoMode;
+  get toggleSeasonMode(): () => Promise<unknown> {
+    return this.#toggleSeasonMode;
   }
 
   get slowFanSpeed(): () => Promise<unknown> {
@@ -182,4 +191,4 @@ class DuctSplit extends Device {
   }
 }
 
-export default DuctSplit;
+export default Thermostat;

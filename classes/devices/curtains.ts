@@ -4,6 +4,11 @@ import { DevicesType } from "@/classes/devices/deviceInfo";
 import GeneralToggleDevice from "@/classes/devices/generalToggleDevice";
 import { Protocols } from "@/classes/protocols";
 
+type CurtainsRegistersListT = {
+  open: RelayPortOut;
+  close: RelayPortOut;
+};
+
 const createRegisters = (
   protocol: Protocols,
   devicePublicId: string,
@@ -13,9 +18,7 @@ const createRegisters = (
   const openRegister = registersList[0];
   const closeRegister = registersList[1];
 
-  const registersObject: {
-    [key: string]: RelayPortOut;
-  } = {
+  const registersObject = <CurtainsRegistersListT>{
     open: new RelayPortOut(
       protocol,
       devicePublicId,

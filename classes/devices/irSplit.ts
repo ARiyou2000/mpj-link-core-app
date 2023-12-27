@@ -9,6 +9,7 @@ import {
   IrSplitPower,
 } from "@/classes/registers/irSplitRegisters";
 import Device from "@/classes/devices/device";
+import { Protocols } from "@/classes/protocols";
 
 type IrSplitRegistersListT = {
   power: IrSplitPower;
@@ -21,52 +22,65 @@ type IrSplitRegistersListT = {
 };
 
 const createRegisters = (
+  protocol: Protocols,
   devicePublicId: string,
   registersList: ServerSideRegisterInfoT[],
+  hasDataFeedback: boolean,
 ) => {
   const registersObject = <IrSplitRegistersListT>{};
   registersList.forEach((register) => {
     const params = [
+      protocol,
       devicePublicId,
       register.publicId,
       register.name,
       register.description,
       register.number,
+      hasDataFeedback,
     ] as const;
-    switch (Number(register.number)) {
-      case 1:
-        registersObject.power = new IrSplitPower(...params);
-        break;
-      case 2:
-        registersObject.decreaseTemperature = new IrSplitDecreaseTemperature(
-          ...params,
-        );
-        break;
-      case 3:
-        registersObject.increaseTemperature = new IrSplitIncreaseTemperature(
-          ...params,
-        );
-        break;
-      case 4:
-        registersObject.increaseFanSpeed = new IrSplitIncreaseFanSpeed(
-          ...params,
-        );
-        break;
-      case 5:
-        registersObject.decreaseFanSpeed = new IrSplitDecreaseFanSpeed(
-          ...params,
-        );
-        break;
-      case 6:
-        registersObject.mode = new IrSplitMode(...params);
-        break;
-      case 7:
-        registersObject.movementDirection = new IrSplitMovementDirection(
-          ...params,
-        );
-        break;
-      default:
-        throw new Error("Wrong register number in thermostat registers list!");
+
+    if (protocol === Protocols.modbus) {
+      switch (Number(register.number)) {
+        case 1:
+          registersObject.power = new IrSplitPower(...params);
+          break;
+        case 2:
+          registersObject.decreaseTemperature = new IrSplitDecreaseTemperature(
+            ...params,
+          );
+          break;
+        case 3:
+          registersObject.increaseTemperature = new IrSplitIncreaseTemperature(
+            ...params,
+          );
+          break;
+        case 4:
+          registersObject.increaseFanSpeed = new IrSplitIncreaseFanSpeed(
+            ...params,
+          );
+          break;
+        case 5:
+          registersObject.decreaseFanSpeed = new IrSplitDecreaseFanSpeed(
+            ...params,
+          );
+          break;
+        case 6:
+          registersObject.mode = new IrSplitMode(...params);
+          break;
+        case 7:
+          registersObject.movementDirection = new IrSplitMovementDirection(
+            ...params,
+          );
+          break;
+        default:
+          throw new Error(
+            "Wrong register number in thermostat registers list!",
+          );
+      }
+    } else if (protocol === Protocols.zigbee) {
+      throw new Error("Zigbee protocol is not supported yet - IR split");
+    } else {
+      throw new Error("Invalid protocol - IR Split");
     }
   });
 
@@ -81,12 +95,12 @@ class IrSplit extends Device {
     type: number,
     registersInfo: ServerSideRegisterInfoT[],
   ) {
-    super(
+    super(publicId, name, description, type);
+    this.registers = createRegisters(
+      this.protocol,
       publicId,
-      name,
-      description,
-      type,
-      createRegisters(publicId, registersInfo),
+      registersInfo,
+      this.hasDataFeedback,
     );
   }
 
