@@ -3,7 +3,7 @@
 import useMqttData from "@/hooks/useMqttData";
 import { useEffect, useState } from "react";
 import { messageType } from "@/mqtt";
-import fetchUrl from "@/utils/fetchUrl";
+import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 const getDeviceStatusWhileNotConnected = async (
   message: JSON,
@@ -13,21 +13,26 @@ const getDeviceStatusWhileNotConnected = async (
     const dataObject = JSON.parse(message.toString());
 
     if (!dataObject || !dataObject.linkquality) {
-      await fetchUrl(`/api/devices/${devicePublicId}`);
+      await clientSideAuthorizedFetch(`/api/devices/${devicePublicId}/data`);
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const getData = async (devicePublicId: string) => {
+  try {
+    await clientSideAuthorizedFetch(`/api/devices/${devicePublicId}/data`);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const useZigbeeDeviceData = (devicePublicId: string, isActive: boolean) => {
   const [topic, message, isConnected] = useMqttData(isActive);
 
   useEffect(() => {
-    if (isActive && isConnected) {
-      const getData = async () => {
-        await fetchUrl(`/api/devices/${devicePublicId}`);
-      };
-      getData();
-    }
+    isActive && isConnected && getData(devicePublicId);
   }, [devicePublicId, isActive, isConnected]);
 
   const [data, setData] = useState<messageType>("");

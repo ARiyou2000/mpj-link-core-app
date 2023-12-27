@@ -13,7 +13,7 @@ const registerOnSocketConnection = async (io, socket) => {
         // this.processBridgeMessage(data);
       } else {
         // this.processDeviceStateMessage(data);
-        console.log("Message from MQTT: ", { topic, message });
+        // console.log("Message from MQTT: ", { topic, message });
         socket.broadcast.emit("receiveDeviceData", { topic, message });
       }
     } catch (e) {

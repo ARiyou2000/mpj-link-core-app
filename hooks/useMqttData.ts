@@ -57,7 +57,7 @@ const useMqttData = (isActive: boolean) => {
     socket.current.on(
       "receiveDeviceData",
       ({ topic, message }: mqttPacketType) => {
-        console.log("New message in client", message);
+        // console.log("New message in client", message);
 
         setMqttTopic(topic);
         setMqttMessage(message);

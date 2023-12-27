@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
@@ -42,8 +42,9 @@ const useDeviceData = (
   const [deviceInstance, setDeviceInstance] = useState<Device>();
 
   // Device Public ID
-  const urlParams = useParams();
-  const devicePId = urlParams?.devicePublicId as string;
+  // const urlParams = useParams();
+  // const devicePId = urlParams?.devicePublicId as string;
+  const devicePId = device.publicId;
 
   const zigbeeData = useZigbeeDeviceData(
     devicePId,
@@ -90,7 +91,10 @@ const useDeviceData = (
           try {
             await device.getData({ signal }, zigbeeData);
             // This must place here to prevent showing registers list to user on error getting data from server
-            setDeviceInstance(device);
+
+            if (device.protocol === Protocols.modbus || zigbeeData) {
+              setDeviceInstance(device);
+            }
 
             // Since device instance will not change reference we need to force update ui
             // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call

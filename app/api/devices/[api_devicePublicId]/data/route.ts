@@ -31,21 +31,29 @@ export const GET = async (
     device.type,
   );
 
-  if (deviceInfo.protocol === Protocols.modbus) {
-    const deviceRegistersValue = await getDeviceData(
-      api_devicePublicId,
-      options,
-    );
+  try {
+    if (deviceInfo.protocol === Protocols.modbus) {
+      const deviceRegistersValue = await getDeviceData(
+        api_devicePublicId,
+        options,
+      );
 
-    return NextResponse.json(new ApiResponse(true, deviceRegistersValue.value));
-  } else if (deviceInfo.protocol === Protocols.zigbee) {
-    await mqttPublish({
-      topic: `${connectionConfig.mqtt.mainTopic}/${api_devicePublicId}/get`,
-      message: JSON.stringify({ state: "" }),
-    });
+      return NextResponse.json(
+        new ApiResponse(true, deviceRegistersValue.value),
+      );
+    } else if (deviceInfo.protocol === Protocols.zigbee) {
+      await mqttPublish({
+        topic: `${connectionConfig.mqtt.mainTopic}/${api_devicePublicId}/get`,
+        message: JSON.stringify({ state: "" }),
+      });
 
-    return NextResponse.json({});
-  } else {
+      return NextResponse.json({});
+    } else {
+      console.error("Invalid protocol in get device data route");
+      return NextResponse.error();
+    }
+  } catch (e) {
+    console.error(e);
     return NextResponse.error();
   }
 };
