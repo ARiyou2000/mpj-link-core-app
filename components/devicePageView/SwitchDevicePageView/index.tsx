@@ -1,11 +1,11 @@
 "use client";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import SwitchDevicePageBody from "@/components/devicePagesBody/SwitchDevicePageBody";
-import Switch from "@/classes/devices/modbus/switch";
+import Switch from "@/classes/devices/Switch/switchDevice";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;

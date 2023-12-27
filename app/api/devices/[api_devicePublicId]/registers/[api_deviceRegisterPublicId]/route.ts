@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fetchUrl from "@/utils/fetchUrl";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import ApiResponse from "@/app/api/apiResponse";
 import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 

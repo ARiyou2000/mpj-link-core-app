@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import ApiResponse from "@/app/api/apiResponse";
 import fetchUrl from "@/utils/fetchUrl";
 import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
-import { ServerSideZoneT } from "@/classes/zone";
+import { ServerSideZoneT } from "@/classes/Zone";
 
 export const GET = async (request: NextRequest) => {
   try {

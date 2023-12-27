@@ -1,8 +1,8 @@
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { SwitchPole } from "@/classes/registers/switchRegister";
+import { SwitchPole } from "@/classes/devices/Switch/switchRegister";
+import { Protocols } from "@/classes/devices/protocols";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
+import GeneralPowerDevice from "@/classes/devices/GeneralPower/generalPowerDevice";
 import { DevicesType } from "@/classes/devices/deviceInfo";
-import GeneralToggleDevice from "@/classes/devices/generalToggleDevice";
-import { Protocols } from "@/classes/protocols";
 
 type SwitchRegistersListT = { [key: string]: SwitchPole };
 
@@ -38,7 +38,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Switch extends GeneralToggleDevice {
+class Switch extends GeneralPowerDevice {
   constructor(
     publicId: string,
     name: string,

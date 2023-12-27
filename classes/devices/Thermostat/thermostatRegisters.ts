@@ -1,21 +1,15 @@
-import GeneralPower from "@/classes/registers/generalPower";
-import Register, { ObjectType } from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
-import getValueMap from "@/classes/registers/getValueMap";
+import GeneralPowerRegister from "@/classes/devices/GeneralPower/generalPowerRegister";
+import Register, { ObjectType } from "@/classes/devices/register";
+import { Protocols } from "@/classes/devices/protocols";
+import getValueMap from "@/classes/devices/getValueMap";
 
 // ---------- Power ----------
-export class ThermostatPower extends GeneralPower {}
+export class ThermostatPower extends GeneralPowerRegister {}
 
 // ---------- Value registers ----------
 class ThermostatRegister extends Register {}
 
 // ---------- Fan Speed ----------
-const fanSpeedValueMap = {
-  "01": "slow",
-  "02": "medium",
-  "03": "fast",
-  "04": "auto",
-};
 const modbusFanSpeedValueMap = {
   "01": "slow",
   "02": "medium",
@@ -24,7 +18,7 @@ const modbusFanSpeedValueMap = {
 };
 const zigbeeFanSpeedValueMap = {};
 
-export class ThermostatFanSpeed extends ThermostatRegister {
+export class ThermostatFanSpeedRegister extends ThermostatRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -59,7 +53,7 @@ const modbusSeasonModeValueMap = {
 };
 const zigbeeSeasonModeValueMap = {};
 
-export class ThermostatSeasonMode extends ThermostatRegister {
+export class ThermostatSeasonModeRegister extends ThermostatRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -100,7 +94,7 @@ const modbusTargetPointTemperatureMap = (() => {
 })();
 const zigbeeTargetPointTemperatureMap = {};
 
-export class ThermostatTargetPointTemperature extends ThermostatRegister {
+export class ThermostatTargetPointTemperatureRegister extends ThermostatRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -121,7 +115,7 @@ export class ThermostatTargetPointTemperature extends ThermostatRegister {
         protocol,
         modbusTargetPointTemperatureMap,
         zigbeeTargetPointTemperatureMap,
-        "Duct split - Target Point",
+        "Thermostat - Target Point",
       ),
       hasFeedback,
     );
@@ -141,7 +135,7 @@ const modusCurrentTemperatureMap = (() => {
 })();
 const zigbeeCurrentPointTemperatureMap = {};
 
-export class ThermostatCurrentTemperature extends ThermostatRegister {
+export class ThermostatCurrentTemperatureRegister extends ThermostatRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -162,7 +156,7 @@ export class ThermostatCurrentTemperature extends ThermostatRegister {
         protocol,
         modusCurrentTemperatureMap,
         zigbeeCurrentPointTemperatureMap,
-        "Duct split target point",
+        "Thermostat - target point",
       ),
       hasFeedback,
     );

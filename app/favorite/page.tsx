@@ -1,6 +1,6 @@
 import GeneralHeader from "@/components/GeneralHeader";
 import ScenariosList from "@/components/listCardPairs/scenarios/ScenariosList";
-import { ServerSideScenarioT } from "@/classes/scenario";
+import { ServerSideScenarioT } from "@/classes/Scenario";
 import fetchUrl from "@/utils/fetchUrl";
 
 const FavoritePage = async () => {

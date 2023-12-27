@@ -1,11 +1,11 @@
 "use client";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import CurtainsDevicePageBody from "@/components/devicePagesBody/CurtainsDevicePageBody";
-import Curtains from "@/classes/devices/modbus/curtains";
+import Curtains from "@/classes/devices/Curtains/curtainsDevice";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;

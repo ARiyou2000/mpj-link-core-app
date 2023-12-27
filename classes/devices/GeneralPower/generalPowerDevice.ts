@@ -1,7 +1,7 @@
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
 
-class GeneralToggleDevice extends Device {
+class GeneralPower extends Device {
   valueAssignment(values: string[] | { [key: string]: "ON" | "OFF" }) {
     Object.keys(this.registers).forEach((registerKey) => {
       const register = this.registers[registerKey];
@@ -17,4 +17,4 @@ class GeneralToggleDevice extends Device {
   }
 }
 
-export default GeneralToggleDevice;
+export default GeneralPower;

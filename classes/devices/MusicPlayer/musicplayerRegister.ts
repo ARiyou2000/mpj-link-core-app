@@ -1,6 +1,6 @@
-import Register from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
-import getValueMap from "@/classes/registers/getValueMap";
+import Register from "@/classes/devices/register";
+import { Protocols } from "@/classes/devices/protocols";
+import getValueMap from "@/classes/devices/getValueMap";
 
 const modbusValueMap = {
   "31": "previous",
@@ -18,7 +18,7 @@ const modbusValueMap = {
 };
 const zigbeeValueMap = {};
 
-export class MusicPlayerMainReg extends Register {
+export class MusicPlayerMainRegister extends Register {
   constructor(
     protocol: Protocols,
     devicePublicId: string,

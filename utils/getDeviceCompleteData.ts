@@ -2,7 +2,7 @@
 
 import AuthorizedFetch from "@/utils/authorizedFetch";
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 
 const getDeviceCompleteData = async (
   devicePublicId: string,

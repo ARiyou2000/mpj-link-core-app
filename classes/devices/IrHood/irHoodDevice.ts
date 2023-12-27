@@ -1,18 +1,18 @@
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import {
-  IrHoodDecreaseFanSpeed,
-  IrHoodIncreaseFanSpeed,
-  IrHoodLight,
-  IrHoodPower,
-} from "@/classes/registers/irHoodRegisters";
+  IrHoodDecreaseFanSpeedRegister,
+  IrHoodIncreaseFanSpeedRegister,
+  IrHoodLightRegister,
+  IrHoodPowerRegister,
+} from "@/classes/devices/IrHood/irHoodRegisters";
+import { Protocols } from "@/classes/devices/protocols";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
 
 type IrHoodRegistersListT = {
-  power: IrHoodPower;
-  light: IrHoodLight;
-  increaseFanSpeed: IrHoodIncreaseFanSpeed;
-  decreaseFanSpeed: IrHoodDecreaseFanSpeed;
+  power: IrHoodPowerRegister;
+  light: IrHoodLightRegister;
+  increaseFanSpeed: IrHoodIncreaseFanSpeedRegister;
+  decreaseFanSpeed: IrHoodDecreaseFanSpeedRegister;
 };
 
 const createRegisters = (
@@ -36,20 +36,20 @@ const createRegisters = (
     if (protocol === Protocols.modbus) {
       switch (Number(register.number)) {
         case 1:
-          registersObject.power = new IrHoodPower(...params);
+          registersObject.power = new IrHoodPowerRegister(...params);
           break;
         case 2:
-          registersObject.decreaseFanSpeed = new IrHoodDecreaseFanSpeed(
+          registersObject.decreaseFanSpeed = new IrHoodDecreaseFanSpeedRegister(
             ...params,
           );
           break;
         case 3:
-          registersObject.increaseFanSpeed = new IrHoodIncreaseFanSpeed(
+          registersObject.increaseFanSpeed = new IrHoodIncreaseFanSpeedRegister(
             ...params,
           );
           break;
         case 4:
-          registersObject.light = new IrHoodLight(...params);
+          registersObject.light = new IrHoodLightRegister(...params);
           break;
         default:
           throw new Error("Wrong register number in IR hood registers list!");

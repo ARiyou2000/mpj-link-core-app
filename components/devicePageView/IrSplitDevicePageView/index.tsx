@@ -1,13 +1,13 @@
 "use client";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 import useHertakiUpdate from "@/hooks/useHertakiUpdate";
 import IrSplitDevicePageBody from "@/components/devicePagesBody/IrSplitDevicePageBody";
-import IrSplit from "@/classes/devices/modbus/irSplit";
+import IrSplit from "@/classes/devices/IrSplit/irSplitDevice";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;

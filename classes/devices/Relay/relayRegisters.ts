@@ -1,5 +1,5 @@
-import GeneralPower from "@/classes/registers/generalPower";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
+import GeneralPowerRegister from "@/classes/devices/GeneralPower/generalPowerRegister";
 
 export enum RelayPortType {
   input,
@@ -25,7 +25,7 @@ export const getRelayPortType = (
   }
 };
 
-export class RelayPort extends GeneralPower {
+export class RelayPort extends GeneralPowerRegister {
   // @ts-ignore
   #portType: RelayPortType;
 

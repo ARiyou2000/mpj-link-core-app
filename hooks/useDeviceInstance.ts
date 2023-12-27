@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Device from "@/classes/devices/device";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import getDeviceInstance from "@/utils/getDeviceInstance";
 
 const useDeviceInstance = (

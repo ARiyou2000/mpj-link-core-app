@@ -9,7 +9,7 @@ import {
   Thermometer,
 } from "@/components/icons/colored";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
 import { FunctionComponent } from "react";
 
 export type ServerSideDeviceInfoT = {

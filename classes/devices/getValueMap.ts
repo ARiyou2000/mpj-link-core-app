@@ -1,5 +1,5 @@
-import { ObjectType } from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
+import { ObjectType } from "@/classes/devices/register";
+import { Protocols } from "@/classes/devices/protocols";
 
 const getValueMap = (
   protocol: Protocols,

@@ -1,31 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import {
-  DevicesType,
-  ServerSideDeviceInfoT,
-} from "@/classes/devices/deviceInfo";
+import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 import useZigbeeDeviceData from "@/hooks/useZigbeeDeviceData";
 import Device from "@/classes/devices/device";
-import ModbusSwitch from "@/classes/devices/modbus/switch";
-import ZigbeeSwitch from "@/classes/devices/zigbee/switch";
-import ModbusRelay from "@/classes/devices/modbus/relay";
-import ModbusThermostat from "@/classes/devices/modbus/thermostat";
-import { Protocols } from "@/classes/protocols";
-import ModbusMusicPlayer from "@/classes/devices/modbus/musicPlayer";
-import ZigbeeRelay from "@/classes/devices/zigbee/relay";
-import ZigbeeCurtains from "@/classes/devices/zigbee/curtains";
-import IrSplit from "@/classes/devices/modbus/irSplit";
-import IrHood from "@/classes/devices/modbus/irHood";
-import ModbusDuctSplit from "@/classes/devices/modbus/ductSplit";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { Protocols } from "@/classes/devices/protocols";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useForceUpdateUI from "@/hooks/useForceUpdateUI";
-import ModbusCurtains from "@/classes/devices/modbus/curtains";
-import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
-import useDeviceInstance from "@/hooks/useDeviceInstance";
 import getDeviceInstance from "@/utils/getDeviceInstance";
 
 export const getRegistersValueFormString = (str: string): string[] | [] => {

@@ -22,7 +22,7 @@ import {
 import { ReactNode, useContext } from "react";
 import { ScenarioForceUpdateContext } from "@/contexts/forceUpdateContext";
 import { toast } from "sonner";
-import Scenario from "@/classes/scenario";
+import Scenario from "@/classes/Scenario";
 
 type ActivateScenarioAlertPropsT = {
   children: ReactNode;

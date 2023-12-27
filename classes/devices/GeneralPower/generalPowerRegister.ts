@@ -1,6 +1,6 @@
-import Register from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
-import getValueMap from "@/classes/registers/getValueMap";
+import Register from "@/classes/devices/register";
+import { Protocols } from "@/classes/devices/protocols";
+import getValueMap from "@/classes/devices/getValueMap";
 
 const modbusValueMap = {
   "01": false,
@@ -12,7 +12,7 @@ const zigbeeValueMap = {
   OFF: false,
 } as const;
 
-class GeneralPower extends Register {
+class GeneralPowerRegister extends Register {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -35,4 +35,4 @@ class GeneralPower extends Register {
   }
 }
 
-export default GeneralPower;
+export default GeneralPowerRegister;

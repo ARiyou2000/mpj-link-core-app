@@ -1,12 +1,12 @@
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import RelayPort, {
   getRelayPortType,
   RelayPortIn,
   RelayPortOut,
   RelayPortType,
-} from "@/classes/registers/relayRegisters";
-import GeneralToggleDevice from "@/classes/devices/generalToggleDevice";
-import { Protocols } from "@/classes/protocols";
+} from "@/classes/devices/Relay/relayRegisters";
+import { Protocols } from "@/classes/devices/protocols";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
+import GeneralPowerDevice from "@/classes/devices/GeneralPower/generalPowerDevice";
 
 type RelayRegistersListT = {
   [key: string]: RelayPort | RelayPortIn | RelayPortOut;
@@ -48,7 +48,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Relay extends GeneralToggleDevice {
+class Relay extends GeneralPowerDevice {
   constructor(
     publicId: string,
     name: string,

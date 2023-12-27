@@ -1,5 +1,5 @@
 import ResponseModel from "@/classes/responseModel";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
 export type generalValueType = number | boolean | string;

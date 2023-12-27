@@ -1,12 +1,12 @@
 "use client";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import DuctSplitDevicePageBody from "@/components/devicePagesBody/DuctSplitDevicePageBody";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
-import DuctSplit from "@/classes/devices/modbus/ductSplit";
+import DuctSplit from "@/classes/devices/DuctSplit/ductSplitDevice";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;

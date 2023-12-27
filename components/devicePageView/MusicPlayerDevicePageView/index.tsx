@@ -1,13 +1,13 @@
 "use client";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 import useHertakiUpdate from "@/hooks/useHertakiUpdate";
 import MusicPlayerDevicePageBody from "@/components/devicePagesBody/MusicPlayerDevicePageBody";
-import MusicPlayer from "@/classes/devices/modbus/musicPlayer";
+import MusicPlayer from "@/classes/devices/MusicPlayer/musicPlayerDevice";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;

@@ -11,7 +11,7 @@ import {
 } from "@/components/listCardPairs/relayPorts/RelayPortsList";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
-import { RelayPortType } from "@/classes/registers/relayRegisters";
+import { RelayPortType } from "@/classes/devices/Relay/relayRegisters";
 
 const tabContentStyleClassName = "h-full pt-6 pb-5";
 const relayPortStyleClassName = "h-full";

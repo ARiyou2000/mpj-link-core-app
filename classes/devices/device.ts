@@ -1,6 +1,6 @@
-import Register, { ObjectType } from "@/classes/registers/register";
+import Register, { ObjectType } from "@/classes/devices/register";
 import DeviceInfo, { DevicesType } from "@/classes/devices/deviceInfo";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 import { getRegistersValueFormString } from "@/hooks/useDeviceData";
 import { getDataOptionsType } from "@/utils/queueHelper";

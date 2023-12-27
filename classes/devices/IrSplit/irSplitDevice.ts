@@ -1,24 +1,24 @@
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
 import {
-  IrSplitDecreaseFanSpeed,
-  IrSplitDecreaseTemperature,
-  IrSplitIncreaseFanSpeed,
-  IrSplitIncreaseTemperature,
-  IrSplitMode,
-  IrSplitMovementDirection,
-  IrSplitPower,
-} from "@/classes/registers/irSplitRegisters";
+  IrSplitDecreaseFanSpeedRegister,
+  IrSplitDecreaseTemperatureRegister,
+  IrSplitIncreaseFanSpeedRegister,
+  IrSplitIncreaseTemperatureRegister,
+  IrSplitModeRegister,
+  IrSplitMovementDirectionRegister,
+  IrSplitPowerRegister,
+} from "@/classes/devices/IrSplit/irSplitRegisters";
+import { Protocols } from "@/classes/devices/protocols";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import Device from "@/classes/devices/device";
-import { Protocols } from "@/classes/protocols";
 
 type IrSplitRegistersListT = {
-  power: IrSplitPower;
-  increaseFanSpeed: IrSplitIncreaseFanSpeed;
-  decreaseFanSpeed: IrSplitDecreaseFanSpeed;
-  increaseTemperature: IrSplitIncreaseTemperature;
-  decreaseTemperature: IrSplitDecreaseTemperature;
-  mode: IrSplitMode;
-  movementDirection: IrSplitMovementDirection;
+  power: IrSplitPowerRegister;
+  increaseFanSpeed: IrSplitIncreaseFanSpeedRegister;
+  decreaseFanSpeed: IrSplitDecreaseFanSpeedRegister;
+  increaseTemperature: IrSplitIncreaseTemperatureRegister;
+  decreaseTemperature: IrSplitDecreaseTemperatureRegister;
+  mode: IrSplitModeRegister;
+  movementDirection: IrSplitMovementDirectionRegister;
 };
 
 const createRegisters = (
@@ -42,35 +42,30 @@ const createRegisters = (
     if (protocol === Protocols.modbus) {
       switch (Number(register.number)) {
         case 1:
-          registersObject.power = new IrSplitPower(...params);
+          registersObject.power = new IrSplitPowerRegister(...params);
           break;
         case 2:
-          registersObject.decreaseTemperature = new IrSplitDecreaseTemperature(
-            ...params,
-          );
+          registersObject.decreaseTemperature =
+            new IrSplitDecreaseTemperatureRegister(...params);
           break;
         case 3:
-          registersObject.increaseTemperature = new IrSplitIncreaseTemperature(
-            ...params,
-          );
+          registersObject.increaseTemperature =
+            new IrSplitIncreaseTemperatureRegister(...params);
           break;
         case 4:
-          registersObject.increaseFanSpeed = new IrSplitIncreaseFanSpeed(
-            ...params,
-          );
+          registersObject.increaseFanSpeed =
+            new IrSplitIncreaseFanSpeedRegister(...params);
           break;
         case 5:
-          registersObject.decreaseFanSpeed = new IrSplitDecreaseFanSpeed(
-            ...params,
-          );
+          registersObject.decreaseFanSpeed =
+            new IrSplitDecreaseFanSpeedRegister(...params);
           break;
         case 6:
-          registersObject.mode = new IrSplitMode(...params);
+          registersObject.mode = new IrSplitModeRegister(...params);
           break;
         case 7:
-          registersObject.movementDirection = new IrSplitMovementDirection(
-            ...params,
-          );
+          registersObject.movementDirection =
+            new IrSplitMovementDirectionRegister(...params);
           break;
         default:
           throw new Error(

@@ -1,13 +1,13 @@
-import Register from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
-import getValueMap from "@/classes/registers/getValueMap";
+import Register from "@/classes/devices/register";
+import { Protocols } from "@/classes/devices/protocols";
+import getValueMap from "@/classes/devices/getValueMap";
 
 const modbusValueMap = {
   "01": "trigger",
 };
 const zigbeeValueMap = {};
 
-class IrHoodMainReg extends Register {
+class IrHoodMainRegister extends Register {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -35,12 +35,12 @@ class IrHoodMainReg extends Register {
   }
 }
 
-export class IrHoodPower extends IrHoodMainReg {}
+export class IrHoodPowerRegister extends IrHoodMainRegister {}
 
-export class IrHoodLight extends IrHoodMainReg {}
+export class IrHoodLightRegister extends IrHoodMainRegister {}
 
-export class IrHoodIncreaseFanSpeed extends IrHoodMainReg {}
+export class IrHoodIncreaseFanSpeedRegister extends IrHoodMainRegister {}
 
-export class IrHoodDecreaseFanSpeed extends IrHoodMainReg {}
+export class IrHoodDecreaseFanSpeedRegister extends IrHoodMainRegister {}
 
-export default IrHoodMainReg;
+export default IrHoodMainRegister;

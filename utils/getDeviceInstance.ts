@@ -2,16 +2,16 @@ import {
   DevicesType,
   ServerSideDeviceInfoT,
 } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import ModbusSwitch from "@/classes/devices/modbus/switch";
-import ModbusRelay from "@/classes/devices/modbus/relay";
-import ModbusThermostat from "@/classes/devices/modbus/thermostat";
-import ModbusMusicPlayer from "@/classes/devices/modbus/musicPlayer";
-import ModbusDuctSplit from "@/classes/devices/modbus/ductSplit";
-import IrSplit from "@/classes/devices/modbus/irSplit";
-import IrHood from "@/classes/devices/modbus/irHood";
-import Curtains from "@/classes/devices/curtains";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import Device from "@/classes/devices/device";
+import SwitchDevice from "@/classes/devices/Switch/switchDevice";
+import RelayDevice from "@/classes/devices/Relay/relayDevice";
+import ThermostatDevice from "@/classes/devices/Thermostat/thermostatDevice";
+import MusicPlayerDevice from "@/classes/devices/MusicPlayer/musicPlayerDevice";
+import DuctSplitDevice from "@/classes/devices/DuctSplit/ductSplitDevice";
+import IrSplitDevice from "@/classes/devices/IrSplit/irSplitDevice";
+import IrHoodDevice from "@/classes/devices/IrHood/irHoodDevice";
+import CurtainsDevice from "@/classes/devices/Curtains/curtainsDevice";
 
 const getDeviceInstance = (
   info: ServerSideDeviceInfoT,
@@ -33,31 +33,31 @@ const getDeviceInstance = (
     case DevicesType.modbus_switch_4p:
     case DevicesType.modbus_switch_6p:
     case DevicesType.zigbee_switch_3p:
-      DeviceInstance = new ModbusSwitch(...props);
+      DeviceInstance = new SwitchDevice(...props);
       break;
     case DevicesType.modbus_relay:
     case DevicesType.zigbee_relay:
-      DeviceInstance = new ModbusRelay(...props);
+      DeviceInstance = new RelayDevice(...props);
       break;
 
     case DevicesType.modbus_thermostat:
-      DeviceInstance = new ModbusThermostat(...props);
+      DeviceInstance = new ThermostatDevice(...props);
       break;
     case DevicesType.modbus_music_player:
-      DeviceInstance = new ModbusMusicPlayer(...props);
+      DeviceInstance = new MusicPlayerDevice(...props);
       break;
     case DevicesType.modbus_duct_split:
-      DeviceInstance = new ModbusDuctSplit(...props);
+      DeviceInstance = new DuctSplitDevice(...props);
       break;
     case DevicesType.ir_split:
-      DeviceInstance = new IrSplit(...props);
+      DeviceInstance = new IrSplitDevice(...props);
       break;
     case DevicesType.ir_hood:
-      DeviceInstance = new IrHood(...props);
+      DeviceInstance = new IrHoodDevice(...props);
       break;
     case DevicesType.modbus_curtains:
     case DevicesType.zigbee_curtains:
-      DeviceInstance = new Curtains(...props);
+      DeviceInstance = new CurtainsDevice(...props);
       break;
     case DevicesType.invalid:
     default:

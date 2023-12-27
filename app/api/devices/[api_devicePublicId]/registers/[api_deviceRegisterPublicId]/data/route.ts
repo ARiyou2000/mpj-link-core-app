@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import ApiResponse from "@/app/api/apiResponse";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
 import { paramsType } from "@/app/api/devices/[api_devicePublicId]/registers/[api_deviceRegisterPublicId]/route";
 import mqttPublish from "@/mqtt/publish";
 import connectionConfig from "@/connection.config";

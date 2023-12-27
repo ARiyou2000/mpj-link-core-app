@@ -1,6 +1,6 @@
 import ZoneCard from "../ZoneCard";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
-import Zone, { ServerSideZoneT } from "@/classes/zone";
+import Zone, { ServerSideZoneT } from "@/classes/Zone";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 

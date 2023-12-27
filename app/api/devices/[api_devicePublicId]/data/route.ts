@@ -7,7 +7,7 @@ import fetchUrl from "@/utils/fetchUrl";
 import DeviceInfo, {
   ServerSideDeviceInfoT,
 } from "@/classes/devices/deviceInfo";
-import { Protocols } from "@/classes/protocols";
+import { Protocols } from "@/classes/devices/protocols";
 import mqttPublish from "@/mqtt/publish";
 import connectionConfig from "@/connection.config";
 

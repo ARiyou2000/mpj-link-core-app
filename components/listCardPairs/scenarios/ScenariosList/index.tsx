@@ -1,10 +1,9 @@
 "use client";
 
 import ScenarioCard from "../ScenarioCard";
-import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import Scenario, { ServerSideScenarioT } from "@/classes/scenario";
+import Scenario, { ServerSideScenarioT } from "@/classes/Scenario";
 import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
 type propsType = {

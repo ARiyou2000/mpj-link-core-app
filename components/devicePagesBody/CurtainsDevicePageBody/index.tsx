@@ -7,7 +7,7 @@ import {
 } from "@/components/icons";
 import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { Curtains as CurtainsGradiantDeviceIcon } from "@/components/icons/colored";
-import ModbusCurtains from "@/classes/devices/modbus/curtains";
+import ModbusCurtains from "@/classes/devices/Curtains/curtainsDevice";
 
 const curtainsButtonStyleClassName =
   "flex flex-row flex-nowrap flex-1 whitespace-nowrap items-center justify-evenly p-8 m-0 border-0.5 rounded-card border-milkwhite";

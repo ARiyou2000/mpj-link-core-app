@@ -1,7 +1,7 @@
 import SwitchCard from "../SwitchPoleCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { SwitchPole } from "@/classes/registers/switchRegister";
+import { SwitchPole } from "@/classes/devices/Switch/switchRegister";
 
 import generalListStatus from "@/components/listCardPairs/generalListStatus";
 

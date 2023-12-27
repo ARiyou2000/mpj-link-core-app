@@ -1,12 +1,12 @@
 "use client";
 
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 import useDeviceData from "@/hooks/useDeviceData";
 import DeviceHeader from "@/components/deviceAndZoneHeader/DeviceHeader";
 import useRegisterUpdateToast from "@/hooks/useRegisterUpdateToast";
 import ThermostatDevicePageBody from "@/components/devicePagesBody/ThermostatDevicePageBody";
-import Thermostat from "@/classes/devices/modbus/thermostat";
+import Thermostat from "@/classes/devices/Thermostat/thermostatDevice";
 
 type PropsT = {
   info: ServerSideDeviceInfoT;

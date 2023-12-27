@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import Zone from "@/classes/zone";
+import Zone from "@/classes/Zone";
 
 type propsType = {
   data: Zone;

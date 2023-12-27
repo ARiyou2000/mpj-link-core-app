@@ -1,6 +1,6 @@
 import authorizedFetch from "@/utils/authorizedFetch";
 import ZonesList from "@/components/listCardPairs/zones/ZonesList";
-import { ServerSideZoneT } from "@/classes/zone";
+import { ServerSideZoneT } from "../../../../classes/Zone";
 
 const ZonePage = async () => {
   const zonesData = (await authorizedFetch(

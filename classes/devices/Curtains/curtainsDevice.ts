@@ -1,12 +1,12 @@
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
-import { RelayPortOut } from "@/classes/registers/relayRegisters";
+import { CurtainsRegister } from "@/classes/devices/Curtains/curtainsRegister";
+import { Protocols } from "@/classes/devices/protocols";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
+import GeneralPowerDevice from "@/classes/devices/GeneralPower/generalPowerDevice";
 import { DevicesType } from "@/classes/devices/deviceInfo";
-import GeneralToggleDevice from "@/classes/devices/generalToggleDevice";
-import { Protocols } from "@/classes/protocols";
 
 type CurtainsRegistersListT = {
-  open: RelayPortOut;
-  close: RelayPortOut;
+  open: CurtainsRegister;
+  close: CurtainsRegister;
 };
 
 const createRegisters = (
@@ -19,7 +19,7 @@ const createRegisters = (
   const closeRegister = registersList[1];
 
   const registersObject = <CurtainsRegistersListT>{
-    open: new RelayPortOut(
+    open: new CurtainsRegister(
       protocol,
       devicePublicId,
       openRegister.publicId,
@@ -28,7 +28,7 @@ const createRegisters = (
       openRegister.number,
       hasDataFeedback,
     ),
-    close: new RelayPortOut(
+    close: new CurtainsRegister(
       protocol,
       devicePublicId,
       closeRegister.publicId,
@@ -42,7 +42,7 @@ const createRegisters = (
   return registersObject;
 };
 
-class Curtains extends GeneralToggleDevice {
+class Curtains extends GeneralPowerDevice {
   constructor(
     publicId: string,
     name: string,

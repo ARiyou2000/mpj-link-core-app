@@ -1,10 +1,10 @@
-import GeneralPower from "@/classes/registers/generalPower";
-import Register, { ObjectType } from "@/classes/registers/register";
-import { Protocols } from "@/classes/protocols";
-import getValueMap from "@/classes/registers/getValueMap";
-
 // ---------- Power ----------
-export class DuctSplitPower extends GeneralPower {}
+import GeneralPowerRegister from "@/classes/devices/GeneralPower/generalPowerRegister";
+import Register, { ObjectType } from "@/classes/devices/register";
+import { Protocols } from "@/classes/devices/protocols";
+import getValueMap from "@/classes/devices/getValueMap";
+
+export class DuctSplitPowerRegister extends GeneralPowerRegister {}
 
 // ---------- Value registers ----------
 class DuctSplitRegister extends Register {}
@@ -18,7 +18,7 @@ const modbusFanSpeedValueMap = {
 };
 const zigbeeFanSpeedValueMap = {};
 
-export class DuctSplitFanSpeed extends DuctSplitRegister {
+export class DuctSplitFanSpeedRegister extends DuctSplitRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -55,7 +55,7 @@ const modbusModeValueMap = {
 };
 const zigbeeModeValueMap = {};
 
-export class DuctSplitMode extends DuctSplitRegister {
+export class DuctSplitModeRegister extends DuctSplitRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -87,7 +87,7 @@ export class DuctSplitMode extends DuctSplitRegister {
 const modbusTargetPointTemperatureMap = (() => {
   const startTemp = 15;
   const endTemp = 35 + 1;
-  const temp: ObjectType = {};
+  const temp = <ObjectType>{};
   for (let i = startTemp; i < endTemp; i++) {
     const keyVal = String(i).padStart(2, "0");
     temp[keyVal] = keyVal;
@@ -96,7 +96,7 @@ const modbusTargetPointTemperatureMap = (() => {
 })();
 const zigbeeTargetPointTemperatureMap = {};
 
-export class DuctSplitTargetPointTemperature extends DuctSplitRegister {
+export class DuctSplitTargetPointTemperatureRegister extends DuctSplitRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,
@@ -137,7 +137,7 @@ const modusCurrentTemperatureMap = (() => {
 })();
 const zigbeeCurrentPointTemperatureMap = {};
 
-export class DuctSplitCurrentTemperature extends DuctSplitRegister {
+export class DuctSplitCurrentTemperatureRegister extends DuctSplitRegister {
   constructor(
     protocol: Protocols,
     devicePublicId: string,

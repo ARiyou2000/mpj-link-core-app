@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
-import { ServerSideRegisterInfoT } from "@/classes/registers/register";
+import { ServerSideRegisterInfoT } from "@/classes/devices/register";
 
 type useStaticDataReturnT = Promise<object[]>;
 const useStaticData = (

@@ -1,4 +1,4 @@
-import DuctSplit from "@/classes/devices/modbus/ductSplit";
+import DuctSplit from "@/classes/devices/DuctSplit/ductSplitDevice";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import CurvedProgressCounter from "@/components/CurvedProgressCounter";
 import Carousel from "@/components/Carousel";
