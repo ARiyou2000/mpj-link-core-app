@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fetchUrl from "@/utils/fetchUrl";
-import { ServerSideScenarioT } from "@/classes/scenario";
+import { ServerSideScenarioT } from "@/classes/Scenario";
 import ApiResponse from "@/app/api/apiResponse";
 // import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 

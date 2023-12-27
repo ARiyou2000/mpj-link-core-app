@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { storageConfig } from "@/storage.config";
 import ApiResponse from "@/app/api/apiResponse";
 
 export const POST = async (request: NextRequest) => {

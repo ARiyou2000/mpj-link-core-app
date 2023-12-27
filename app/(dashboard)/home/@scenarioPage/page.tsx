@@ -1,6 +1,6 @@
 import authorizedFetch from "@/utils/authorizedFetch";
 import ScenariosList from "@/components/listCardPairs/scenarios/ScenariosList";
-import { ServerSideScenarioT } from "@/classes/scenario";
+import { ServerSideScenarioT } from "@/classes/Scenario";
 
 const ScenarioPage = async () => {
   const scenarioData = (await authorizedFetch(

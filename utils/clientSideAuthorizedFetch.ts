@@ -3,7 +3,6 @@
 import fetchUrl, { FetchInitT, FetchUrlT } from "@/utils/fetchUrl";
 import { storageConfig } from "@/storage.config";
 import clientCookies from "@/utils/clientCookies";
-import FetchUrl from "@/utils/fetchUrl";
 
 const clientSideAuthorizedFetch = async (
   url: FetchUrlT,

@@ -78,10 +78,13 @@ class Scenario extends ResponseWithImage {
   // @ts-ignore
   #toggleIsFavored = async () => {
     try {
-      return await clientSideAuthorizedFetch(`api/scenarios/${this.publicId}`, {
-        method: "PUT",
-        body: { favorite: !this.#isFavored },
-      });
+      return await clientSideAuthorizedFetch(
+        `/api/scenarios/${this.publicId}`,
+        {
+          method: "PUT",
+          body: { favorite: !this.#isFavored },
+        },
+      );
     } catch (e) {
       throw e;
     }
