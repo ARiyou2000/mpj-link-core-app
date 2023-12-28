@@ -14,7 +14,7 @@ yarn create next-app --example with-docker-multi-env nextjs-docker-multi-env
 pnpm create next-app --example with-docker-multi-env nextjs-docker-multi-env
 ```
 
-Enter the values in the `.env.development`, `.env.staging`, `.env.production` files to be used for each environments.
+Enter the values in the `.env.development.data`, `.env.staging.data`, `.env.production.data` files to be used for each environments.
 
 ## Using Docker and Makefile
 
