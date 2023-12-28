@@ -5,7 +5,7 @@ import ApiResponse from "@/app/api/apiResponse";
 // import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 
 export const GET = async (request: NextRequest) => {
-  const searchParams = request.nextUrl.searchParams;
+  const { searchParams } = new URL(request.url);
   const isFavoredScenario = searchParams.get("favored");
 
   const url = new URL(`${process.env.NEXT_CORE_ABSOLUTE_URL}/scenario`);

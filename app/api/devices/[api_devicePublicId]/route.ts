@@ -10,7 +10,7 @@ export const GET = async (
   request: NextRequest,
   { params: { api_devicePublicId } }: paramsType,
 ) => {
-  const searchParams = request.nextUrl.searchParams;
+  const { searchParams } = new URL(request.url);
   const zonePublicId = searchParams.get("zpid");
 
   try {

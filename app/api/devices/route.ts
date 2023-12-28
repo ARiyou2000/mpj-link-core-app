@@ -5,7 +5,7 @@ import ApiResponse from "@/app/api/apiResponse";
 import getAuthorizationHeaders from "@/utils/getAuthorizationHeaders";
 
 export const GET = async (request: NextRequest) => {
-  const searchParams = request.nextUrl.searchParams;
+  const { searchParams } = new URL(request.url);
   const zonePublicId = searchParams.get("zpid");
 
   try {
