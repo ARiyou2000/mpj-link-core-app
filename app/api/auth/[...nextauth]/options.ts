@@ -3,6 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 import { storageConfig } from "@/storage.config";
 
+export const dynamic = "force-dynamic";
+
 export const authOptions: AuthOptions = {
   pages: {
     signIn: "/",

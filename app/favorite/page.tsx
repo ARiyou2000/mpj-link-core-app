@@ -3,6 +3,8 @@ import ScenariosList from "@/components/listCardPairs/scenarios/ScenariosList";
 import { ServerSideScenarioT } from "@/classes/Scenario";
 import fetchUrl from "@/utils/fetchUrl";
 
+export const dynamic = "force-dynamic";
+
 const FavoritePage = async () => {
   const url = new URL(`${process.env.NEXT_SELF_ABSOLUTE_URL}/api/scenarios`);
   url.searchParams.set("favored", "true");
