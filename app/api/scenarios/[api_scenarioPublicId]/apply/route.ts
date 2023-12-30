@@ -11,6 +11,5 @@ export const GET = async (
   const result = await activateScenario(api_scenarioPublicId, {
     headers: getAuthorizationHeaders(request.headers),
   });
-  console.log("scenario activation result", result);
   return NextResponse.json(new ApiResponse(true, result));
 };
