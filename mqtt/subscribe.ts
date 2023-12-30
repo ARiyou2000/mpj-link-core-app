@@ -7,7 +7,7 @@ const connectUrl = `${protocol}://${host}:${port}`;
 
 const subscriptionTopic = `${mainTopic}/#`;
 
-const mqttSubscribe = async (onMessage: (prop: mqttPacketType) => null) => {
+const mqttSubscribe = async (onMessage: (prop: mqttPacketType) => any) => {
   try {
     const client = mqtt.connect(connectUrl, options);
 
