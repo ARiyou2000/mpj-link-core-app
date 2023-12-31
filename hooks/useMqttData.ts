@@ -60,7 +60,10 @@ const useMqttData = (isActive: boolean) => {
         // console.log("New message in client", message);
 
         setMqttTopic(topic);
-        setMqttMessage(message);
+
+        const data = JSON.parse(message.toString());
+        delete data.linkquality;
+        setMqttMessage(JSON.stringify(data));
       },
     );
 
@@ -86,7 +89,7 @@ const useMqttData = (isActive: boolean) => {
     };
   }, [isActive]);
 
-  return [mqttTopic, mqttMessage, isConnected];
+  return [mqttTopic, mqttMessage, isConnected] as const;
 };
 
 export default useMqttData;

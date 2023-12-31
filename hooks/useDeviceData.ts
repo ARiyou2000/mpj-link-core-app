@@ -50,22 +50,22 @@ const useDeviceData = (
     devicePId,
     device?.protocol === Protocols.zigbee,
   );
-  const zigbeeDataJson = JSON.stringify(zigbeeData);
+  const zigbeeDataJson = JSON.stringify(zigbeeData || []);
 
   const forceUpdateUI = useForceUpdateUI();
 
   useEffect(() => {
     isPagePresent.current = true;
+    isThereFetchDataError.current = false;
 
     let recallTimeoutId: ReturnType<typeof setTimeout>;
 
     let controller = new AbortController();
-    let signal = controller.signal;
 
     const resetOnPageLeave = () => {
       isPagePresent.current = false;
       clearTimeout(recallTimeoutId);
-      controller.abort("Exiting a page that use 'useDeviceData' hook");
+      controller?.abort("Exiting a page that use 'useDeviceData' hook");
     };
     const pushBackOnError = (message?: string) => {
       resetOnPageLeave();
@@ -78,70 +78,50 @@ const useDeviceData = (
       isThereFetchDataError.current = false;
       clearTimeout(recallTimeoutId);
 
-      if (signal.aborted) {
+      if (controller.signal.aborted) {
         // Controller must be placed in 'getData' function so that we renew controller on every call
         controller = new AbortController();
       }
-      // signal = controller.signal;
 
-      try {
-        // -------------------- Device Registers Value --------------------
-        if (device && device.registers) {
-          // Get device data only if it has feedback
-          try {
-            await device.getData({ signal }, zigbeeData);
-            // This must place here to prevent showing registers list to user on error getting data from server
+      // -------------------- Device Registers Value --------------------
+      if (device && device.registers) {
+        // Get device data only if it has feedback
+        try {
+          await device.getData({ signal: controller.signal }, zigbeeData);
+          // This must place here to prevent showing registers list to user on error getting data from server
 
-            if (device.protocol === Protocols.modbus || zigbeeData) {
-              setDeviceInstance(device);
-            }
-
-            // Since device instance will not change reference we need to force update ui
-            // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call
-            forceUpdateUI();
-          } catch (e: {
-            code?: number;
-            message: string;
-          }) {
-            // Do not set isThereFetchDataError to true. Because this error will usually happen on Aborted requests
-            // isThereFetchDataError.current = true;
-
-            // If Request get aborted this catcher will run - Check queryHelper.ts->getEntityData->getActualData
-            // This will happen on 50 null constitutive null query result
-            if (e.code && e.code === 560) {
-              // pushBackOnError();
-              // throw the error so it will try again on 50 null query
-              // DO NOT ABORT ON 50 NULL REQUEST OR APP WILL STOP controller.abort();
-              throw e;
-            } else if (e.code && e.code === 561) {
-              // in case request fails on command itself or there is network error
-              console.error(e);
-              // throw e;
-            }
-
-            console.group("Error getting device data: ");
-            console.info(
-              "This error could happen on user abort request on leaving page",
-            );
-            console.error(e);
-            console.groupEnd();
+          if (device.protocol === Protocols.modbus || zigbeeData) {
+            setDeviceInstance(device);
           }
+
+          // Since device instance will not change reference we need to force update ui
+          // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call
+          forceUpdateUI();
+        } catch (e) {
+          isThereFetchDataError.current = true;
+          console.group("Error getting device data: ");
+          console.info(
+            "This error could happen on user abort request on leaving page",
+          );
+          console.error(e);
+          console.groupEnd();
         }
-      } catch (e) {
-        isThereFetchDataError.current = true;
-        console.error("Error getting device info: ", e);
       }
 
       if (isPagePresent.current) {
         if (!isThereFetchDataError.current) {
-          recallTimeoutId = setTimeout(
-            getData,
-            config.intervalTimeOnCallWithoutError,
-          );
+          if (device.protocol === Protocols.modbus) {
+            isThereFetchDataError.current = false;
+            recallTimeoutId = setTimeout(
+              getData,
+              config.intervalTimeOnCallWithoutError,
+            );
+          }
         } else {
           console.log("-----> with error", maxTry);
+          isThereFetchDataError.current = false;
           recallTimeoutId = setTimeout(() => {
-            getData(maxTry - 1);
+            !controller.signal.aborted && getData(maxTry - 1);
           }, config.intervalTimeOnCallWithError);
         }
 

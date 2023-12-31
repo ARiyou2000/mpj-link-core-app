@@ -10,6 +10,8 @@ import DeviceInfo, {
 import { Protocols } from "@/classes/devices/protocols";
 import mqttPublish from "@/mqtt/publish";
 import connectionConfig from "@/connection.config";
+import mqttSubscribe from "@/mqtt/subscribe";
+import mqttCategorizedMessage from "@/mqtt/mqttCategorizedMessage";
 
 export const GET = async (
   request: NextRequest,
@@ -42,12 +44,23 @@ export const GET = async (
         new ApiResponse(true, deviceRegistersValue.value),
       );
     } else if (deviceInfo.protocol === Protocols.zigbee) {
+      let zigbeeData;
+      await mqttSubscribe(({ topic, message }) => {
+        mqttCategorizedMessage(topic, message, {
+          onDataMassage: () => {
+            if (topic.includes(api_devicePublicId)) {
+              zigbeeData = message;
+            }
+          },
+        });
+      });
+
       await mqttPublish({
         topic: `${connectionConfig.mqtt.mainTopic}/${api_devicePublicId}/get`,
         message: JSON.stringify({ state: "" }),
       });
 
-      return NextResponse.json({});
+      return NextResponse.json(new ApiResponse(true, zigbeeData));
     } else {
       console.error("Invalid protocol in get device data route");
       return NextResponse.error();

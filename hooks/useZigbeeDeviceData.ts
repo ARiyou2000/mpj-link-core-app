@@ -5,20 +5,20 @@ import { useEffect, useState } from "react";
 import { messageType } from "@/mqtt";
 import clientSideAuthorizedFetch from "@/utils/clientSideAuthorizedFetch";
 
-const getDeviceStatusWhileNotConnected = async (
-  message: JSON,
-  devicePublicId: string,
-) => {
-  try {
-    const dataObject = JSON.parse(message.toString());
-
-    if (!dataObject || !dataObject.linkquality) {
-      await clientSideAuthorizedFetch(`/api/devices/${devicePublicId}/data`);
-    }
-  } catch (e) {
-    console.error(e);
-  }
-};
+// const getDeviceStatusWhileNotConnected = async (
+//   message: JSON,
+//   devicePublicId: string,
+// ) => {
+//   try {
+//     const dataObject = JSON.parse(message.toString());
+//
+//     if (!dataObject || !dataObject.linkquality) {
+//       await clientSideAuthorizedFetch(`/api/devices/${devicePublicId}/data`);
+//     }
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
 
 const getData = async (devicePublicId: string) => {
   try {
