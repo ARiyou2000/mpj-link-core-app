@@ -50,14 +50,11 @@ class Device extends DeviceInfo {
         // Device registers current value form server
         let registersStringValue;
         if (typeof window === "undefined") {
-          console.log("1111111111111111111111");
           registersStringValue = (await authorizedFetch(
             `${process.env.NEXT_SELF_ABSOLUTE_URL}${deviceDataEndpoint}`,
-            { signal: new AbortSignal() },
+            { signal },
           )) as string;
         } else {
-          console.log("222222222222222222222", options);
-
           registersStringValue = (await clientSideAuthorizedFetch(
             deviceDataEndpoint,
             { signal: options.signal },
@@ -92,7 +89,6 @@ class Device extends DeviceInfo {
         delete deviceDataValuesObject.linkquality;
         deviceRegistersData = deviceDataValuesObject;
       } else {
-        console.log(10);
         throw new Error("Unsupported protocol");
       }
 
@@ -113,6 +109,10 @@ class Device extends DeviceInfo {
     zigbeeData?: ObjectType,
   ) => Promise<void> {
     return this.#getData;
+  }
+
+  get updateSignal(): object {
+    return this.#updateSignal;
   }
 
   get lastValueState(): string {

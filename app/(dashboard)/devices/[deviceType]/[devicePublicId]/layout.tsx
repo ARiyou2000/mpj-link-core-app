@@ -1,8 +1,23 @@
-import { DevicesType } from "@/classes/devices/deviceInfo";
+import DeviceInfo, {
+  DevicesType,
+  ServerSideDeviceInfoT,
+} from "@/classes/devices/deviceInfo";
+import AuthorizedFetch from "@/utils/authorizedFetch";
+import { FunctionComponent } from "react";
 
 export type DevicePageParamsT = {
   params: { deviceType: string; devicePublicId: string };
   searchParams: { zpid?: string };
+
+  ductSplitDevicePage: FunctionComponent;
+  irSplitDevicePage: FunctionComponent;
+  irHoodDevicePage: FunctionComponent;
+  musicPlayerDevicePage: FunctionComponent;
+  relayDevicePage: FunctionComponent;
+  switchDevicePage: FunctionComponent;
+  thermostatDevicePage: FunctionComponent;
+  curtainsDevicePage: FunctionComponent;
+  notFoundDevicePage: FunctionComponent;
 };
 
 export const metadata = {
@@ -10,7 +25,7 @@ export const metadata = {
   description: "Show current status of device",
 };
 
-const DevicesLayout = ({
+const DevicesLayout = async ({
   // children,
   ductSplitDevicePage,
   irSplitDevicePage,
@@ -21,10 +36,26 @@ const DevicesLayout = ({
   thermostatDevicePage,
   curtainsDevicePage,
   notFoundDevicePage,
-  params,
-}) => {
+  params: { deviceType, devicePublicId },
+}: DevicePageParamsT) => {
+  const { publicId, name, description, type } = (await AuthorizedFetch(
+    `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices/${devicePublicId}`,
+  )) as ServerSideDeviceInfoT;
+
+  const deviceInfo = new DeviceInfo(publicId, name, description, type);
+  // await DeviceInfo.getData({ signal: new AbortSignal() });
+
+  let deviceData;
+  try {
+    deviceData = await AuthorizedFetch(
+      `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices/${devicePublicId}/data`,
+    );
+  } catch (e) {
+    console.error(e);
+  }
+
   const getDevicePage = () => {
-    switch (Number(params.deviceType)) {
+    switch (Number(deviceType)) {
       case DevicesType.modbus_switch_1p:
       case DevicesType.modbus_switch_2p:
       case DevicesType.modbus_switch_3p:

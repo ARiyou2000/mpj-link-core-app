@@ -1,6 +1,5 @@
 "use client";
 
-import MainLayoutHeader from "@/components/MainLayoutHeader";
 import useResizableContainer from "@/hooks/useResizableContainer";
 
 const PasswordManagementLayout = ({ children }) => {
