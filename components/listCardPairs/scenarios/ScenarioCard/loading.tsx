@@ -7,6 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/custom-card";
+import LoadingTitle from "@/components/loading/LoadingTitle";
+import LoadingDescription from "@/components/loading/LoadingDescription";
 
 type PropsT = {
   hasFavoriteButton?: boolean;
@@ -26,16 +28,15 @@ const ScenarioCardLoading = ({
           <CardHeader className={"basis-2/3 p-4 text-right w-full"}>
             <div
               className={"flex flex-col gap-2 justify-center text-milkwhite"}>
-              <CardTitle
-                className={cn(
-                  "font-normal text-xs",
-                  "loading w-16 h-4",
-                )}></CardTitle>
+              <CardTitle className={"font-normal text-xs"}>
+                <LoadingTitle />
+              </CardTitle>
               <CardDescription
-                className={cn(
-                  "font-normal text-[0.5rem] leading-[0.67875rem] text-milkwhite",
-                  "loading w-28 h-3",
-                )}></CardDescription>
+                className={
+                  "font-normal text-[0.5rem] leading-[0.67875rem] text-milkwhite"
+                }>
+                <LoadingDescription />
+              </CardDescription>
             </div>
           </CardHeader>
 

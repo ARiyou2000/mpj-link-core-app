@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+import LoadingTitle from "@/components/loading/LoadingTitle";
+import LoadingDescription from "@/components/loading/LoadingDescription";
 
 export type DeviceAndZoneHeaderContainerT = {
   name?: string;
@@ -26,10 +28,10 @@ const DeviceAndZoneHeaderContainer = ({
         {...props}>
         <div className={"flex flex-col gap-2.5 justify-center items-start"}>
           <h3 className={"text-xl font-bold text-milkwhite"}>
-            {name || <div dir={"ltr"} className={"w-16 h-4 loading"} />}
+            {name || <LoadingTitle className={"w-16"} />}
           </h3>
           <h4 className={"text-sm font-thin text-milkwhite"}>
-            {description || <div className={"w-28 h-3 loading"} />}
+            {description || <LoadingDescription className={"w-28"} />}
           </h4>
         </div>
 
