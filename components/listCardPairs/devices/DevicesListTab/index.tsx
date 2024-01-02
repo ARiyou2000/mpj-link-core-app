@@ -7,7 +7,6 @@ import {
   TabsTrigger,
 } from "@/components/ui/devices-tabs";
 import DeviceCard from "../DeviceCard";
-import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import React, { useCallback } from "react";
@@ -19,9 +18,9 @@ import DeviceInfo, {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import generalListStatus from "@/components/listCardPairs/generalListStatus";
 
-const tabContentAndScrollStyleClassName = "h-full w-full";
-const deviceCardClassName = "";
-const tabIconsStyleClassName = "w-6 h-6";
+export const deviceTabContentAndScrollStyleClassName = "h-full w-full";
+export const deviceCardClassName = "";
+export const deviceTabIconsStyleClassName = "w-6 h-6";
 
 type propsT = {
   className?: string;
@@ -71,7 +70,7 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                       value={header.dataKey.toString()}
                       key={`tabHeader_${header.dataKey}`}>
                       <span>{header.title}</span>
-                      <Icon className={tabIconsStyleClassName} />
+                      <Icon className={deviceTabIconsStyleClassName} />
                     </TabsTrigger>
                   );
                 })}
@@ -88,9 +87,10 @@ const DevicesListTab = ({ list, className = "", ...props }: propsT) => {
                 return (
                   <TabsContent
                     value={header.dataKey.toString()}
-                    className={tabContentAndScrollStyleClassName}
+                    className={deviceTabContentAndScrollStyleClassName}
                     key={`tabContent_${header.dataKey}`}>
-                    <ScrollArea className={tabContentAndScrollStyleClassName}>
+                    <ScrollArea
+                      className={deviceTabContentAndScrollStyleClassName}>
                       <div
                         className={
                           "h-full w-full flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-[2%] pb-8"
