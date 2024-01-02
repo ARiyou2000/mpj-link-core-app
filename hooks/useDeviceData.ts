@@ -50,9 +50,11 @@ const useDeviceData = (
     devicePId,
     device?.protocol === Protocols.zigbee,
   );
-  const zigbeeDataJson = JSON.stringify(zigbeeData || []);
-
-  const forceUpdateUI = useForceUpdateUI();
+  const zigbeeDataJson = useMemo(
+    () => JSON.stringify(zigbeeData || []),
+    [zigbeeData],
+  );
+  const [devicePrevUpdateSignal, setDevicePrevUpdateSignal] = useState({});
 
   useEffect(() => {
     isPagePresent.current = true;
@@ -96,7 +98,11 @@ const useDeviceData = (
 
           // Since device instance will not change reference we need to force update ui
           // This must be replaced by creating listener in child component to prevent uselessly re-rendering hole tree on every call
-          forceUpdateUI();
+          if (device.updateSignal !== devicePrevUpdateSignal) {
+            setDevicePrevUpdateSignal(device.updateSignal);
+            // No need to force update ui - setting state will do so.
+            // forceUpdateUI();
+          }
         } catch (e) {
           isThereFetchDataError.current = true;
           console.group("Error getting device data: ");
