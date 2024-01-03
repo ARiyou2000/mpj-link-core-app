@@ -1,7 +1,17 @@
 import ZoneHeader from "@/components/deviceAndZoneHeader/ZoneHeader";
 import authorizedFetch from "@/utils/authorizedFetch";
+import { ReactNode } from "react";
+import { ServerSideZoneT } from "@/classes/Zone";
 
-export async function generateMetadata({ params, searchParams }, parent) {
+type GenerateMetadataPropsT = {
+  params: { zonePublicId: string };
+  searchParams: {};
+};
+
+export async function generateMetadata(
+  { params, searchParams }: GenerateMetadataPropsT,
+  // parent,
+) {
   // read route params
   const { zonePublicId } = params;
 
@@ -11,12 +21,13 @@ export async function generateMetadata({ params, searchParams }, parent) {
   };
 }
 
-const ZonePageLayout = async ({ children, params }) => {
+type PropsT = { children: ReactNode; params: { zonePublicId: string } };
+const ZonePageLayout = async ({ children, params }: PropsT) => {
   const { zonePublicId } = params;
 
-  const zoneInfo = await authorizedFetch(
+  const zoneInfo = (await authorizedFetch(
     `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/zones/${zonePublicId}`,
-  );
+  )) as ServerSideZoneT;
 
   return (
     <>

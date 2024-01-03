@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const MainLayoutHeader = ({ children, className, onBackClicked, ...props }) => {
+type PropsT = {
+  className?: string;
+  onBackClicked?: () => void;
+};
+const MainLayoutHeader = ({ className, onBackClicked, ...props }: PropsT) => {
   const router = useRouter();
   return (
     <>

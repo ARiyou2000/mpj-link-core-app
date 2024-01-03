@@ -1,12 +1,14 @@
 import MainLayoutHeader from "@/components/MainLayoutHeader";
 import MainLayoutTabNavigation from "@/components/MainLayoutTabNavigation";
+import { ReactNode } from "react";
 
 export const metadata = {
   title: "Dashboard - MPJ Link App",
   description: "Control dashboard",
 };
 
-const MainLayout = ({ children }) => {
+type PropsT = { children: ReactNode };
+const MainLayout = ({ children }: PropsT) => {
   return (
     <>
       <div

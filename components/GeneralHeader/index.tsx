@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 
-const GeneralHeader = ({ title, className, ...props }) => {
+type PropsT = { title: string; className?: string };
+
+const GeneralHeader = ({ title, className, ...props }: PropsT) => {
   return (
     <>
       <div

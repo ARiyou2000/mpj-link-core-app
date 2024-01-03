@@ -7,7 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MPJLink } from "../icons";
 
-const iconsClassName = "h-6 w-6";
+const iconsClassName = "h-6 w-6 landscape:w-4 landscape:w-4";
 const NavBarItems = [
   {
     name: "اینترنت",
@@ -69,12 +69,12 @@ const MainLayoutTabNavigation = () => {
   }, [pathname]);
 
   return (
-    <div className="bg-[#383838] w-full landscape:h-full landscape:w-auto px-6 landscape:py-6 landscape:pl-4 landscape:pr-5 rounded-t-xl landscape:rounded-r-xl landscape:rounded-tl-none overflow-hidden">
+    <div className="bg-[#383838] w-full landscape:h-full landscape:w-auto px-6 landscape:py-6 landscape:pl-2 landscape:pr-3 rounded-t-xl landscape:rounded-r-xl landscape:rounded-tl-none overflow-hidden">
       <ul className="flex flex-row landscape:flex-col landscape:h-full justify-evenly items-center relative">
         <Link
           href={"/home"}
-          className={"absolute top-4 flex-1 hidden landscape:block"}>
-          <MPJLink className={"w-10 h-5"} />
+          className={"absolute top-1 flex-1 hidden landscape:block"}>
+          <MPJLink className={"w-7 h-3"} />
         </Link>
         <div className={"flex-1 hidden landscape:block"} />
         <div className={"flex-1 hidden landscape:block"} />
@@ -87,7 +87,7 @@ const MainLayoutTabNavigation = () => {
               {activeMenuIndex === menuItem.link && (
                 <motion.span
                   layoutId="bubble"
-                  className={`bg-[#1C1F20] h-16 w-16 rounded-full my-auto mx-auto absolute -top-8 landscape:top-auto landscape:-right-[3.25rem]`}
+                  className={`bg-[#1C1F20] h-16 w-16 landscape:w-12 landscape:h-12 rounded-full my-auto mx-auto absolute -top-8 landscape:top-auto landscape:-right-[2.25rem]`}
                   transition={{ type: "spring", bounce: 0.5, duration: 0.6 }}>
                   <span className="w-3.5 h-3.5 bg-transparent absolute top-8 landscape:-top-3 -left-[0.78rem] landscape:left-auto landscape:rotate-90 rounded-tr-[0.6875rem] shadow-[0.25625rem_-0.3125rem_0_0_#1C1F20]"></span>
                   <span className="w-3.5 h-3.5 bg-transparent absolute top-8 landscape:top-auto landscape:-bottom-3 -right-[0.78rem] landscape:right-auto landscape:rotate-90 rounded-tl-[0.6875rem] shadow-[-0.25625rem_-0.3125rem_0_0_#1C1F20]"></span>
@@ -96,7 +96,7 @@ const MainLayoutTabNavigation = () => {
               <span
                 className={`inline-flex items-center justify-center text-xl cursor-pointer duration-300 ${
                   activeMenuIndex === menuItem.link &&
-                  "-translate-y-6 text-white landscape:translate-y-0 landscape:translate-x-4"
+                  "-translate-y-6 text-white landscape:translate-y-0 landscape:translate-x-3"
                 }`}>
                 {menuItem.icon}
               </span>

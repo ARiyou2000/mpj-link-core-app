@@ -3,7 +3,19 @@ import { MPJLink } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 
-const ErrorPageBody = ({ code, title, description, className, ...props }) => {
+type PropsT = {
+  code: number | string;
+  title: string;
+  description?: string;
+  className?: string;
+};
+const ErrorPageBody = ({
+  code,
+  title,
+  description,
+  className,
+  ...props
+}: PropsT) => {
   return (
     <>
       <ScrollArea className={"flex-1 h-full w-full"}>

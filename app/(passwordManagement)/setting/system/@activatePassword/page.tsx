@@ -15,7 +15,7 @@ const DeactivatePasswordPage = () => {
 
   const newPasswordHolder = useRef("");
 
-  const onSubmitCallback = async (passcode) => {
+  const onSubmitCallback = async (passcode: string) => {
     if (newPasswordHolder.current === passcode) {
       try {
         const oldPasscode = window.localStorage.getItem(
@@ -43,7 +43,7 @@ const DeactivatePasswordPage = () => {
   const passcodeStateObject = {
     newPass: {
       text: "لطفا رمز ورود جدید خود را وارد کنید",
-      onSubmit: (passcode) => {
+      onSubmit: (passcode: string) => {
         newPasswordHolder.current = passcode;
         setPasscodeData(passcodeStateObject.repeatPass);
       },

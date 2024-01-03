@@ -1,10 +1,11 @@
 import DevicesListTab from "@/components/listCardPairs/devices/DevicesListTab";
 import authorizedFetch from "@/utils/authorizedFetch";
+import { ServerSideDeviceInfoT } from "@/classes/devices/deviceInfo";
 
 const DevicesListPage = async () => {
-  const deviceList = await authorizedFetch(
+  const deviceList = (await authorizedFetch(
     `${process.env.NEXT_SELF_ABSOLUTE_URL}/api/devices`,
-  );
+  )) as ServerSideDeviceInfoT[];
 
   return (
     <>
