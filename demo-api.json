@@ -2,7 +2,7 @@
   "uuid": "23903be4-e5c3-4659-b410-8faff5a9e132",
   "lastMigration": 32,
   "name": "Demo api",
-  "endpointPrefix": "",
+  "endpointPrefix": "mlcore/v3",
   "latency": 0,
   "port": 4040,
   "hostname": "",
@@ -47,7 +47,7 @@
       "uuid": "a5da4585-62a2-4181-bb22-6ffd6e9032be",
       "type": "http",
       "documentation": "",
-      "method": "post",
+      "method": "get",
       "endpoint": "login",
       "responses": [
         {
@@ -78,14 +78,22 @@
           "headers": [
             {
               "key": "Authorization",
-              "value": "Basic dXNlcjo2Nzg5"
+              "value": "W4l0gEmDIJQqZdGU2tWbKNfle0uu+cbCDL01PYh2SZAA7n8RNPMODUmUrfGMefSR bgRk/LvpXdHoH7XLmSg5Sw=="
             }
           ],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "Authorization",
+              "value": "Basic dXNlcjo2Nzg5",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -106,7 +114,7 @@
         {
           "uuid": "a96c8802-cd25-479c-bbc2-4ee06c83b19b",
           "body": "{}",
-          "latency": 0,
+          "latency": 5000,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -251,7 +259,7 @@
         {
           "uuid": "86d752f5-ae81-404a-a224-dccd149cb365",
           "body": "{}",
-          "latency": 0,
+          "latency": 9000,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -280,7 +288,7 @@
         {
           "uuid": "e7f0dab7-9a6a-49de-8fac-aa1e2eeb434b",
           "body": "{}",
-          "latency": 0,
+          "latency": 5000,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -294,6 +302,64 @@
           "fallbackTo404": false,
           "default": true,
           "crudKey": "publicId",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c2aa0383-17c2-447a-9bdf-7b9708aa4b03",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "check",
+      "responses": [
+        {
+          "uuid": "22638474-5257-4500-9f05-c24e630f5938",
+          "body": "{\n  \"action\": true,\n  \"message\": \"\",\n  \"date\": \"{{now}}\",\n  \"result\": []\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "13a50077-2514-4357-8a8c-ce6abe6239dd",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "check/internet",
+      "responses": [
+        {
+          "uuid": "5fe178cf-db11-4618-ae6f-a2cdcf212cc6",
+          "body": "{\n  \"action\": true,\n  \"message\": \"\",\n  \"date\": \"{{now}}\",\n  \"result\": []\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
           "callbacks": []
         }
       ],
@@ -328,6 +394,14 @@
     {
       "type": "folder",
       "uuid": "54249c45-15c8-4d0b-b1cc-60567c97e4fc"
+    },
+    {
+      "type": "route",
+      "uuid": "c2aa0383-17c2-447a-9bdf-7b9708aa4b03"
+    },
+    {
+      "type": "route",
+      "uuid": "13a50077-2514-4357-8a8c-ce6abe6239dd"
     }
   ],
   "proxyMode": false,
@@ -379,14 +453,14 @@
       "id": "km0v",
       "name": "scenariosData",
       "documentation": "",
-      "value": "{\n  action:true,\n  result:[]\n}"
+      "value": "{\n  \"action\": true,\n  \"message\": \"\",\n  \"date\": \"{{now}}\",\n  \"result\": [\n    {\n      \"publicId\": \"sc1\",\n      \"name\": \"روشنایی کامل\",\n      \"description\": \"ورود به منزل\",\n      \"favorite\": false\n    },\n    {\n      \"publicId\": \"sc2\",\n      \"name\": \"روشنایی سطح یک\",\n      \"description\": \"سالن پذیرایی\",\n      \"favorite\": true\n    },\n    {\n      \"publicId\": \"sc3\",\n      \"name\": \"آرامش\",\n      \"description\": \"نورهای مخفی\",\n      \"favorite\": false\n    },\n    {\n      \"publicId\": \"sc4\",\n      \"name\": \"امنیت\",\n      \"description\": \"فعالسازی سیستم ها\",\n      \"favorite\": true\n    },\n    {\n      \"publicId\": \"sc5\",\n      \"name\": \"خروج از خانه\",\n      \"description\": \"حالت خودکار روشنایی\",\n      \"favorite\": true\n    }\n  ]\n}"
     },
     {
       "uuid": "4c78b337-0c57-4d2a-b593-b3f8e7c1e55f",
       "id": "6ulm",
       "name": "zonesData",
       "documentation": "",
-      "value": "{\n  action:true,\n  result: []\n}"
+      "value": "{\n  \"action\": true,\n  \"message\": \"\",\n  \"date\": \"{{now}}\",\n  \"result\": [\n    {\n      \"publicId\": \"z1\",\n      \"name\": \"سالن شمالی\",\n      \"description\": \"سالن\"\n    },\n    {\n      \"publicId\": \"z2\",\n      \"name\": \"سالن جنوبی\",\n      \"description\": \"سالن\"\n    },\n    {\n      \"publicId\": \"z3\",\n      \"name\": \"سالن مرکزی\",\n      \"description\": \"سالن\"\n    },\n    {\n      \"publicId\": \"z4\",\n      \"name\": \"آشپزخانه\",\n      \"description\": \"سالن\"\n    },\n    {\n      \"publicId\": \"z5\",\n      \"name\": \"ورودی\",\n      \"description\": \"سالن\"\n    }\n  ]\n}"
     },
     {
       "uuid": "4ec848a6-21c5-415d-8f72-19de0c618dba",
@@ -400,7 +474,7 @@
       "id": "qdvr",
       "name": "allDevicesListData",
       "documentation": "",
-      "value": "{\n  action:true,\n  result: []\n}"
+      "value": "{\n  \"action\": true,\n  \"message\": \"\",\n  \"date\": \"{{now}}\",\n  \"result\": [\n    {\n      \"publicId\": \"d1\",\n      \"name\": \"رله سیمی مودباس\",\n      \"description\": \"رله سیمی روشنایی آشپزخانه  و سرخط های راهرو\",\n      \"type\": 6\n    },\n    {\n      \"publicId\": \"0xa4c1380236d2b85f\",\n      \"name\": \"رله بی‌سیم\",\n      \"description\": \"محموعه کلیدهای بی‌سیم\",\n      \"type\": 16\n    },\n    {\n      \"publicId\": \"d2\",\n      \"name\": \"ترموستات\",\n      \"description\": \"سیستم گرمایش مرکزی\",\n      \"type\": 7\n    },\n    {\n      \"publicId\": \"d3\",\n      \"name\": \"کلید مرکزی\",\n      \"description\": \"کلید ۳ پل\",\n      \"type\": 3\n    },\n    {\n      \"publicId\": \"d4\",\n      \"name\": \"کلید روشنایی\",\n      \"description\": \"کلید ۲ پل\",\n      \"type\": 2\n    },\n    {\n      \"publicId\": \"0xa4c138ff3fed555c\",\n      \"name\": \"کلید اول\",\n      \"description\": \"کلید بی سیم اول\",\n      \"type\": 15\n    },\n    {\n      \"publicId\": \"0xa4c1383ce80eff95\",\n      \"name\": \"کلید دوم\",\n      \"description\": \"کلید بی سیم دوم\",\n      \"type\": 15\n    },\n    {\n      \"publicId\": \"d5\",\n      \"name\": \"پرده\",\n      \"description\": \"پرده برقی\",\n      \"type\": 14\n    },\n    {\n      \"publicId\": \"d6\",\n      \"name\": \"هود\",\n      \"description\": \"هود آشپزخانه\",\n      \"type\": 13\n    },\n    {\n      \"publicId\": \"dd4\",\n      \"name\": \"کلید روشنایی\",\n      \"description\": \"کلید ۲ پل\",\n      \"type\": 2\n    }\n  ]\n}"
     }
   ],
   "callbacks": []
