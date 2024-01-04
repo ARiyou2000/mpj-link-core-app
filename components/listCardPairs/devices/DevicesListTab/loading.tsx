@@ -19,13 +19,14 @@ const DeviceListLoading = ({ className = "", ...props }) => {
                 key={`tabHeader_${Math.random()}`}
                 className={
                   "flex-none inline-flex items-center justify-between gap-3 whitespace-nowrap px-3 py-4 min-w-[7.8125rem] " +
-                  "rounded-card text-sm text-milkwhite font-normal " +
-                  "border-1 border-milkwhite ring-offset-white " +
+                  "text-sm text-milkwhite font-normal " +
+                  "border-1 rounded-card border-milkwhite ring-offset-white " +
                   "loading"
                 }>
-                <h3>&nbsp;</h3>
+                <h3 className={"w-[4.25rem]"}>&nbsp;</h3>
                 {/*<LoadingTitle />*/}
                 {/*<LoadingSpinner className={deviceTabIconsStyleClassName} />*/}
+                <span className={"w-6 h-6"} />
               </div>
             );
           })}
