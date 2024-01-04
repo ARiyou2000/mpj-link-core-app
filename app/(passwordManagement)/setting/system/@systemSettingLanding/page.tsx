@@ -12,11 +12,11 @@ import FactoryReset from "@/components/FactoryReset";
 import { storageConfig } from "@/storage.config";
 
 const settingItemsStyleClassName =
-  "px-4 py-6 flex flex-row items-center gap-11 justify-between bg-white/5 rounded-xl text-milkwhite transition-colors duration-500";
+  "px-4 py-6 flex flex-row items-center gap-11 justify-between bg-white/5 rounded-xl text-milkwhite transition-colors duration-500 landscape:max-w-[50%]";
 const iconsStyleClassName = "w-6 h-6";
 const textStyleClassName = "text-base font-normal";
 
-const SystemSettingLandingPage = ({ className }) => {
+const SystemSettingLandingPage = ({ className = "" }) => {
   const setSystemSettingPageToShow = useContext(SystemSettingPageToShowContext);
 
   const [isUsingAutoPasscode, setIsUsingAutoPasscode] = useState(false);

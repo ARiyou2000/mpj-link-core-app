@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 const settingItemsStyleClassName =
-  "px-2.5 py-6 flex flex-row items-center justify-between bg-black bg-opacity-50 rounded-xl text-milkwhite";
+  "px-2.5 py-6 flex flex-row items-center justify-between bg-black bg-opacity-50 rounded-xl text-milkwhite landscape:max-w-[50%]";
 const iconsStyleClassName = "w-6 h-6";
 const settingButtonInnerStyleClassName = "flex flex-row items-center gap-4";
 
