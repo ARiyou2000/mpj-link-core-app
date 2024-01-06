@@ -22,11 +22,18 @@ const DeviceAndZoneHeaderContainer = ({
     <>
       <div
         className={cn(
-          "flex flex-row items-center justify-between gap-2 bg-black bg-opacity-50 rounded-2xl p-4 min-h-[5.625rem]",
+          "flex flex-row items-center justify-between gap-2 bg-black bg-opacity-50 rounded-2xl p-4 min-h-[5.625rem] " +
+            "landscape:absolute landscape:left-3 landscape:right-3 landscape:top-3",
           className,
         )}
         {...props}>
-        <div className={"flex flex-col gap-2.5 justify-center items-start"}>
+        <div className={"hidden landscape:block"} />
+
+        {/* Name and Description */}
+        <div
+          className={
+            "flex flex-col gap-2.5 justify-center items-start landscape:items-center landscape:justify-center"
+          }>
           <h3 className={"text-xl font-bold text-milkwhite"}>
             {name || <LoadingTitle className={"w-16"} />}
           </h3>

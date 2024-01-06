@@ -17,7 +17,7 @@ const MainLayout = ({ children }: PropsT) => {
         }>
         <div
           className={
-            "flex-1 h-0 w-full landscape:h-full landscape:w-0 flex flex-col"
+            "flex-1 h-0 w-full landscape:h-full landscape:w-0 flex flex-col landscape:relative"
           }>
           <MainLayoutHeader />
           <div className={"flex-1 h-0 w-full pt-3"}>{children}</div>

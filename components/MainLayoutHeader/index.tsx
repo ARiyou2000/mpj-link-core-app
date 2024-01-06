@@ -18,7 +18,7 @@ const MainLayoutHeader = ({ className, onBackClicked, ...props }: PropsT) => {
     <>
       <div
         className={cn(
-          "flex flex-row items-center justify-between landscape:justify-start gap-4 px-8 py-2.5 landscape:pt-12",
+          "flex flex-row items-center justify-between landscape:justify-start gap-4 px-8 py-2.5 landscape:pt-12 landscape:z-10",
           className,
         )}
         {...props}>
