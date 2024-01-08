@@ -1,10 +1,14 @@
 # With Docker - Multiple Deployment Environments
 
-This examples shows how to use Docker with Next.js and deploy to multiple environment with different env values. Based on the [deployment documentation](https://nextjs.org/docs/deployment#docker-image).
+This examples shows how to use Docker with Next.js and deploy to multiple
+environment with different env values. Based on
+the [deployment documentation](https://nextjs.org/docs/deployment#docker-image).
 
 ## How to use
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
+with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/),
+or [pnpm](https://pnpm.io) to bootstrap the example:
 
 ```bash
 npx create-next-app --example with-docker-multi-env nextjs-docker-multi-env
@@ -14,7 +18,9 @@ yarn create next-app --example with-docker-multi-env nextjs-docker-multi-env
 pnpm create next-app --example with-docker-multi-env nextjs-docker-multi-env
 ```
 
-Enter the values in the `.env.development.data`, `.env.staging.data`, `.env.production.data` files to be used for each environments.
+Enter the values in
+the `.env.development.data`, `.env.demo.data`, `.env.production.data` files to
+be used for each environments.
 
 ## Using Docker and Makefile
 
@@ -27,11 +33,11 @@ make start-development
 
 Open http://localhost:3001
 
-### Staging environment - for doing UAT testing
+### Demo environment - for doing UAT testing
 
 ```
-make build-staging
-make start-staging
+make build-demo
+make start-demo
 ```
 
 Open http://localhost:3002
@@ -55,10 +61,16 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the
+result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `pages/index.js`. The page
+auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed
+on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This
+endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are
+treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead
+of React pages.

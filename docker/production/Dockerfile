@@ -10,9 +10,9 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
+  if [ -f yarn.lock ]; then echo "Install dependencies using yarn." && yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then echo "Install dependencies using npm." && npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then echo "Install dependencies using pnpm." && yarn global add pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -38,9 +38,9 @@ COPY . .
 
 # Build Next.js based on the preferred package manager
 RUN \
-  if [ -f yarn.lock ]; then yarn build; \
-  elif [ -f package-lock.json ]; then npm run build; \
-  elif [ -f pnpm-lock.yaml ]; then pnpm build; \
+  if [ -f yarn.lock ]; then echo "Build using yarn." && yarn build; \
+  elif [ -f package-lock.json ]; then echo "Build using npm." && npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then echo "Build using pnpm." && pnpm build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 

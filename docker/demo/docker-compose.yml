@@ -1,20 +1,20 @@
 version: '3'
 
 services:
-  mpj-prod:
-    image: mpj-link/production:v3.01.25
+  mpj-demo:
+    image: mpj-link/demo:v3.01.25
     build:
       context: ../../
       dockerfile: docker/production/Dockerfile
     # Set environment variables based on the .env file
     env_file:
-      - ./.env.production.data
+      - ./.env.demo.data
     volumes:
       #- ./src:/app/src
       - ../../public:/app/public
     #restart: always
     ports:
-      - '3000:3000'
+      - '3050:3000'
 #    network_mode: host
 #    networks:
 #      - my_network
