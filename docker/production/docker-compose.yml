@@ -1,10 +1,25 @@
 version: '3'
 
 services:
-  with-docker-multi-env-production:
+  mpj-dev:
+    image: mpj-link/production:v3.01.25
     build:
       context: ../../
       dockerfile: docker/production/Dockerfile
-    image: with-docker-multi-env-production
+    # Set environment variables based on the .env file
+    env_file:
+      - ../../.env.production.data
+    volumes:
+      #- ./src:/app/src
+      - ../../public:/app/public
+    #restart: always
+#    network_mode: host
     ports:
-      - '3003:3000'
+      - '3000:3000'
+#    networks:
+#      - my_network
+
+
+#networks:
+#  my_network:
+#    external: true

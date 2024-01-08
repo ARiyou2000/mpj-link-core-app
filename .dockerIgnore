@@ -6,3 +6,13 @@ README.md
 .next
 docker
 .git
+.env*
+.env
+.env.*
+.idea
+.vscode
+.editorconfig
+.gitignore
+Makefile
+prettier.config.js
+
